@@ -2,6 +2,8 @@ package de.othr.bib48218.chat;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
@@ -12,4 +14,8 @@ public class ChatApplication {
 		SpringApplication.run(ChatApplication.class, args);
 	}
 
+	@GetMapping("/hello")
+	public String helloWorld(@RequestParam(value = "name", defaultValue = "world") String input) {
+		return "Hello, " + input + "!";
+	}
 }
