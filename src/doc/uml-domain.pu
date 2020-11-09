@@ -1,0 +1,69 @@
+@startuml
+
+class User <<IdEntity>> {
+    username : String
+    name : String
+    country : String
+    email : String
+}
+
+abstract class Chat <<IdEntity>>
+
+class ChatMember {
+    user : User
+    chat : Chat
+    status : ChatMemberStatus
+}
+
+class ChatMemberStatus << (E,orchid) enumeration>> {
+    Creator
+    Administrator
+    Member
+    Restricted
+    Left
+    Kicked
+}
+
+ChatMember +-- ChatMemberStatus
+
+class Message <T extends Content> <<IdEntity>> {
+    timestamp : Datetime
+    author : User
+    chat : Chat
+    content : T
+    reply_to : Message
+}
+
+abstract class Content
+
+class TextContent {
+    text : String
+}
+
+abstract class FileContent {
+    size : int
+    name : String
+}
+
+' Attachment inheritance
+Chat <|-- PrivateChat
+Chat <|-- GroupChat
+Chat <|-- Channel
+
+' Content inheritance
+Content <|-- TextContent
+Content <|-- FileContent
+FileContent <|-- VideoContent
+FileContent <|-- ImageContent
+FileContent <|-- VoiceContent
+FileContent <|-- DocumentContent
+
+User "1..*" -- "*" Chat
+ChatMember .. (User, Chat) 
+
+User "*" -- "*" Message
+Message "*" -- "*" Chat
+
+Message <|. Content : <<bind>> <<T::Content>>
+
+@enduml
