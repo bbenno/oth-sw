@@ -1,40 +1,11 @@
 @startuml
 
-class Person {
-    first_name : String
-    last_name : String
-    country : String
-    email : String
-    logins : Login
-}
-
-class Login {
-    service : String
-    login_token : String
-}
-
-enum Service {
-    Webshop
-    Bank
-    Payment_Service
-}
-
-abstract class User <<IdEntity>> {
-    username : String
-    profil_image : File
-}
-
+' classes in alphabetical order
 abstract class Chat <<IdEntity>> {
     title : String
     description : String
     image : File
     owner : Person
-}
-
-class PrivateChat
-
-class GroupChat {
-    getInvitationLink()
 }
 
 class ChatMembership {
@@ -51,7 +22,24 @@ enum ChatMemberStatus {
     Kicked
 }
 
-ChatMembership +-- ChatMemberStatus
+abstract class Content {
+    get_content()
+}
+
+abstract class FileContent {
+    size : int
+    name : String
+    mime_type : String
+}
+
+class GroupChat {
+    getInvitationLink()
+}
+
+class Login {
+    service : String
+    login_token : String
+}
 
 class Message <T extends Content> <<IdEntity>> {
     timestamp : Datetime
@@ -61,20 +49,32 @@ class Message <T extends Content> <<IdEntity>> {
     reply_to : Message
 }
 
-abstract class Content {
-    get_content()
+class Person {
+    first_name : String
+    last_name : String
+    country : String
+    email : String
+    logins : Login
+}
+
+class PrivateChat
+
+enum Service {
+    Webshop
+    Bank
+    Payment_Service
 }
 
 class TextContent {
     text : String
 }
 
-abstract class FileContent {
-    size : int
-    name : String
-    mime_type : String
+abstract class User <<IdEntity>> {
+    username : String
+    profil_image : File
 }
 
+ChatMembership +-- ChatMemberStatus
 
 Person -|> User
 User <|- Bot
