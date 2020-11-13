@@ -1,0 +1,37 @@
+@startuml
+left to right direction
+
+' actors
+actor User as u
+actor Person as p
+actor Bot as b
+
+' actor hierarchy
+u <|- p
+b -|> u
+
+' use cases
+rectangle {
+  usecase "login" as oUC1
+  usecase "logout" as oUC2
+  usecase "register" as oUC3
+  usecase "send message" as UC1
+  usecase "send file" as UC2
+  usecase "send document" as UC3
+  usecase "send image" as UC4
+  usecase "send voice" as UC5
+  usecase "connect to webshop" as UC6
+  usecase "connect to bank" as UC7
+  UC3 ..> UC2 : extends
+  UC4 ..> UC2 : extends
+  UC5 ..> UC2 : extends
+}
+
+'  link actor User with use cases
+u --> UC1
+u --> UC3
+u --> UC4
+u --> UC5
+u --> UC6
+u --> UC7
+@enduml
