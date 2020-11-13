@@ -1,22 +1,49 @@
 @startuml
 
-class User <<IdEntity>> {
-    username : String
-    name : String
+class Person {
+    first_name : String
+    last_name : String
     country : String
     email : String
+    logins : Login
 }
 
-abstract class Chat <<IdEntity>>
+class Login {
+    service : String
+    login_token : String
+}
 
-class ChatMember {
+enum Service {
+    Webshop
+    Bank
+    Payment_Service
+}
+
+abstract class User <<IdEntity>> {
+    username : String
+    profil_image : File
+}
+
+abstract class Chat <<IdEntity>> {
+    title : String
+    description : String
+    image : File
+    owner : Person
+}
+
+class PrivateChat
+
+class GroupChat {
+    getInvitationLink()
+}
+
+class ChatMembership {
     user : User
     chat : Chat
     status : ChatMemberStatus
 }
 
-class ChatMemberStatus << (E,orchid) enumeration>> {
-    Creator
+enum ChatMemberStatus {
     Administrator
     Member
     Restricted
@@ -24,7 +51,7 @@ class ChatMemberStatus << (E,orchid) enumeration>> {
     Kicked
 }
 
-ChatMember +-- ChatMemberStatus
+ChatMembership +-- ChatMemberStatus
 
 class Message <T extends Content> <<IdEntity>> {
     timestamp : Datetime
@@ -34,7 +61,9 @@ class Message <T extends Content> <<IdEntity>> {
     reply_to : Message
 }
 
-abstract class Content
+abstract class Content {
+    get_content()
+}
 
 class TextContent {
     text : String
@@ -43,7 +72,16 @@ class TextContent {
 abstract class FileContent {
     size : int
     name : String
+    mime_type : String
 }
+
+
+Person -|> User
+User <|- Bot
+
+Service --+ Login
+
+Login "*" <- "1" Person
 
 ' Attachment inheritance
 Chat <|-- PrivateChat
@@ -58,11 +96,12 @@ FileContent <|-- ImageContent
 FileContent <|-- VoiceContent
 FileContent <|-- DocumentContent
 
-User "1..*" -- "*" Chat
-ChatMember .. (User, Chat) 
+User "*" o--> "*" Chat : member >
+(User, Chat) .. ChatMembership
+Person "1" *--> "*" Chat : owner >
 
-User "*" -- "*" Message
-Message "*" -- "*" Chat
+User "1" --> "*" Message : sends >
+Message "*" -- "1" Chat
 
 Message <|. Content : <<bind>> <<T::Content>>
 
