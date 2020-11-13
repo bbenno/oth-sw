@@ -74,35 +74,43 @@ abstract class User <<IdEntity>> {
     profil_image : File
 }
 
-ChatMembership +-- ChatMemberStatus
-
-Person -|> User
-User <|- Bot
-
-Service --+ Login
-
-Login "*" <- "1" Person
-
-' Attachment inheritance
+' Inheritance
+'' Chat inheritance
 Chat <|-- PrivateChat
 Chat <|-- GroupChat
 Chat <|-- Channel
 
-' Content inheritance
+'' Content inheritance
 Content <|-- TextContent
-Content <|-- FileContent
+FileContent -|> Content
+
+'' FileContent inheritance
 FileContent <|-- VideoContent
 FileContent <|-- ImageContent
 FileContent <|-- VoiceContent
 FileContent <|-- DocumentContent
 
+'' Person inheritance
+Person -|> User
+User <|- Bot
+
+' Generic binding
+Content .|> Message : <<bind>> <<T::Content>>
+
+' Relations
+'' to Chat
+Person "1" *--> "*" Chat : owner >
 User "*" o--> "*" Chat : member >
 (User, Chat) .. ChatMembership
-Person "1" *--> "*" Chat : owner >
 
+'' to Message
 User "1" --> "*" Message : sends >
 Message "*" -- "1" Chat
 
-Message <|. Content : <<bind>> <<T::Content>>
+'' with Enumerations
+Service --+ Login
+ChatMembership +-- ChatMemberStatus
 
+'' Misc
+Login "*" <- "1" Person
 @enduml
