@@ -1,4 +1,4 @@
-@startuml
+@startuml chat
 left to right direction
 
 ' actors
