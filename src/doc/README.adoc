@@ -7,10 +7,10 @@ Hereafter the use cases, the domain model as well as the component overview can 
 
 == Use Case
 
-image::{plantuml-proxy}?src={raw-path}/uml-usecase.pu[]
+image::{plantuml-proxy}?src={raw-path}/uml-usecase.puml[]
 
 == Domain
 
-image::{plantuml-proxy}?src={raw-path}/uml-domain.pu[]
+image::{plantuml-proxy}?src={raw-path}/uml-domain.puml[]
 
 == Componet
