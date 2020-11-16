@@ -33,12 +33,11 @@ package "Persistenz" {
     MR -up- IFMR
 }
 
-app .down.> IFUS
-app .down.> IFCS
-app .down.> IFMS
+app .down.( IFUS
+app .down.( IFCS
+app .down.( IFMS
 
-US .down.> IFUR
-CS .down.> IFCR
-MS .down.> IFMR
-
+US .down.( IFUR
+CS .down.( IFCR
+MS .down.( IFMR
 @enduml
