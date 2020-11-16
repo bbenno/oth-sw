@@ -15,6 +15,11 @@ package "Chat" {
   usecase "Login" as oUC1
   usecase "Logout" as oUC2
   usecase "Register" as oUC3
+  usecase "Change profile image" as oUC4
+  usecase "Change profile name" as oUC5
+  usecase "Change profile" as oeUC1
+  oUC4 ..> oeUC1 : extends
+  oUC5 ..> oeUC1 : extends
   ' Messaging use cases
   usecase "Send message" as mUC1
   usecase "Send file" as mUC2
@@ -27,9 +32,12 @@ package "Chat" {
   ' Chating use cases
   usecase "Join chat" as cUC1
   usecase "Leave chat" as cUC2
+  usecase "Change chat membership" as ceUC2
   usecase "Change chat image" as cUC3
   usecase "Change chat description" as cUC4
   usecase "Chage chat information" as ceUC1
+  cUC1 ..> ceUC2 : extends
+  cUC2 ..> ceUC2 : extends
   cUC3 ..> ceUC1 : extends
   cUC4 ..> ceUC1 : extends
   ' Connecting to partners use cases
@@ -38,6 +46,8 @@ package "Chat" {
 }
 
 '  link actor User with use cases
+u --> oUC4
+u --> oUC5
 u --> mUC1
 u --> mUC3
 u --> mUC4
