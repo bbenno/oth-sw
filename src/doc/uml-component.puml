@@ -22,8 +22,6 @@ package "Persistence" {
     node "ChatRepository" as CR
     node "MessageRepository" as MR
 
-    database "MySQL" as db
-
     () IFUserRepository as IFUR
     () IFChatRepository as IFCR
     () IFMessageRepository as IFMR
@@ -31,11 +29,15 @@ package "Persistence" {
     UR -up- IFUR
     CR -up- IFCR
     MR -up- IFMR
-
-    UR .down.> db
-    CR .down.> db
-    MR .down.> db
 }
+
+package "Database" {
+    database "MySQL" as db
+}
+
+UR .down.> db
+CR .down.> db
+MR .down.> db
 
 app .down.( IFUS
 app .down.( IFCS
