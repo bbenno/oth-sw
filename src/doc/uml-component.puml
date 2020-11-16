@@ -1,9 +1,9 @@
 @startuml chat
-package "Präsentation" {
+package "Presentation" {
     component "Webapplikation" as app
 }
 
-package "Anwendungslogik" {
+package "Business" {
     component "UserService" as US
     component "ChatService" as CS
     component "MessageService" as MS
@@ -17,7 +17,7 @@ package "Anwendungslogik" {
     MS -up- IFMS
 }
 
-package "Persistenz" {
+package "Persistence" {
     node "UserRepository" as UR
     node "ChatRepository" as CR
     node "MessageRepository" as MR
