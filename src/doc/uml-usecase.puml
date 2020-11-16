@@ -11,7 +11,7 @@ p -down-|> u
 b -down-|> u
 
 ' use cases
-rectangle {
+package "Chat" {
   usecase "login" as oUC1
   usecase "logout" as oUC2
   usecase "register" as oUC3
