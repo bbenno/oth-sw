@@ -18,11 +18,11 @@ package "Anwendungslogik" {
 }
 
 package "Persistenz" {
-    database "MySQL" {
-        node "UserRepository" as UR
-        node "ChatRepository" as CR
-        node "MessageRepository" as MR
-    }
+    node "UserRepository" as UR
+    node "ChatRepository" as CR
+    node "MessageRepository" as MR
+
+    database "MySQL" as db
 
     () IFUserRepository as IFUR
     () IFChatRepository as IFCR
@@ -31,6 +31,10 @@ package "Persistenz" {
     UR -up- IFUR
     CR -up- IFCR
     MR -up- IFMR
+
+    UR .down.> db
+    CR .down.> db
+    MR .down.> db
 }
 
 app .down.( IFUS
