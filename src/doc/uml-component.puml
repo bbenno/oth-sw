@@ -1,0 +1,44 @@
+@startuml chat
+package "Präsentation" {
+    component "Webapplikation" as app
+}
+
+package "Anwendungslogik" {
+    component "UserService" as US
+    component "ChatService" as CS
+    component "MessageService" as MS
+
+    () IFUserService as IFUS
+    () IFChatService as IFCS
+    () IFMessageService as IFMS
+
+    US -up- IFUS
+    CS -up- IFCS
+    MS -up- IFMS
+}
+
+package "Persistenz" {
+    database "MySQL" {
+        node "UserRepository" as UR
+        node "ChatRepository" as CR
+        node "MessageRepository" as MR
+    }
+
+    () IFUserRepository as IFUR
+    () IFChatRepository as IFCR
+    () IFMessageRepository as IFMR
+
+    UR -up- IFUR
+    CR -up- IFCR
+    MR -up- IFMR
+}
+
+app .down.> IFUS
+app .down.> IFCS
+app .down.> IFMS
+
+US .down.> IFUR
+CS .down.> IFCR
+MS .down.> IFMR
+
+@enduml
