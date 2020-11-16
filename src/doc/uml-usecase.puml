@@ -46,6 +46,9 @@ package "Chat" {
 }
 
 '  link actor User with use cases
+p --> oUC1
+p --> oUC2
+p --> oUC3
 u --> oUC4
 u --> oUC5
 u --> mUC1
