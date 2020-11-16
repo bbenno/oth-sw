@@ -1,8 +1,10 @@
 @startuml chat
+' Presentation Layer
 package "Presentation" {
     component "Webapplikation" as app
 }
 
+' Busines (Logic) Layer
 package "Business" {
     component "UserService" as US
     component "ChatService" as CS
@@ -17,6 +19,7 @@ package "Business" {
     MS -up- IFMS
 }
 
+' Persistence Layer
 package "Persistence" {
     node "UserRepository" as UR
     node "ChatRepository" as CR
@@ -31,19 +34,23 @@ package "Persistence" {
     MR -up- IFMR
 }
 
+' Database Layer
 package "Database" {
     database "MySQL" as db
 }
 
-UR .down.> db
-CR .down.> db
-MR .down.> db
-
+' Connect presentation layer to busines layer
 app .down.( IFUS
 app .down.( IFCS
 app .down.( IFMS
 
+' Connect business layer to persistence layer
 US .down.( IFUR
 CS .down.( IFCR
 MS .down.( IFMR
+
+' Connect persistence layer to database layer
+UR .down.> db
+CR .down.> db
+MR .down.> db
 @enduml
