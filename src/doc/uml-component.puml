@@ -10,9 +10,9 @@ package "Business" {
     component "ChatService" as CS
     component "MessageService" as MS
 
-    () IFUserService as IFUS
-    () IFChatService as IFCS
-    () IFMessageService as IFMS
+    () "IFUserService" as IFUS
+    () "IFChatService" as IFCS
+    () "IFMessageService" as IFMS
 
     US -up- IFUS
     CS -up- IFCS
@@ -25,9 +25,9 @@ package "Persistence" {
     node "ChatRepository" as CR
     node "MessageRepository" as MR
 
-    () IFUserRepository as IFUR
-    () IFChatRepository as IFCR
-    () IFMessageRepository as IFMR
+    () "IFUserRepository" as IFUR
+    () "IFChatRepository" as IFCR
+    () "IFMessageRepository" as IFMR
 
     UR -up- IFUR
     CR -up- IFCR
