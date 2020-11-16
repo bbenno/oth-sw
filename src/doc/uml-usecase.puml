@@ -2,13 +2,13 @@
 left to right direction
 
 ' actors
-actor User as u
-actor Person as p
-actor Bot as b
+actor "User" as u
+actor "Person" as p
+actor "Bot" as b
 
 ' actor hierarchy
-u <|- p
-b -|> u
+p -down-|> u
+b -down-|> u
 
 ' use cases
 rectangle {
