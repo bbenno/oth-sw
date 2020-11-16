@@ -24,9 +24,17 @@ package "Chat" {
   mUC3 ..> mUC2 : extends
   mUC4 ..> mUC2 : extends
   mUC5 ..> mUC2 : extends
-  ' Connecting use cases
-  usecase "Connect to webshop" as cUC1
-  usecase "Connect to bank" as cUC2
+  ' Chating use cases
+  usecase "Join chat" as cUC1
+  usecase "Leave chat" as cUC2
+  usecase "Change chat image" as cUC3
+  usecase "Change chat description" as cUC4
+  usecase "Chage chat information" as ceUC1
+  cUC3 ..> ceUC1 : extends
+  cUC4 ..> ceUC1 : extends
+  ' Connecting to partners use cases
+  usecase "Connect to webshop" as pUC1
+  usecase "Connect to bank" as pUC2
 }
 
 '  link actor User with use cases
@@ -36,4 +44,8 @@ u --> mUC4
 u --> mUC5
 u --> cUC1
 u --> cUC2
+u --> cUC3
+u --> cUC4
+u --> pUC1
+u --> pUC2
 @enduml
