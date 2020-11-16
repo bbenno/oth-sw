@@ -12,26 +12,28 @@ b -down-|> u
 
 ' use cases
 package "Chat" {
-  usecase "login" as oUC1
-  usecase "logout" as oUC2
-  usecase "register" as oUC3
-  usecase "send message" as UC1
-  usecase "send file" as UC2
-  usecase "send document" as UC3
-  usecase "send image" as UC4
-  usecase "send voice" as UC5
-  usecase "connect to webshop" as UC6
-  usecase "connect to bank" as UC7
-  UC3 ..> UC2 : extends
-  UC4 ..> UC2 : extends
-  UC5 ..> UC2 : extends
+  usecase "Login" as oUC1
+  usecase "Logout" as oUC2
+  usecase "Register" as oUC3
+  ' Messaging use cases
+  usecase "Send message" as mUC1
+  usecase "Send file" as mUC2
+  usecase "Send document" as mUC3
+  usecase "Send image" as mUC4
+  usecase "Send voice" as mUC5
+  mUC3 ..> mUC2 : extends
+  mUC4 ..> mUC2 : extends
+  mUC5 ..> mUC2 : extends
+  ' Connecting use cases
+  usecase "Connect to webshop" as cUC1
+  usecase "Connect to bank" as cUC2
 }
 
 '  link actor User with use cases
-u --> UC1
-u --> UC3
-u --> UC4
-u --> UC5
-u --> UC6
-u --> UC7
+u --> mUC1
+u --> mUC3
+u --> mUC4
+u --> mUC5
+u --> cUC1
+u --> cUC2
 @enduml
