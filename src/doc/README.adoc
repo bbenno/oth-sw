@@ -14,3 +14,5 @@ image::{plantuml-proxy}?src={raw-path}/uml-usecase.puml[]
 image::{plantuml-proxy}?src={raw-path}/uml-domain.puml[]
 
 == Componet
+
+image::{plantuml-proxy}?src={raw-path}/uml-component.puml[]
