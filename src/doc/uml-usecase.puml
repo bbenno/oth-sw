@@ -1,4 +1,5 @@
 @startuml chat
+skinparam monochrome true
 left to right direction
 
 ' actors
