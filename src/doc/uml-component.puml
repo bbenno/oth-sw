@@ -21,9 +21,9 @@ package "Business" {
 
 ' Persistence Layer
 package "Persistence" {
-    node "UserRepository" as UR
-    node "ChatRepository" as CR
-    node "MessageRepository" as MR
+    component "UserRepository" as UR
+    component "ChatRepository" as CR
+    component "MessageRepository" as MR
 
     interface "IFUserRepository" as IFUR
     interface "IFChatRepository" as IFCR
