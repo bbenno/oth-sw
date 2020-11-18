@@ -34,8 +34,7 @@ package "Chat" {
   cUC3 ..> ceUC1 : extends
   cUC4 ..> ceUC1 : extends
   ' Connecting to partners use cases
-  usecase "Connect to webshop" as pUC1
-  usecase "Connect to bank" as pUC2
+  usecase "Connect to (partner) service" as pUC
 }
 
 '  link actor User with use cases
@@ -49,6 +48,5 @@ u --> cUC1
 u --> cUC2
 u --> cUC3
 u --> cUC4
-u --> pUC1
-u --> pUC2
+u --> pUC
 @enduml
