@@ -20,15 +20,8 @@ package "Chat" {
   usecase "Change profile" as oeUC1
   oUC4 ..> oeUC1 : extends
   oUC5 ..> oeUC1 : extends
-  ' Messaging use cases
-  usecase "Send message" as mUC1
-  usecase "Send file" as mUC2
-  usecase "Send document" as mUC3
-  usecase "Send image" as mUC4
-  usecase "Send voice" as mUC5
-  mUC3 ..> mUC2 : extends
-  mUC4 ..> mUC2 : extends
-  mUC5 ..> mUC2 : extends
+
+  usecase "Send message" as mUC
   ' Chating use cases
   usecase "Join chat" as cUC1
   usecase "Leave chat" as cUC2
@@ -51,10 +44,7 @@ p --> oUC2
 p --> oUC3
 u --> oUC4
 u --> oUC5
-u --> mUC1
-u --> mUC3
-u --> mUC4
-u --> mUC5
+u --> mUC
 u --> cUC1
 u --> cUC2
 u --> cUC3
