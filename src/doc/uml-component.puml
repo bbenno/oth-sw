@@ -1,46 +1,30 @@
 @startuml chat
 ' Presentation Layer
 package "Presentation" {
-    component "Webapplikation" as app
+    [app]
 }
 
 ' Busines (Logic) Layer
 package "Business" {
-    component "UserService" as US
-    component "ChatService" as CS
-    component "MessageService" as MS
-
-    interface "IFUserService" as IFUS
-    interface "IFChatService" as IFCS
-    interface "IFMessageService" as IFMS
-
-    US -up- IFUS
-    CS -up- IFCS
-    MS -up- IFMS
+    [UserService] -up- IFUserService
+    [ChatService] -up- IFChatService
+    [MessageService] -up- IFMessageService
 }
 
 ' Persistence Layer
 package "Persistence" {
-    component "UserRepository" as UR
-    component "ChatRepository" as CR
-    component "MessageRepository" as MR
-
-    interface "IFUserRepository" as IFUR
-    interface "IFChatRepository" as IFCR
-    interface "IFMessageRepository" as IFMR
-
-    UR -up- IFUR
-    CR -up- IFCR
-    MR -up- IFMR
+    [UserRepository] -up- IFUserRepository
+    [ChatRepository] -up- IFChatRepository
+    [MessageRepository] -up- IFMessageRepository
 }
 
 ' Connect presentation layer to busines layer
-app .down.( IFUS
-app .down.( IFCS
-app .down.( IFMS
+[app] .down.( IFUserService
+[app] .down.( IFChatService
+[app] .down.( IFMessageService
 
 ' Connect business layer to persistence layer
-US .down.( IFUR
-CS .down.( IFCR
-MS .down.( IFMR
+[UserService] .down.( IFUserRepository
+[ChatService] .down.( IFChatRepository
+[MessageService] .down.( IFMessageRepository
 @enduml
