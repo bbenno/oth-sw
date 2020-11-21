@@ -2,7 +2,7 @@
 skinparam monochrome true
 ' Presentation Layer
 package "Presentation" {
-    [app]
+    [App]
 }
 
 ' Busines (Logic) Layer
@@ -20,9 +20,9 @@ package "Persistence" {
 }
 
 ' Connect presentation layer to busines layer
-[app] .down.( IFUserService
-[app] .down.( IFChatService
-[app] .down.( IFMessageService
+[App] .down.( IFUserService
+[App] .down.( IFChatService
+[App] .down.( IFMessageService
 
 ' Connect business layer to persistence layer
 [UserService] .down.( IFUserRepository
