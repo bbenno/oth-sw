@@ -83,13 +83,13 @@ User <|- Bot
 
 ' Relations
 '' to Chat
-Person "1" *--> "*" Chat : owner >
-User "*" o--> "*" Chat : member >
+Person "1" *--> "0..*" Chat : owner >
+User "0..*" o--> "0..*" Chat : member >
 (User, Chat) .. ChatMembership
 
 '' to Message
 User "1" --> "*" Message : sends >
-Message "*" -- "1" Chat
+Message "0..*" -- "1" Chat
 Message "1" --> "0..1" Attachment : includes >
 
 '' with Enumerations
@@ -97,5 +97,5 @@ Login .left.> Service
 ChatMembership ..> ChatMemberStatus
 
 '' Misc
-Login "*" <- "1" Person
+Login "0..*" <- "1" Person
 @enduml
