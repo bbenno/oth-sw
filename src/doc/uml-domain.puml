@@ -1,5 +1,11 @@
 @startuml chat-domain
 ' classes in alphabetical order
+abstract class Attachment {
+    size : int
+    name : String
+    mime_type : String
+}
+
 abstract class Chat <<IdEntity>> {
     title : String
     description : String
@@ -21,16 +27,6 @@ enum ChatMemberStatus {
     Kicked
 }
 
-abstract class Content {
-    get_content()
-}
-
-abstract class FileContent {
-    size : int
-    name : String
-    mime_type : String
-}
-
 class GroupChat {
     getInvitationLink()
 }
@@ -40,11 +36,10 @@ class Login {
     login_token : String
 }
 
-class Message <T extends Content> <<IdEntity>> {
+class Message <<IdEntity>> {
     timestamp : Datetime
     author : User
     chat : Chat
-    content : T
     reply_to : Message
 }
 
@@ -64,10 +59,6 @@ enum Service {
     Payment_Service
 }
 
-class TextContent {
-    text : String
-}
-
 abstract class User <<IdEntity>> {
     username : String
     password : String
@@ -80,22 +71,15 @@ Chat <|-- PrivateChat
 Chat <|-- GroupChat
 Chat <|-- Channel
 
-'' Content inheritance
-Content <|-- TextContent
-FileContent -|> Content
-
-'' FileContent inheritance
-FileContent <|-- VideoContent
-FileContent <|-- ImageContent
-FileContent <|-- VoiceContent
-FileContent <|-- DocumentContent
+'' Attachment inheritance
+Attachment <|-- Video
+Attachment <|-- Image
+Attachment <|-- Voice
+Attachment <|-- Document
 
 '' Person inheritance
 Person -|> User
 User <|- Bot
-
-' Generic binding
-Content .|> Message : <<bind>> <<T::Content>>
 
 ' Relations
 '' to Chat
@@ -106,6 +90,7 @@ User "*" o--> "*" Chat : member >
 '' to Message
 User "1" --> "*" Message : sends >
 Message "*" -- "1" Chat
+Message "1" --> "0..1" Attachment : includes >
 
 '' with Enumerations
 Service --+ Login
