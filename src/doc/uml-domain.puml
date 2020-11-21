@@ -70,6 +70,7 @@ class TextContent {
 
 abstract class User <<IdEntity>> {
     username : String
+    password : String
     profil_image : File
 }
 
