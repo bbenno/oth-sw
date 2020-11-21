@@ -56,7 +56,7 @@ class PrivateChat
 enum Service {
     Webshop
     Bank
-    Payment_Service
+    Payment
 }
 
 abstract class User <<IdEntity>> {
@@ -93,8 +93,8 @@ Message "*" -- "1" Chat
 Message "1" --> "0..1" Attachment : includes >
 
 '' with Enumerations
-Service --+ Login
-ChatMembership +-- ChatMemberStatus
+Login .left.> Service
+ChatMembership ..> ChatMemberStatus
 
 '' Misc
 Login "*" <- "1" Person
