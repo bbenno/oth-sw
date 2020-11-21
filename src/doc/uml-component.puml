@@ -1,4 +1,4 @@
-@startuml chat
+@startuml chat-component
 skinparam monochrome true
 ' Presentation Layer
 package "Presentation" {

@@ -1,4 +1,4 @@
-@startuml chat
+@startuml chat-domain
 ' classes in alphabetical order
 abstract class Chat <<IdEntity>> {
     title : String

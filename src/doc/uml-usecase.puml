@@ -1,4 +1,4 @@
-@startuml chat
+@startuml chat-usecase
 skinparam monochrome true
 left to right direction
 
