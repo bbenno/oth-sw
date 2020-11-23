@@ -6,6 +6,7 @@ left to right direction
 actor "User" as u
 actor "Person" as p
 actor "Bot" as b
+node "Service" as s
 
 ' actor hierarchy
 p -down-|> u
@@ -44,6 +45,7 @@ p --> oUC2
 p --> oUC3
 u --> oUC4
 u --> oUC5
+s --> mUC
 u --> mUC
 u --> cUC1
 u --> cUC2
