@@ -12,7 +12,7 @@ p -down-|> u
 b -down-|> u
 
 ' use cases
-package "Chat" {
+package "de.othr.st.bib48218.chat" {
   usecase "Login" as oUC1
   usecase "Logout" as oUC2
   usecase "Register" as oUC3
