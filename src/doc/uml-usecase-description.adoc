@@ -4,5 +4,14 @@ Benno Bielmeier <benno.bielmeier@st.othr.de>
 
 == Send Message
 
+.pre-conditions
+* User is logged in
+
 .essential steps
-* Choose type of attachment
+* Choose another user or chat as receiver
+* Type in message
+* Choose attachment
+* Send message
+
+.post-condition
+* Message can be read by receiver
