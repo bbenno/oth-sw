@@ -1,6 +1,6 @@
 @startuml chat-domain
 ' classes in alphabetical order
-abstract class Attachment {
+class Attachment {
     size : int
     name : String
     mime_type : String
@@ -70,12 +70,6 @@ abstract class User <<IdEntity>> {
 Chat <|-- PrivateChat
 Chat <|-- GroupChat
 Chat <|-- Channel
-
-'' Attachment inheritance
-Attachment <|-- Video
-Attachment <|-- Image
-Attachment <|-- Voice
-Attachment <|-- Document
 
 '' Person inheritance
 Person -|> User
