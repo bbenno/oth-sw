@@ -2,19 +2,25 @@
 Benno Bielmeier <benno.bielmeier@st.othr.de>
 :icons: font
 
-== Send Message
+== Use Case 1: Send Message
 
-.pre-conditions
+[horizontal]
+Name:: Send Message
+Short description:: User sends message to another user or in a chat.
+Actor:: User
+Stakeholder:: receiving user(s)
+Triggers::
+* _
+Preconditions::
 * User is logged in
-
-.essential steps
-* Choose another user or chat as receiver
+Postconditions::
+* Message can be read by receiver
+Main success scenarios::
+* Choose user or chat as receiver
 * Type in message
 * Choose attachment
 * Send message
-
-.post-condition
-* Message can be read by receiver
+Alternative paths:: None
 
 == Use Case 2: Change profile
 
