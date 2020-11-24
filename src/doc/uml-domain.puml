@@ -87,9 +87,9 @@ User "1" --> "0..*" ChatMembership
 Chat "1" -up-> "0..*" ChatMembership
 
 '' to Message
-User "1" --> "0..*" Message : sends >
-Chat "1" -right-> "0..*" Message : contains >
-Message "1" --> "0..1" Attachment : includes >
+User "1" --> "0..*" Message
+Chat "1" -right-> "0..*" Message
+Message "1" --> "0..1" Attachment
 
 '' with Enumerations
 Login "0..*" .down.> "1" Service
@@ -98,7 +98,7 @@ ChatMembership "0..*" .right.> "1" ChatMemberStatus
 '' Misc
 Person "1" -down-> "0..*" Login
 User "1" --> "1" UserProfile
-Chat "1" --> "1" ChatProfile
+Chat "1" -left-> "1" ChatProfile
 
 note right of Profile: public accessible infos
 @enduml
