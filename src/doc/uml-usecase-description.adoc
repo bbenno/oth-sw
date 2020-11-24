@@ -8,19 +8,21 @@ Benno Bielmeier <benno.bielmeier@st.othr.de>
 Name:: Send Message
 Short description:: User sends message to another user or in a chat.
 Actor:: User
-Stakeholder:: receiving user(s)
-Triggers::
-* _
+Stakeholder:: Receiving user(s), Service (TODO)
 Preconditions::
-* User is logged in
+* User is logged in.
+* User is on a chat screen.
 Postconditions::
-* Message can be read by receiver
+* Message is stored in database.
+* Receiver can read the message.
 Main success scenarios::
-* Choose user or chat as receiver
-* Type in message
-* Choose attachment
-* Send message
+. User types message into textfield.
+. User confirms message.
+. System stores message into database.
+. System shows sent message in chat.
 Alternative paths:: None
+Extensions::
+1a) User attaches attachement to message.
 
 == Use Case 2: Change profile
 
