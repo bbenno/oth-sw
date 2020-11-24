@@ -15,3 +15,28 @@ Benno Bielmeier <benno.bielmeier@st.othr.de>
 
 .post-condition
 * Message can be read by receiver
+
+== Use Case 2: Change profile
+
+[horizontal]
+Name:: Change profile
+Short description:: User changes his/her pulbic profile.
+Actor:: User
+Stakeholder:: _
+Triggers::
+* _
+Preconditions::
+* User is logged in
+Postconditions::
+* Informations are updated
+Main success scenarios::
+* Change name
+* Change image
+** Upload image
+** Remove image
+* Change bio text
+* Change country
+Alternative paths::
+. Name is emtpy or too long
+* Display error message
+* User re-edit name
