@@ -29,7 +29,7 @@ enum GroupVisibility <<enumeration>> {
     Public
 }
 
-class Login <<IdEntity>> {
+class ServiceCredentials <<IdEntity>> {
     login_token : String
 }
 
@@ -91,12 +91,12 @@ Message "1" --> "0..1" Attachment
 Message "0..*" --> "0..1" Message : Reply >
 
 '' with Enumerations
-Login "0..*" ..> "1" ServiceType
+ServiceCredentials "0..*" ..> "1" Service
 ChatMembership "0..*" .right.> "1" ChatMemberStatus
 GroupChat "0..*" -left-> "1" GroupVisibility
 
 '' Misc
-Person "1" --> "0..*" Login
+Person "1" --> "0..*" ServiceCredentials
 User "1" --> "1" UserProfile
 GroupChat "1" -up-> "1" ChatProfile
 
