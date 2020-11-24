@@ -5,6 +5,7 @@ left to right direction
 ' actors
 actor "User" as u
 actor "Person" as p
+' note "Bot has no special usecases" as b
 node "Partner Service" as s
 
 ' actor hierarchy
