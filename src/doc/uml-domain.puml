@@ -37,7 +37,6 @@ class Login <<IdEntity>> {
 class Message <<IdEntity>> {
     text : String
     timestamp : Datetime
-    reply_to : Message
 }
 
 class Person {
@@ -91,6 +90,7 @@ Chat "1" -up-> "0..*" ChatMembership
 User "1" --> "0..*" Message
 Chat "1" -right-> "0..*" Message
 Message "1" --> "0..1" Attachment
+Message "0..*" --> "0..1" Message : Reply >
 
 '' with Enumerations
 Login "0..*" .down.> "1" Service
