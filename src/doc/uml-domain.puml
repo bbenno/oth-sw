@@ -30,7 +30,6 @@ enum GroupVisibility <<enumeration>> {
 }
 
 class Login <<IdEntity>> {
-    service : Service
     login_token : String
 }
 
@@ -43,7 +42,6 @@ class Person {
     first_name : String
     last_name : String
     email : String
-    logins : Login
 }
 
 class PeerChat
