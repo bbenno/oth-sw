@@ -85,18 +85,18 @@ User "1" --> "0..*" ChatMembership
 Chat "1" -up-> "0..*" ChatMembership
 
 '' to Message
-User "1" --> "0..*" Message
-Chat "1" -right-> "0..*" Message
-Message "1" --> "0..1" Attachment
-Message "0..*" --> "0..1" Message : Reply >
+User "1" --> "0..*" Message : Sends >
+Chat "1" -right-> "0..*" Message : Holds >
+Message "1" --> "0..1" Attachment : Contains >
+Message "0..*" --> "0..1" Message : Replies to >
 
 '' with Enumerations
-ServiceCredentials "0..*" ..> "1" Service
+ServiceCredentials "0..*" ..> "1" ServiceType
 ChatMembership "0..*" .right.> "1" ChatMemberStatus
 GroupChat "0..*" -left-> "1" GroupVisibility
 
 '' Misc
-Person "1" --> "0..*" ServiceCredentials
+Person "1" --> "0..*" ServiceCredentials : Has stored
 User "1" --> "1" UserProfile
 GroupChat "1" -up-> "1" ChatProfile
 
