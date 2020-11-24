@@ -93,14 +93,14 @@ Message "1" --> "0..1" Attachment
 Message "0..*" --> "0..1" Message : Reply >
 
 '' with Enumerations
-Login "0..*" .down.> "1" Service
+Login "0..*" ..> "1" Service
 ChatMembership "0..*" .right.> "1" ChatMemberStatus
-GroupChat "0..*" --> "1" GroupVisibility
+GroupChat "0..*" -left-> "1" GroupVisibility
 
 '' Misc
-Person "1" -down-> "0..*" Login
+Person "1" --> "0..*" Login
 User "1" --> "1" UserProfile
-GroupChat "1" -left-> "1" ChatProfile
+GroupChat "1" -up-> "1" ChatProfile
 
 note right of Profile: public accessible infos
 @enduml
