@@ -6,14 +6,9 @@ class Attachment <<IdEntity>> {
     mime_type : String
 }
 
-abstract class Chat <<IdEntity>> {
-    title : String
-    description : String
-}
+abstract class Chat <<IdEntity>>
 
-class ChatMembership <<IdEntity>> {
-    status : ChatMemberStatus
-}
+class ChatMembership <<IdEntity>>
 
 enum ChatMemberStatus <<enumeration>> {
     Administrator
@@ -23,9 +18,16 @@ enum ChatMemberStatus <<enumeration>> {
     Kicked
 }
 
-class ChatProfile
+class ChatProfile {
+    description : String
+}
 
 class GroupChat
+
+enum GroupVisibility <<enumeration>> {
+    Private
+    Public
+}
 
 class Login <<IdEntity>> {
     service : Service
@@ -45,7 +47,7 @@ class Person {
     logins : Login
 }
 
-class PrivateChat
+class PeerChat
 
 abstract class Profile {
     name : String
@@ -73,9 +75,8 @@ class UserProfile {
 Profile <|-- ChatProfile
 Profile <|-- UserProfile
 '' Chat inheritance
-Chat <|-- PrivateChat
+Chat <|-- PeerChat
 Chat <|-- GroupChat
-Chat <|-- Channel
 
 '' Person inheritance
 User <|-- Person
@@ -94,11 +95,12 @@ Message "1" --> "0..1" Attachment
 '' with Enumerations
 Login "0..*" .down.> "1" Service
 ChatMembership "0..*" .right.> "1" ChatMemberStatus
+GroupChat "0..*" --> "1" GroupVisibility
 
 '' Misc
 Person "1" -down-> "0..*" Login
 User "1" --> "1" UserProfile
-Chat "1" -left-> "1" ChatProfile
+GroupChat "1" -left-> "1" ChatProfile
 
 note right of Profile: public accessible infos
 @enduml
