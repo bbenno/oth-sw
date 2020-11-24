@@ -10,6 +10,7 @@ package "Business" {
     [UserService] -up- IFUserService
     [ChatService] -up- IFChatService
     [MessageService] -up- IFMessageService
+    [MessageService] -up- IFSendMessage
 }
 
 ' Persistence Layer
