@@ -27,12 +27,14 @@ enum ChatMemberStatus {
     Kicked
 }
 
+class ChatProfile
+
 class GroupChat {
     getInvitationLink()
 }
 
 class Login {
-    service : String
+    service : Service
     login_token : String
 }
 
@@ -52,10 +54,8 @@ class Person {
 
 class PrivateChat
 
-class Profile {
+abstract class Profile {
     name : String
-    bio : String
-    country : String
     photo : image
 }
 
@@ -68,18 +68,25 @@ enum Service {
 abstract class User <<IdEntity>> {
     username : String
     password : String
-    profil_image : File
+}
+
+class UserProfile {
+    bio : String
+    country : String
 }
 
 ' Inheritance
+'' Profile
+Profile <|-- ChatProfile
+Profile <|-- UserProfile
 '' Chat inheritance
 Chat <|-- PrivateChat
 Chat <|-- GroupChat
 Chat <|-- Channel
 
 '' Person inheritance
-Person -|> User
-User <|- Bot
+User <|-- Person
+User <|-- Bot
 
 ' Relations
 '' to Chat
@@ -93,12 +100,13 @@ Message "0..*" -- "1" Chat
 Message "1" --> "0..1" Attachment : includes >
 
 '' with Enumerations
-Login .left.> Service
+Login ..> Service
 ChatMembership ..> ChatMemberStatus
 
 '' Misc
-Login "0..*" <- "1" Person
-Person "1" --> "1" Profile
+Login "0..*" <-- "1" Person
+User "1" --> "1" UserProfile
+Chat "1" --> "1" ChatProfile
 
-note bottom of Profile: public accessible Infos
+note right of Profile: public accessible infos
 @enduml
