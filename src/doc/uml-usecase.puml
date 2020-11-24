@@ -25,9 +25,7 @@ package "de.othr.st.bib48218.chat" {
   usecase "Leave chat" as cUC2
   usecase "Change chat image" as cUC3
   usecase "Change chat description" as cUC4
-  usecase "Chage chat information" as ceUC1
-  cUC3 ..> ceUC1 : extends
-  cUC4 ..> ceUC1 : extends
+  usecase "Chage chat profile" as cUC5
   ' Connecting to partners use cases
   usecase "Connect to (partner) service" as pUC
 }
@@ -37,6 +35,7 @@ p --> oUC1
 p --> oUC2
 p --> oUC3
 p --> oUC4
+p --> cUC5
 s --> mUC
 u --> mUC
 u --> cUC1
