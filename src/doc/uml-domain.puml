@@ -9,13 +9,9 @@ class Attachment <<IdEntity>> {
 abstract class Chat <<IdEntity>> {
     title : String
     description : String
-    image : File
-    owner : Person
 }
 
 class ChatMembership <<IdEntity>> {
-    user : User
-    chat : Chat
     status : ChatMemberStatus
 }
 
@@ -39,9 +35,8 @@ class Login <<IdEntity>> {
 }
 
 class Message <<IdEntity>> {
+    text : String
     timestamp : Datetime
-    author : User
-    chat : Chat
     reply_to : Message
 }
 
