@@ -40,3 +40,20 @@ Alternative paths::
 . Name is emtpy or too long
 * Display error message
 * User re-edit name
+
+== Use Case 3: View other user's profile
+
+[horizontal]
+Name:: View other user's profile
+Short description:: Person ...
+Actor:: Person
+Stakeholder:: acting person, profile's user
+Triggers::
+* _
+Preconditions::
+* Person is logged in
+.Postconditions:: None
+Main success scenarios::
+* Search for user
+* Display user's profile
+Alternative paths:: None
