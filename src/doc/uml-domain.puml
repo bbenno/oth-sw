@@ -46,12 +46,18 @@ class Message <<IdEntity>> {
 class Person {
     first_name : String
     last_name : String
-    country : String
     email : String
     logins : Login
 }
 
 class PrivateChat
+
+class Profile {
+    name : String
+    bio : String
+    country : String
+    photo : image
+}
 
 enum Service {
     Webshop
@@ -92,4 +98,7 @@ ChatMembership ..> ChatMemberStatus
 
 '' Misc
 Login "0..*" <- "1" Person
+Person "1" --> "1" Profile
+
+note bottom of Profile: public accessible Infos
 @enduml
