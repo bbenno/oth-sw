@@ -1,14 +1,14 @@
 @startuml chat-domain
 ' classes in alphabetical order
-class Attachment <<IdEntity>> {
+class Attachment {
     size : int
     name : String
     mime_type : String
 }
 
-abstract class Chat <<IdEntity>>
+abstract class Chat
 
-class ChatMembership <<IdEntity>>
+class ChatMembership
 
 enum ChatMemberStatus <<enumeration>> {
     Administrator
@@ -29,11 +29,11 @@ enum GroupVisibility <<enumeration>> {
     Public
 }
 
-class ServiceCredentials <<IdEntity>> {
+class ServiceCredentials {
     login_token : String
 }
 
-class Message <<IdEntity>> {
+class Message {
     text : String
     timestamp : Datetime
 }
@@ -57,7 +57,7 @@ enum ServiceType <<enumeration>> {
     Payment
 }
 
-abstract class User <<IdEntity>> {
+abstract class User {
     username : String
     password : String
 }
