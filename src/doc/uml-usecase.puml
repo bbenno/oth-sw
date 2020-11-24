@@ -5,12 +5,10 @@ left to right direction
 ' actors
 actor "User" as u
 actor "Person" as p
-actor "Bot" as b
 node "Partner Service" as s
 
 ' actor hierarchy
-p -down-|> u
-b -down-|> u
+u <|-left- p
 
 ' use cases
 package "de.othr.st.bib48218.chat" {
