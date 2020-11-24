@@ -1,6 +1,6 @@
 @startuml chat-domain
 ' classes in alphabetical order
-class Attachment {
+class Attachment <<IdEntity>> {
     size : int
     name : String
     mime_type : String
@@ -13,13 +13,13 @@ abstract class Chat <<IdEntity>> {
     owner : Person
 }
 
-class ChatMembership {
+class ChatMembership <<IdEntity>> {
     user : User
     chat : Chat
     status : ChatMemberStatus
 }
 
-enum ChatMemberStatus {
+enum ChatMemberStatus <<enumeration>> {
     Administrator
     Member
     Restricted
@@ -33,7 +33,7 @@ class GroupChat {
     getInvitationLink()
 }
 
-class Login {
+class Login <<IdEntity>> {
     service : Service
     login_token : String
 }
@@ -59,7 +59,7 @@ abstract class Profile {
     photo : image
 }
 
-enum Service {
+enum Service <<enumeration>> {
     Webshop
     Bank
     Payment
