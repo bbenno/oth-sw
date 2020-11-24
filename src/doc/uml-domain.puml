@@ -25,9 +25,7 @@ enum ChatMemberStatus <<enumeration>> {
 
 class ChatProfile
 
-class GroupChat {
-    getInvitationLink()
-}
+class GroupChat
 
 class Login <<IdEntity>> {
     service : Service
