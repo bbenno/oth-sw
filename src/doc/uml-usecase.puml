@@ -14,21 +14,21 @@ b -down-|> u
 
 ' use cases
 package "de.othr.st.bib48218.chat" {
-  usecase "Login" as oUC1
-  usecase "Logout" as oUC2
-  usecase "Register" as oUC3
-  usecase "Change profile" as oUC4
+  usecase "Login user" as oUC1
+  usecase "Logout user" as oUC2
+  usecase "Register user" as oUC3
+  usecase "Change user profile" as oUC4
 
   usecase "Send message" as mUC
   ' Chating use cases
   usecase "Create group chat" as cUC1
   usecase "Leave group chat" as cUC2
-  usecase "Change group chat's profile" as cUC3
-  usecase "Change group chat membership of other user" as cUC4
-  usecase "Invite user to group chat" as cUC5
-  usecase "Join channel" as cUC6
+  usecase "Change profile of group chat" as cUC3
+  usecase "Change group chat membership of user" as cUC4
+  usecase "Invite user to group" as cUC5
+  usecase "Join group chat" as cUC6
   ' Connecting to partners use cases
-  usecase "Connect to (partner) service" as pUC
+  usecase "Store (partner) service account credentials" as pUC
 }
 
 '  link actor User with use cases
@@ -40,9 +40,9 @@ p --> cUC3
 p --> cUC6
 s --> mUC
 u --> mUC
-u --> cUC1
+p --> cUC1
 u --> cUC2
 u --> cUC4
 u --> cUC5
-u --> pUC
+p --> pUC
 @enduml
