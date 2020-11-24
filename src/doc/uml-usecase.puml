@@ -6,7 +6,7 @@ left to right direction
 actor "User" as u
 actor "Person" as p
 actor "Bot" as b
-node "Service" as s
+node "Partner Service" as s
 
 ' actor hierarchy
 p -down-|> u
