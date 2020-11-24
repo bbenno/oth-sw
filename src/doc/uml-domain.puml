@@ -51,7 +51,7 @@ abstract class Profile {
     photo : image
 }
 
-enum Service <<enumeration>> {
+enum ServiceType <<enumeration>> {
     Webshop
     Bank
     Payment
@@ -91,7 +91,7 @@ Message "1" --> "0..1" Attachment
 Message "0..*" --> "0..1" Message : Reply >
 
 '' with Enumerations
-Login "0..*" ..> "1" Service
+Login "0..*" ..> "1" ServiceType
 ChatMembership "0..*" .right.> "1" ChatMemberStatus
 GroupChat "0..*" -left-> "1" GroupVisibility
 
