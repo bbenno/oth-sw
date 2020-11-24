@@ -17,11 +17,7 @@ package "de.othr.st.bib48218.chat" {
   usecase "Login" as oUC1
   usecase "Logout" as oUC2
   usecase "Register" as oUC3
-  usecase "Change profile image" as oUC4
-  usecase "Change profile name" as oUC5
-  usecase "Change profile" as oeUC1
-  oUC4 ..> oeUC1 : extends
-  oUC5 ..> oeUC1 : extends
+  usecase "Change profile" as oUC4
 
   usecase "Send message" as mUC
   ' Chating use cases
@@ -31,8 +27,6 @@ package "de.othr.st.bib48218.chat" {
   usecase "Change chat image" as cUC3
   usecase "Change chat description" as cUC4
   usecase "Chage chat information" as ceUC1
-  cUC1 ..> ceUC2 : extends
-  cUC2 ..> ceUC2 : extends
   cUC3 ..> ceUC1 : extends
   cUC4 ..> ceUC1 : extends
   ' Connecting to partners use cases
@@ -43,8 +37,7 @@ package "de.othr.st.bib48218.chat" {
 p --> oUC1
 p --> oUC2
 p --> oUC3
-u --> oUC4
-u --> oUC5
+p --> oUC4
 s --> mUC
 u --> mUC
 u --> cUC1
