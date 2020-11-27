@@ -81,24 +81,24 @@ User <|-- Bot
 
 ' Relations
 '' to Chat
-User "1" --> "0..*" ChatMembership
-Chat "1" -up-> "0..*" ChatMembership
+ChatMembership "0..*" --> "1\nuser" User
+ChatMembership "0..*" -right-> "1\nchat" Chat
 
 '' to Message
-User "1" --> "0..*" Message : Sends >
-Chat "1" -right-> "0..*" Message : Holds >
-Message "1" --> "0..1" Attachment : Contains >
-Message "0..*" --> "0..1" Message : Replies to >
+Message "0..*" --> "1\nauthor" User
+Chat "1" --> "0..*\nmessages" Message
+Message "1" --> "0..1\nattachment" Attachment
+Message "0..*" --> "0..1\nreplyOf" Message
 
 '' with Enumerations
-ServiceCredentials "0..*" ..> "1" ServiceType
-ChatMembership "0..*" .right.> "1" ChatMemberStatus
-GroupChat "0..*" -left-> "1" GroupVisibility
+ServiceCredentials "0..*" ..> "1\ntype" ServiceType
+ChatMembership "0..*" ..> "1\nstatus" ChatMemberStatus
+GroupChat "0..*" ..> "1\nvisibility" GroupVisibility
 
 '' Misc
-Person "1" --> "0..*" ServiceCredentials : Has stored
-User "1" --> "1" UserProfile
-GroupChat "1" -up-> "1" ChatProfile
+Person "1" --> "0..*\ncredentials" ServiceCredentials
+User "1" --> "1\nprofile" UserProfile
+GroupChat "1" --> "1\nprofile" ChatProfile
 
-note right of Profile: public accessible infos
+note top of Profile: public accessible infos
 @enduml
