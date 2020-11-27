@@ -3,7 +3,7 @@
 class Attachment {
     size : int
     name : String
-    mime_type : String
+    mimeType : String
 }
 
 abstract class Chat
@@ -30,7 +30,7 @@ enum GroupVisibility <<enumeration>> {
 }
 
 class ServiceCredentials {
-    login_token : String
+    loginToken : String
 }
 
 class Message {
@@ -39,8 +39,8 @@ class Message {
 }
 
 class Person {
-    first_name : String
-    last_name : String
+    firstName : String
+    lastName : String
     email : String
 }
 
@@ -91,7 +91,7 @@ Message "1" --> "0..1\nattachment" Attachment
 Message "0..*" --> "0..1\nreplyOf" Message
 
 '' with Enumerations
-ServiceCredentials "0..*" ..> "1\ntype" ServiceType
+ServiceCredentials "0..*" ..> "1\nserviceType" ServiceType
 ChatMembership "0..*" ..> "1\nstatus" ChatMemberStatus
 GroupChat "0..*" ..> "1\nvisibility" GroupVisibility
 
