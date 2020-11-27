@@ -101,4 +101,6 @@ User "1" --> "1\nprofile" UserProfile
 GroupChat "1" --> "1\nprofile" ChatProfile
 
 note top of Profile: public accessible infos
+note right of ServiceCredentials: login credentials to authenticate to partner service
+note top of PeerChat: peer-to-peer chat between two users
 @enduml
