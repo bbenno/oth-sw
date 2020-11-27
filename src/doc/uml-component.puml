@@ -1,32 +1,62 @@
 @startuml chat-component
+allow_mixing
 skinparam monochrome true
 ' Presentation Layer
 package "Presentation" {
-    [ChatApp]
+    component ChatApp
 }
 
 ' Busines (Logic) Layer
 package "Business" {
-    [UserService] -up- IFUserService
-    [ChatService] -up- IFChatService
-    [MessageService] -up- IFMessageService
-    [MessageService] -up- IFSendMessage
+    component UserService
+    component ChatService
+    component MessageService
+    () IFUserService
+    () IFChatService
+    () IFMessageService
+    () "IFSendMessage" as IFSendMessageLolli
+    UserService    -up- IFUserService
+    ChatService    -up- IFChatService
+    MessageService -up- IFMessageService
+    MessageService -up- IFSendMessageLolli
+
+    component WebshopOrderService <<partner service>>
+    () IFOrderServiceExtern
+    WebshopOrderService -up- IFOrderServiceExtern
+    MessageService -up-( IFOrderServiceExtern
+
+    component BankSupportService <<partner service>>
+    BankSupportService -up-( IFSendMessageLolli
 }
 
 ' Persistence Layer
 package "Persistence" {
-    [UserRepository] -up- IFUserRepository
-    [ChatRepository] -up- IFChatRepository
-    [MessageRepository] -up- IFMessageRepository
+    component UserRepository
+    component ChatRepository
+    component MessageRepository
+    () IFUserRepository
+    () IFChatRepository
+    () IFMessageRepository
+    UserRepository    -up- IFUserRepository
+    ChatRepository    -up- IFChatRepository
+    MessageRepository -up- IFMessageRepository
 }
 
+interface IFSendMessage <<interface>> {
+    findUserByUsername(username : String, service_token : String) : User
+    sendMessage(message : String, user : User, service_token : String) : Boolean
+    pollMessages(service_token) : List<Message>
+}
+
+IFSendMessageLolli .up. IFSendMessage
+
 ' Connect presentation layer to busines layer
-[ChatApp] .down.( IFUserService
-[ChatApp] .down.( IFChatService
-[ChatApp] .down.( IFMessageService
+ChatApp .down.( IFUserService
+ChatApp .down.( IFChatService
+ChatApp .down.( IFMessageService
 
 ' Connect business layer to persistence layer
-[UserService] .down.( IFUserRepository
-[ChatService] .down.( IFChatRepository
-[MessageService] .down.( IFMessageRepository
+UserService .down.( IFUserRepository
+ChatService .down.( IFChatRepository
+MessageService .down.( IFMessageRepository
 @enduml
