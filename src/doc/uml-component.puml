@@ -1,6 +1,7 @@
 @startuml chat-component
 allow_mixing
 skinparam monochrome true
+hide circle
 ' Presentation Layer
 package "Presentation" {
     component ChatApp
@@ -43,9 +44,9 @@ package "Persistence" {
 }
 
 interface IFSendMessage <<interface>> {
-    findUserByUsername(username : String, service_token : String) : User
-    sendMessage(message : String, user : User, service_token : String) : Boolean
-    pollMessages(service_token) : List<Message>
+    findUserByUsername(username : String, serviceToken : String) : User
+    sendMessage(message : Message, user : User, serviceToken : String) : Boolean
+    pullMessages(serviceToken : String) : List<Message>
 }
 
 IFSendMessageLolli .up. IFSendMessage
