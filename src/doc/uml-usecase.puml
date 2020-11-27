@@ -26,12 +26,10 @@ package "de.othr.st.bib48218.chat" {
   
   User   --> (Leave  group chat)
   Person --> (Create group chat)
-  Person --> (Join   group chat)
 
   User --> (Change group chat membership of user)
-  User --> (Invite user to group)
 
   ' Connecting to partners use cases
-  Person --> (Store partner service account credential)
+  Person --> (Store foreign service account credential)
 }
 @enduml
