@@ -1,0 +1,270 @@
+== Use Cases: Description
+
+
+=== Use Case 1: Register User
+
+[horizontal]
+Name:: Register user
+Short description:: User register new user account.
+Actor:: Person
+Preconditions::
+* None
+Postconditions::
+* User has access to the platform by a registered user account.
+Main success scenario::
+. User navigates to register form.
+. User enters username.
+. User enters password.
+. User confirms password.
+. User submits registration.
+. System checks validity of provided registration credentials.
+. System registers user account.
+. System forwards user to login form.
+Extensions::
+* 6a) username is already taken.
+. System displays error message.
+. User enters different username.
+. User submits updated registration.
+
+
+=== Use Case 2: Login User
+
+[horizontal]
+Name:: Login user
+Short description:: User logs in.
+Actor:: Person
+Preconditions::
+* User has navigated to webpage of application.
+Postconditions::
+* User is logged in.
+* User is on starting page.
+Main success scenario::
+. User navigates to login form.
+. User enters username.
+. User enters password.
+. User submits login credentials.
+. System checks validity of provided login credentials.
+. System loggs user in.
+. System forwards user to starting page.
+Extensions::
+* 5a) Username is unkown.
+. System displays error message.
+. User re-enters username.
+. User submits updated login credentials.
+* 5b) Password is wrong.
+. System displays error message.
+. User re-enters password.
+. User submits updated login credentials.
+
+
+=== Use Case 3: Logout User
+
+[horizontal]
+Name:: Logout user
+Short description:: User logs off his account.
+Actor:: Person
+Preconditions::
+* User is logged in.
+Postconditions::
+* User is logged out.
+Main success scenario::
+. User clicks logout button.
+. System logs user off.
+Extensions::
+* None
+
+
+=== Use Case 4: View User Profile
+
+[horizontal]
+Name:: View user profile
+Short description:: User visits profile of another user.
+Actor:: Person
+Preconditions::
+* User is logged in.
+* User is on starting page.
+Postconditions::
+* None
+Main success scenario::
+. User enter username into searchbar.
+. System displays list of user and chats with similar or equal name.
+. User selects intended user from list.
+. System displays peer chat with this user.
+. User navigates to user's profile.
+. System displays profile page of selected user.
+Extensions::
+* None
+
+
+=== Use Case 5: Change User Profile
+
+[horizontal]
+Name:: Change profile
+Short description:: User changes his/her profile.
+Actor:: User
+Preconditions::
+* User is logged in.
+* User is on starting page.
+Postconditions::
+* Updated information are stored.
+* Other users have access to updated information.
+* Other users have noc access to previous information.
+Main success scenario::
+* User navigates to his profile.
+. User switches to "`edit`" view mode.
+. User enters name.
+. User enters bio text.
+. User enters country name.
+. User uploads image.
+. User confirms changes.
+. System stores updated information.
+. System shows updated profile.
+Extensions::
+* None
+
+
+=== Use Case 6: Create Group Chat
+
+[horizontal]
+Name:: Create group chat
+Short description:: User creates new group chat.
+Actor:: Person
+Preconditions::
+* User is logged in.
+* User is on starting page.
+Postconditions::
+* New group chat is created.
+* Group chat is visible to all users that are member of it.
+Main success scenario::
+. User navigates to "new group chat" formular page.
+. User enters name of group chat.
+. User submits input.
+. System creates new group chat.
+. System confirms creation to user.
+Extensions::
+* 2a) User enters description of group chat.
+* 2b) User uploads image.
+
+
+=== Use Case 7: Store Foreign Service Account Credential
+
+[horizontal]
+Name:: Store foreign service account credential
+Short description:: User stores his login credential for a foreign service.
+Actor:: Person
+Preconditions::
+* User is logged in.
+* User is on starting page.
+Postconditions::
+* Login credential is stored.
+Main success scenario::
+. User navigates to his user account setting page.
+. System displays all supported foreign services and mark those for whom login credentials are stored.
+. User selects service.
+. User enters new login credential.
+. User submits input.
+. System stores entered login credentials.
+. System confirms storage.
+Extensions::
+* 2*) Actual login credentials are not displayed.
+* 6a) System overrides previous login credentials if they exist.
+
+
+=== Use Case 8: Send Message
+
+[horizontal]
+Name:: Send Message
+Short description:: User sends message to another user directly in a peer chat or in a group chat.
+Actor:: User
+Preconditions::
+* User is logged in.
+* User is on starting page.
+Postconditions::
+* Message is stored.
+* Receiver(s) can read the message.
+Main success scenario::
+. User enters name of user or group chat into searchbar.
+. System displays list of user and group chats with similar or equal names.
+. User selects intended user or group chat from list.
+. System displays peer chat with this selected user or group chat.
+. User selects receiving user or group chat from visible list.
+. User types message into textfield.
+. User confirms message.
+. System stores message.
+. System shows sent message in chat.
+Extensions::
+* 6a) User attaches attachement to message.
+. User selects local file.
+. User uploads file.
+. System verifies file format.
+. System stores attachement.
+
+=== Use Case 9: Change Profile of Group Chat
+
+[horizontal]
+Name:: Change profile of group chat
+Short description:: User changes profil of group chat.
+Actor:: User
+Preconditions::
+* User is logged in.
+* User is member in group chat.
+* User has permission to change profile of group chat.
+* User is on page of group chat.
+Postconditions::
+* Group chat's profile is changed.
+Main success scenario::
+. User navigates to group chat's information page.
+. User enters name of chat.
+. User uploads image.
+. User confirms changes.
+. System stores updated information.
+. System shows updated profile.
+Extensions::
+* None
+
+
+=== Use Case 10: Change Group Chat Membership of User
+
+[horizontal]
+Name:: Change group chat membership of user
+Short description:: User changes the group chat membership of an group chat member.
+Actor:: User
+Preconditions::
+* User is logged in.
+* User is member in group chat.
+* User has permission to change membership of other group chat members.
+* User is on page of group chat.
+Postconditions::
+* The membership of another group chat member is altered.
+Main success scenario::
+. User navigates to group chat's information page.
+. User selects a group chat member.
+. User selects new membership status from list.
+. User confirms selected new membership.
+. System alters status and privilege of selected user.
+. System displays confirmatation.
+Extensions::
+* None
+
+
+=== Use Case 11: Leave Group Chat
+
+[horizontal]
+Name:: Leave group chat
+Short description:: User leaves a group chat he or she is member in.
+Actor:: User
+Preconditions::
+* User is logged in.
+* User is member in group chat.
+* User is on page of group chat.
+Postconditions::
+* User is not a member of the group chat.
+Main success scenario::
+. User navigates to group chat's information page.
+. User uses button to leave group chat.
+. User confirms intended action.
+. System updates user's membership of the group chat.
+. System displays confirmation of user's leave.
+. System redirects user to starting page.
+Extensions::
+* None

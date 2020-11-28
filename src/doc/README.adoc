@@ -1,0 +1,18 @@
+= Planing and documentation
+Benno Bielmeier <benno.bielmeier@st.othr.de>
+:plantuml-proxy: http://www.plantuml.com/plantuml/proxy
+:raw-path: https://raw.githubusercontent.com/bbenno/oth-sw/doc/src/doc
+
+Hereafter the use cases, the domain model as well as the component overview can be found as UML diagrams.
+
+== Use Case
+
+image::{plantuml-proxy}?src={raw-path}/uml-usecase.puml[]
+
+== Domain
+
+image::{plantuml-proxy}?src={raw-path}/uml-domain.puml[]
+
+== Componet
+
+image::{plantuml-proxy}?src={raw-path}/uml-component.puml[]

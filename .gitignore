@@ -4,6 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Doc ###
+src/doc/*.png
+
 ### STS ###
 .apt_generated
 .classpath
