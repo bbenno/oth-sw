@@ -1,7 +1,11 @@
 package de.othr.bib48218.chat.entity;
 
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import java.util.Collection;
 
-public abstract class Chat {
-    private List<Message> messages;
+@Entity
+public abstract class Chat extends IdEntity {
+    @OneToMany
+    private Collection<Message> messages;
 }

@@ -1,6 +1,12 @@
 package de.othr.bib48218.chat.entity;
 
-public abstract class Profile {
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Profile extends IdEntity {
     private String name;
     private String imagePath;
 }

@@ -1,15 +1,17 @@
 package de.othr.bib48218.chat.entity;
 
-import org.springframework.lang.Nullable;
-
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import java.time.ZonedDateTime;
 
-public class Message {
+@Entity
+public class Message extends IdEntity {
     private String text;
     private ZonedDateTime timestamp;
+    @OneToOne
     private Attachment attachment;
-    @Nullable
+    @OneToOne
     private User author;
-    @Nullable
+    @OneToOne
     private Message replyOf;
 }
