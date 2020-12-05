@@ -21,16 +21,19 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<!-- Core starter, including auto-configuration support, logging and YAML -->
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<!-- Starter for building web, including RESTful, applications using Spring MVC. Uses Tomcat as the default embedded container -->
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<!-- Starter for using Spring Data JPA with Hibernate -->
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
@@ -42,6 +45,7 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<!-- Starter for testing Spring Boot applications with libraries including JUnit, Hamcrest and Mockito -->
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 			<exclusions>
