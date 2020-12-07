@@ -2,11 +2,14 @@ package de.othr.bib48218.chat.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.time.ZonedDateTime;
 
 @Entity
 public class Message extends IdEntity {
     private String text;
+    @Temporal(TemporalType.TIMESTAMP)
     private ZonedDateTime timestamp;
     @OneToOne
     private Attachment attachment;
