@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 
 @Entity
 public class Bot extends User {
-  public Bot() {
-    super();
-  }
+    public Bot() {
+        super();
+    }
 }
