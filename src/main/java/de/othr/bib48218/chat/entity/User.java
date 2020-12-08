@@ -8,8 +8,8 @@ import javax.persistence.OneToOne;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class User extends IdEntity {
-    @Column(unique = true)
+public abstract class User {
+    @Id
     private String username;
     private String password;
     @OneToOne

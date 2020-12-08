@@ -5,6 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
-public interface UserRepository<TUser extends User> extends CrudRepository<TUser, Long> {
-    TUser findByUsername(String username);
+public interface UserRepository<TUser extends User> extends CrudRepository<TUser, String> {
 }

@@ -5,7 +5,10 @@ import javax.persistence.OneToMany;
 import java.util.Collection;
 
 @Entity
-public abstract class Chat extends IdEntity {
+public abstract class Chat {
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
     @OneToMany
     private Collection<Message> messages;
 
