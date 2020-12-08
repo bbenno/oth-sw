@@ -8,7 +8,8 @@ public class Attachment extends IdEntity {
     private String name;
     private String mimeType;
 
-    protected Attachment() {}
+    protected Attachment() {
+    }
 
     public Attachment(int size, String name, String mimeType) {
         this.size = size;
@@ -17,12 +18,14 @@ public class Attachment extends IdEntity {
     }
 
     public int getSize() {
-        return size;
+        return this.size;
     }
+
     public String getName() {
-        return name;
+        return this.name;
     }
+
     public String getMimeType() {
-        return mimeType;
+        return this.mimeType;
     }
 }
