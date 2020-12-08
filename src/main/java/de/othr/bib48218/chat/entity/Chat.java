@@ -12,4 +12,7 @@ public abstract class Chat extends IdEntity {
     public Collection<Message> getMessages() {
         return this.messages;
     }
+
+    protected Chat() {
+    }
 }
