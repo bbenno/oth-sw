@@ -1,6 +1,6 @@
 package de.othr.bib48218.chat.entity;
 
-import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
