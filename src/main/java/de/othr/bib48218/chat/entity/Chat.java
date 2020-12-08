@@ -8,4 +8,11 @@ import java.util.Collection;
 public abstract class Chat extends IdEntity {
     @OneToMany
     private Collection<Message> messages;
+
+    public Collection<Message> getMessages() {
+        return this.messages;
+    }
+
+    protected Chat() {
+    }
 }

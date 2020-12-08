@@ -4,4 +4,7 @@ import javax.persistence.Entity;
 
 @Entity
 public class PeerChat extends Chat {
+  public PeerChat() {
+    super();
+  }
 }
