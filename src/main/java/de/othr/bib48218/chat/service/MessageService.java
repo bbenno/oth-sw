@@ -6,6 +6,7 @@ import de.othr.bib48218.chat.repository.MessageRepository;
 import de.othr.bib48218.chat.repository.UserRepository;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,9 +21,9 @@ public class MessageService implements IFMessageService {
     private UserRepository userRepository;
 
     @Override
-    public User findUserByUsername(String username, String serviceToken) {
+    public Optional<User> findUserByUsername(String username, String serviceToken) {
         // TODO: Check serviceToken
-        return userRepository.findByUsername(username);
+        return userRepository.findById(username);
     }
 
     @Override
