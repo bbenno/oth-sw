@@ -11,4 +11,29 @@ public class Person extends User {
     private String email;
     @OneToMany
     private Collection<ServiceCredential> credentials;
+
+    protected Person() {
+    }
+
+    public Person(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public Collection<ServiceCredential> getCredentials() {
+        return this.credentials;
+    }
 }
