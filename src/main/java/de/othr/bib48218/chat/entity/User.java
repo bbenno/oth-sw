@@ -15,6 +15,9 @@ public abstract class User extends IdEntity {
     @OneToOne
     private UserProfile profile;
 
+    protected User() {
+    }
+
     protected User(String username, String password, UserProfile profile) {
         this.username = username;
         this.password = password;

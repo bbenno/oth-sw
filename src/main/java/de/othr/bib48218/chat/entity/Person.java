@@ -13,9 +13,11 @@ public class Person extends User {
     private Collection<ServiceCredential> credentials;
 
     protected Person() {
+        super();
     }
 
-    public Person(String firstName, String lastName, String email) {
+    public Person(String username, String password, UserProfile profile, String firstName, String lastName, String email) {
+        super(username, password, profile);
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
