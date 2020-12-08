@@ -1,6 +1,6 @@
 package de.othr.bib48218.chat.entity;
 
-import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -8,8 +8,8 @@ import javax.persistence.OneToOne;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class User extends IdEntity {
-    @Column(unique = true)
+public abstract class User {
+    @Id
     private String username;
     private String password;
     @OneToOne

@@ -1,11 +1,17 @@
 package de.othr.bib48218.chat.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.Collection;
 
 @Entity
-public abstract class Chat extends IdEntity {
+public abstract class Chat {
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
     @OneToMany
     private Collection<Message> messages;
 
