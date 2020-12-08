@@ -9,4 +9,16 @@ import javax.persistence.InheritanceType;
 public abstract class Profile extends IdEntity {
     private String name;
     private String imagePath;
+
+    protected Profile(String name, String imagePath) {
+        this.name = name;
+        this.imagePath = imagePath;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+    public String getImagePath() {
+        return this.imagePath;
+    }
 }
