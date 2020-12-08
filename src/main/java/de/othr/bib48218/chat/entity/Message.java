@@ -14,4 +14,29 @@ public class Message extends IdEntity {
     private User author;
     @OneToOne
     private Message replyOf;
+
+    protected Message() {}
+    public Message(String text, ZonedDateTime timestamp, Attachment attachment, User author, Message replyOf) {
+        this.text = text;
+        this.timestamp = timestamp;
+        this.attachment = attachment;
+        this.author = author;
+        this.replyOf = replyOf;
+    }
+
+    public String getText() {
+        return this.text;
+    }
+    public ZonedDateTime getTimestamp() {
+        return this.timestamp;
+    }
+    public Attachment getAttachment() {
+        return this.attachment;
+    }
+    public User getAuthor() {
+        return this.author;
+    }
+    public Message getReplyOf() {
+        return this.replyOf;
+    }
 }
