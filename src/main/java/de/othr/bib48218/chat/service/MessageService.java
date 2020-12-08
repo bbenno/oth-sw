@@ -8,12 +8,14 @@ import de.othr.bib48218.chat.repository.UserRepository;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MessageService implements IFMessageService {
     @Autowired
     private MessageRepository repository;
+    @Qualifier("personRepository")
     @Autowired
     private UserRepository userRepository;
 
