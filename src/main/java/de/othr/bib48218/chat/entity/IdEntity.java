@@ -8,7 +8,8 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class IdEntity {
     @Id
-    // Generating id with the GenerationType.IDENTITY has drawbacks concerning performance.
+    // Generating id with the GenerationType.IDENTITY has drawbacks concerning
+    // performance.
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -18,8 +19,12 @@ public abstract class IdEntity {
 
     @Override
     public boolean equals(Object o) {
-        if(!o.getClass().equals(this.getClass()))
+        if (o == null) {
             return false;
+        }
+        if (!o.getClass().equals(this.getClass())) {
+            return false;
+        }
         IdEntity other = (IdEntity) o;
         return this.id == other.id;
     }
