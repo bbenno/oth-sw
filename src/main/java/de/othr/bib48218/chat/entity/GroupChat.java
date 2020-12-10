@@ -1,9 +1,11 @@
 package de.othr.bib48218.chat.entity;
 
+import lombok.Getter;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
 @Entity
+@Getter
 public class GroupChat extends Chat {
     private GroupVisibility visibility;
     @OneToOne
@@ -17,13 +19,5 @@ public class GroupChat extends Chat {
         super();
         this.visibility = visibility;
         this.profile = profile;
-    }
-
-    public GroupVisibility getVisibility() {
-        return this.visibility;
-    }
-
-    public ChatProfile getProfile() {
-        return this.profile;
     }
 }

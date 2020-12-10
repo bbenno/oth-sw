@@ -1,5 +1,6 @@
 package de.othr.bib48218.chat.entity;
 
+import lombok.Getter;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -7,6 +8,7 @@ import javax.persistence.TemporalType;
 import java.time.ZonedDateTime;
 
 @Entity
+@Getter
 public class Message extends IdEntity {
     private String text;
     @Temporal(TemporalType.TIMESTAMP)
@@ -25,21 +27,5 @@ public class Message extends IdEntity {
         this.attachment = attachment;
         this.author = author;
         this.replyOf = replyOf;
-    }
-
-    public String getText() {
-        return this.text;
-    }
-    public ZonedDateTime getTimestamp() {
-        return this.timestamp;
-    }
-    public Attachment getAttachment() {
-        return this.attachment;
-    }
-    public User getAuthor() {
-        return this.author;
-    }
-    public Message getReplyOf() {
-        return this.replyOf;
     }
 }

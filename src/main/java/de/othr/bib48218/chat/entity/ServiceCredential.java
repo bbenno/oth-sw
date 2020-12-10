@@ -1,8 +1,10 @@
 package de.othr.bib48218.chat.entity;
 
+import lombok.Getter;
 import javax.persistence.Entity;
 
 @Entity
+@Getter
 public class ServiceCredential extends IdEntity {
     private String loginToken;
     private ServiceType serviceType;
@@ -13,13 +15,5 @@ public class ServiceCredential extends IdEntity {
     public ServiceCredential(String loginToken, ServiceType serviceType) {
         this.loginToken = loginToken;
         this.serviceType = serviceType;
-    }
-
-    public String getLoginToken() {
-        return this.loginToken;
-    }
-
-    public ServiceType getServiceType() {
-        return this.serviceType;
     }
 }

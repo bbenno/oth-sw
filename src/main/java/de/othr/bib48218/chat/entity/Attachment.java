@@ -1,8 +1,10 @@
 package de.othr.bib48218.chat.entity;
 
+import lombok.Getter;
 import javax.persistence.Entity;
 
 @Entity
+@Getter
 public class Attachment extends IdEntity {
     private int size;
     private String name;
@@ -15,17 +17,5 @@ public class Attachment extends IdEntity {
         this.size = size;
         this.name = name;
         this.mimeType = mimeType;
-    }
-
-    public int getSize() {
-        return this.size;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getMimeType() {
-        return this.mimeType;
     }
 }

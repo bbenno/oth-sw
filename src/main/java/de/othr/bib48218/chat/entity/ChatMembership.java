@@ -1,9 +1,11 @@
 package de.othr.bib48218.chat.entity;
 
+import lombok.Getter;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
 @Entity
+@Getter
 public class ChatMembership extends IdEntity {
     @OneToOne
     private Chat chat;
@@ -18,17 +20,5 @@ public class ChatMembership extends IdEntity {
         this.status = status;
         this.chat = chat;
         this.user = user;
-    }
-
-    public Chat getChat() {
-        return this.chat;
-    }
-
-    public ChatMemberStatus getStatus() {
-        return this.status;
-    }
-
-    public User getUser() {
-        return this.user;
     }
 }
