@@ -25,3 +25,6 @@ build/
 
 ## IDEAS ##
 .idea/
+*.iml
+
+/out/
