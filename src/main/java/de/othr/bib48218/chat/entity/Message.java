@@ -11,7 +11,6 @@ import java.time.ZonedDateTime;
 @Getter
 public class Message extends IdEntity {
     private String text;
-    @Temporal(TemporalType.TIMESTAMP)
     private ZonedDateTime timestamp;
     @OneToOne
     private Attachment attachment;
