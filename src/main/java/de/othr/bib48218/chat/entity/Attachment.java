@@ -17,10 +17,4 @@ public class Attachment extends IdEntity {
     private String name;
     @NonNull
     private String mimeType;
-
-    public Attachment(int size, String name, String mimeType) {
-        this.size = size;
-        this.name = name;
-        this.mimeType = mimeType;
-    }
 }
