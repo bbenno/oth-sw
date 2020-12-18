@@ -1,16 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Chat based on SpringBoot">
-  <meta name="author" content="Benno Bielmeier">
   <title>New Person</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
   <link href="form-validation.css" rel="stylesheet">
 </head>
+
+<head th:replace="common/header :: head" />
 
 <body>
   <div class="container">
@@ -50,16 +46,18 @@
                   </div>
                 </div>
               </div>
-              
+
               <div class="col-12">
                 <label for="password" class="form-label">Password</label>
                 <div class="input-group">
-                  <input type="password" class="form-control" id="password" placeholder="Password" aria-describedby="passwordHelpBlock" required>
+                  <input type="password" class="form-control" id="password" placeholder="Password"
+                    aria-describedby="passwordHelpBlock" required>
                   <div class="invalid-feedback">
                     A strong password is required.
                   </div>
                   <div id="passwordHelpBlock" class="form-text">
-                    Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase letter. 
+                    Make sure it's at least 15 characters OR at least 8 characters including a number and a lowercase
+                    letter.
                   </div>
                 </div>
               </div>
