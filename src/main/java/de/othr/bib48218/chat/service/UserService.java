@@ -12,10 +12,17 @@ import java.util.Optional;
 public class UserService implements IFUserService {
     @Qualifier("personRepository")
     @Autowired
-    private UserRepository repository;
+    private UserRepository personRepository;
+
+    @Qualifier("botRepository")
+    @Autowired
+    private UserRepository botRepository;
 
     @Override
     public Optional<User> findByUsername(String username) {
-        return repository.findById(username);
+        Optional<User> found_person;
+        found_person = personRepository.findById(username);
+
+        return (found_person.isPresent()) ? found_person : botRepository.findById(username);
     }
 }
