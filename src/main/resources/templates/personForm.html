@@ -18,11 +18,11 @@
 
       <div class="row g-3 justify-content-center">
         <div class="col-md-7 col-lg-8">
-          <form class="needs-validation" novalidate>
+          <form class="needs-validation" th:action="@{'new'}" th:method="post" novalidate>
             <div class="row g-3">
               <div class="col-sm-6">
                 <label for="firstName" class="form-label">First name <span class="text-muted">(Optional)</span></label>
-                <input type="text" class="form-control" id="firstName" placeholder="" value="">
+                <input type="text" name="firstName" class="form-control" id="firstName" placeholder="" value="">
                 <div class="invalid-feedback">
                   Please enter your first name in order to be found by friends.
                 </div>
@@ -30,7 +30,7 @@
 
               <div class="col-sm-6">
                 <label for="lastName" class="form-label">Last name <span class="text-muted">(Optional)</span></label>
-                <input type="text" class="form-control" id="lastName" placeholder="" value="">
+                <input type="text" name="lastName" class="form-control" id="lastName" placeholder="" value="">
                 <div class="invalid-feedback">
                   Please enter your last name in order to be found by friends.
                 </div>
@@ -40,7 +40,7 @@
                 <label for="username" class="form-label">Username</label>
                 <div class="input-group">
                   <span class="input-group-text">@</span>
-                  <input type="text" class="form-control" id="username" placeholder="Username" required>
+                  <input type="text" name="username" class="form-control" id="username" placeholder="Username" required>
                   <div class="invalid-feedback">
                     Your username is required.
                   </div>
@@ -50,7 +50,7 @@
               <div class="col-12">
                 <label for="password" class="form-label">Password</label>
                 <div class="input-group">
-                  <input type="password" class="form-control" id="password" placeholder="Password"
+                  <input type="password" name="password" class="form-control" id="password" placeholder="Password"
                     aria-describedby="passwordHelpBlock" required>
                   <div class="invalid-feedback">
                     A strong password is required.
@@ -64,7 +64,7 @@
 
               <div class="col-12">
                 <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
-                <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                <input type="email" name="email" class="form-control" id="email" placeholder="you@example.com">
                 <div class="invalid-feedback">
                   Please enter a valid email address notifications.
                 </div>
@@ -72,7 +72,7 @@
 
               <div class="col-md-5">
                 <label for="country" class="form-label">Country <span class="text-muted">(Optional)</span></label>
-                <select class="form-select" id="country">
+                <select class="form-select" name="country" id="country">
                   <option value="">Choose...</option>
                   <option value="US">United States</option>
                   <option value="DE">Germany</option>
