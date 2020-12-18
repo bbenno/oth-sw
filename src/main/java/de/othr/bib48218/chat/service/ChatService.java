@@ -9,5 +9,9 @@ import org.springframework.stereotype.Service;
 public class ChatService implements IFChatService {
     @Qualifier("groupChatRepository")
     @Autowired
-    private ChatRepository repository;
+    private ChatRepository groupChatRepository;
+
+    @Qualifier("peerChatRepository")
+    @Autowired
+    private ChatRepository peerChatRepository;
 }
