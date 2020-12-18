@@ -1,5 +1,6 @@
 package de.othr.bib48218.chat.service;
 
+import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,10 @@ public class UserService implements IFUserService {
         found_person = personRepository.findById(username);
 
         return (found_person.isPresent()) ? found_person : botRepository.findById(username);
+    }
+
+    @Override
+    public Person createPerson(Person person) {
+        return (Person) personRepository.save(person);
     }
 }
