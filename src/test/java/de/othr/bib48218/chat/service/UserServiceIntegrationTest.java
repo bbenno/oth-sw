@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Bean;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class UserServiceIntegrationTest {
+class UserServiceIntegrationTest {
     @Autowired
     private IFUserService userService;
     @MockBean
@@ -24,7 +24,7 @@ public class UserServiceIntegrationTest {
     private BotRepository botRepository;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         Person joe = new Person(
                 "joe",
                 "",
@@ -37,7 +37,7 @@ public class UserServiceIntegrationTest {
     }
 
     @Test
-    public void whenValidFirstName_thenPersonShouldBeFound() {
+    void whenValidFirstName_thenPersonShouldBeFound() {
         String firstName = "Joe";
         Person found = userService.getPersonByFirstName(firstName);
 
@@ -48,7 +48,7 @@ public class UserServiceIntegrationTest {
     @TestConfiguration
     static class UserServiceTestContextConfiguration {
         @Bean
-        public IFUserService ifUserService() {
+        IFUserService ifUserService() {
             return new UserService();
         }
     }

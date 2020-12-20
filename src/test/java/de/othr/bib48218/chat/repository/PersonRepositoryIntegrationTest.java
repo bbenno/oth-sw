@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class PersonRepositoryIntegrationTest {
+class PersonRepositoryIntegrationTest {
     @Autowired
     private TestEntityManager entityManager;
 
@@ -19,7 +19,7 @@ public class PersonRepositoryIntegrationTest {
     private PersonRepository personRepository;
 
     @Test
-    public void whenFindByFirstName_thenReturnPerson() {
+    void whenFindByFirstName_thenReturnPerson() {
         // given
         Person joe = new Person(
                 "joe",
@@ -42,7 +42,7 @@ public class PersonRepositoryIntegrationTest {
     }
 
     @Test
-    public void whenFindByUsername_thenReturnPerson() {
+    void whenFindByUsername_thenReturnPerson() {
         // given
         Person joe = new Person(
                 "joe",

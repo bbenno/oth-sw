@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class BotRepositoryIntegrationTest {
+class BotRepositoryIntegrationTest {
     @Autowired
     private TestEntityManager entityManager;
 
@@ -19,7 +19,7 @@ public class BotRepositoryIntegrationTest {
     private BotRepository botRepository;
 
     @Test
-    public void whenFindByUsername_thenReturnPerson() {
+    void whenFindByUsername_thenReturnPerson() {
         // given
         Bot newBot = new Bot(
                 "new_bot",
