@@ -3,8 +3,8 @@ package de.othr.bib48218.chat.service;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.repository.BotRepository;
 import de.othr.bib48218.chat.repository.PersonRepository;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class UserServiceIntegrationTest {
     @MockBean
     private BotRepository botRepository;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         Person joe = new Person(
                 "joe",
