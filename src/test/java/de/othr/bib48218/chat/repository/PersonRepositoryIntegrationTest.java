@@ -1,10 +1,14 @@
 package de.othr.bib48218.chat.repository;
 
+import de.othr.bib48218.chat.entity.Person;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -14,4 +18,27 @@ public class PersonRepositoryIntegrationTest {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Test
+    public void whenFindByFirstName_thenReturnPerson() {
+        // given
+        Person joe = new Person(
+                "joe",
+                "",
+                null,
+                "Joe",
+                "Smith",
+                "joe@smith.com");
+
+        entityManager.persist(joe);
+        entityManager.flush();
+
+        // when
+        Person found = personRepository.findByFirstName(joe.getFirstName());
+
+        // then
+        assertThat(found).isNotNull();
+        assertThat(found.getFirstName()).isEqualTo(joe.getFirstName());
+        assertThat(found).isEqualTo(joe);
+    }
 }
