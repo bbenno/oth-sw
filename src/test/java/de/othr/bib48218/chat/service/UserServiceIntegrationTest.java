@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class UserServiceIntegrationTest {
     @SuppressWarnings("SpringJavaAutowiredMembersInspection")
     @Autowired
-    private UserService userService;
+    private IFUserService userService;
     @MockBean
     private PersonRepository personRepository;
     @MockBean
@@ -48,7 +48,7 @@ public class UserServiceIntegrationTest {
     @TestConfiguration
     static class UserServiceTestContextConfiguration {
         @Bean
-        public UserService userService() {
+        public IFUserService ifUserService() {
             return new UserService();
         }
     }
