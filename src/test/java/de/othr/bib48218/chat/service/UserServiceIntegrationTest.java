@@ -16,7 +16,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class UserServiceIntegrationTest {
-    @SuppressWarnings("SpringJavaAutowiredMembersInspection")
     @Autowired
     private IFUserService userService;
     @MockBean
