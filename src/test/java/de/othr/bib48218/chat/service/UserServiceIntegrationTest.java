@@ -36,8 +36,7 @@ class UserServiceIntegrationTest {
                 "joe@smith.com");
         Bot bot = new Bot(
                 "botty",
-                "",
-                null);
+                "");
 
         Mockito.when(personRepository.findByFirstName(joe.getFirstName())).thenReturn(joe);
         Mockito.when(personRepository.findByUsername(joe.getUsername())).thenReturn(joe);

@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 @Getter
 @NoArgsConstructor
 public class Bot extends User {
-    public Bot(String username, String password, UserProfile profile) {
-        super(username, password, profile);
+    public Bot(String username, String password) {
+        super(username, password);
     }
 }

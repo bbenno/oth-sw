@@ -23,8 +23,7 @@ class BotRepositoryIntegrationTest {
         // given
         Bot newBot = new Bot(
                 "new_bot",
-                "",
-                null);
+                "");
 
         entityManager.persist(newBot);
         entityManager.flush();
