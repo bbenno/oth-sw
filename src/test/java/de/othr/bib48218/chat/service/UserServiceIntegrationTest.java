@@ -38,10 +38,11 @@ public class UserServiceIntegrationTest {
     }
 
     @Test
-    public void whenValidName_thenPersonShouldBeFound() {
+    public void whenValidFirstName_thenPersonShouldBeFound() {
         String firstName = "Joe";
         Person found = userService.getPersonByFirstName(firstName);
 
+        assertThat(found).isNotNull();
         assertThat(found.getFirstName()).isEqualTo(firstName);
     }
 
