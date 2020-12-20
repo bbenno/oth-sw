@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 public class UserServiceIntegrationTest {
+    @SuppressWarnings("SpringJavaAutowiredMembersInspection")
     @Autowired
     private UserService userService;
     @MockBean
