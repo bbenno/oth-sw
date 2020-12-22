@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 
@@ -15,10 +16,9 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 public abstract class User {
     @Id
-    @lombok.NonNull
+    @NonNull
     private String username;
-    @lombok.NonNull
-    @org.springframework.lang.NonNull
+    @NonNull
     private String password;
     @OneToOne
     private UserProfile profile;
