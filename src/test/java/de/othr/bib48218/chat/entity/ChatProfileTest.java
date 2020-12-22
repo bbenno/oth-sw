@@ -11,7 +11,6 @@ public class ChatProfileTest {
 
         // noinspection ConstantConditions
         assertThrows(NullPointerException.class, () -> chatProfile.setDescription(null));
-        assertThrows(NullPointerException.class, () -> new ChatProfile("name", null));
     }
 
     @Test
@@ -20,6 +19,5 @@ public class ChatProfileTest {
 
         // noinspection ConstantConditions
         assertThrows(NullPointerException.class, () -> chatProfile.setName(null));
-        assertThrows(NullPointerException.class, () -> new ChatProfile(null, "description"));
     }
 }

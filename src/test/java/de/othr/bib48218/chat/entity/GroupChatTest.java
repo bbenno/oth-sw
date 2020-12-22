@@ -10,6 +10,5 @@ public class GroupChatTest {
         var groupChat = new GroupChat();
 
         assertThrows(NullPointerException.class, () -> groupChat.setVisibility(null));
-        assertThrows(NullPointerException.class, () -> new GroupChat(null));
     }
 }
