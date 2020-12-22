@@ -18,6 +18,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class UserServiceIntegrationTest {
+    private static final Person joe = new Person(
+        "joe",
+        "",
+        "Joe",
+        "Smith",
+        "joe@smith.com");
+    private static final Bot bot = new Bot(
+        "botty",
+        "");
     @Autowired
     private IFUserService userService;
     @MockBean
@@ -27,16 +36,6 @@ class UserServiceIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        Person joe = new Person(
-                "joe",
-                "",
-                "Joe",
-                "Smith",
-                "joe@smith.com");
-        Bot bot = new Bot(
-                "botty",
-                "");
-
         Mockito.when(personRepository.findByFirstName(joe.getFirstName())).thenReturn(joe);
         Mockito.when(personRepository.findByUsername(joe.getUsername())).thenReturn(joe);
         Mockito.when(botRepository.findByUsername(bot.getUsername())).thenReturn(bot);
@@ -45,7 +44,7 @@ class UserServiceIntegrationTest {
     @Test
     void whenValidFirstName_thenPersonShouldBeFound() {
         // given
-        String firstName = "Joe";
+        String firstName = joe.getFirstName();
 
         // when
         Person found = userService.getPersonByFirstName(firstName);
@@ -58,7 +57,7 @@ class UserServiceIntegrationTest {
     @Test
     void whenValidBotUsername_thenBotShouldBeFound() {
         // given
-        String username = "botty";
+        String username = bot.getUsername();
 
         // when
         Bot found = userService.getBotByUsername(username);
@@ -71,7 +70,7 @@ class UserServiceIntegrationTest {
     @Test
     void whenValidPersonUsername_thenPersonShouldBeFound() {
         // given
-        String username = "joe";
+        String username = joe.getUsername();
 
         // when
         Person found = userService.getPersonByUsername(username);
@@ -84,7 +83,7 @@ class UserServiceIntegrationTest {
     @Test
     void whenValidUsername_thenUserShouldBeFound() {
         // given
-        String username = "botty";
+        String username = bot.getUsername();
 
         // when
         User found = userService.getUserByUsername(username);
