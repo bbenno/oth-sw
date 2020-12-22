@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -36,5 +37,11 @@ class BotRepositoryIntegrationTest {
         assertThat(found).isNotNull();
         assertThat(found.getUsername()).isEqualTo(bot.getUsername());
         assertThat(found).isEqualTo(bot);
+    }
+
+    @Test
+    void usernameShouldBeUnique() {
+        var bot2 = new Bot(bot.getUsername(), ".-.");
+        assertThrows(Exception.class, () -> entityManager.persist(bot2));
     }
 }
