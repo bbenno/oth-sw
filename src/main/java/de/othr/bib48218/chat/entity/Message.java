@@ -24,11 +24,36 @@ public class Message extends IdEntity {
     @OneToOne
     private Message replyOf;
 
-    public Message(String text, LocalDateTime timestamp, Attachment attachment, User author, Message replyOf) {
+    public Message(@NonNull String text,
+                   @NonNull User author,
+                   @NonNull LocalDateTime timestamp) {
         this.text = text;
-        this.timestamp = timestamp;
-        this.attachment = attachment;
         this.author = author;
+        this.timestamp = timestamp;
+    }
+
+    public Message(@NonNull String text,
+                   @NonNull User author,
+                   @NonNull LocalDateTime timestamp,
+                   @NonNull Attachment attachment) {
+        this(text, author, timestamp);
+        this.attachment = attachment;
+    }
+
+    public Message(@NonNull String text,
+                   @NonNull User author,
+                   @NonNull LocalDateTime timestamp,
+                   @NonNull Attachment attachment,
+                   @NonNull Message replyOf) {
+        this(text, author, timestamp, attachment);
+        this.replyOf = replyOf;
+    }
+
+    public Message(@NonNull String text,
+                   @NonNull User author,
+                   @NonNull LocalDateTime timestamp,
+                   @NonNull Message replyOf) {
+        this(text, author, timestamp);
         this.replyOf = replyOf;
     }
 }

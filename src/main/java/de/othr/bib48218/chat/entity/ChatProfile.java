@@ -15,7 +15,7 @@ public class ChatProfile extends Profile {
     @NonNull
     private String description;
 
-    public ChatProfile(final String name, final String description) {
+    public ChatProfile(@NonNull String name, @NonNull String description) {
         super(name);
         this.description = description;
     }

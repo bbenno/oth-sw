@@ -1,20 +1,18 @@
 package de.othr.bib48218.chat.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+import org.springframework.lang.NonNull;
 
 import javax.persistence.Entity;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ServiceCredential extends IdEntity {
-    @lombok.NonNull
-    @org.springframework.lang.NonNull
+    @NonNull
     private String loginToken;
-    @lombok.NonNull
-    @org.springframework.lang.NonNull
+    @NonNull
     private ServiceType serviceType;
 }

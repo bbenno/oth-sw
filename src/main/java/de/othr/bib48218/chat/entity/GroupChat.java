@@ -18,7 +18,7 @@ public class GroupChat extends Chat {
     @OneToOne
     private ChatProfile profile;
 
-    public GroupChat(GroupVisibility visibility) {
+    public GroupChat(@NonNull GroupVisibility visibility) {
         this.visibility = visibility;
     }
 }
