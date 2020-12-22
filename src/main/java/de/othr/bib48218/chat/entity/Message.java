@@ -6,7 +6,7 @@ import org.springframework.lang.NonNull;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -15,7 +15,7 @@ public class Message extends IdEntity {
     @NonNull
     private String text;
     @NonNull
-    private ZonedDateTime timestamp;
+    private LocalDateTime timestamp;
     @OneToOne
     private Attachment attachment;
     @OneToOne
@@ -24,7 +24,7 @@ public class Message extends IdEntity {
     @OneToOne
     private Message replyOf;
 
-    public Message(String text, ZonedDateTime timestamp, Attachment attachment, User author, Message replyOf) {
+    public Message(String text, LocalDateTime timestamp, Attachment attachment, User author, Message replyOf) {
         this.text = text;
         this.timestamp = timestamp;
         this.attachment = attachment;
