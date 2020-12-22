@@ -9,6 +9,7 @@ public class GroupChatTest {
     void shouldHaveVisibility() {
         var groupChat = new GroupChat();
 
+        // noinspection ConstantConditions
         assertThrows(NullPointerException.class, () -> groupChat.setVisibility(null));
     }
 }

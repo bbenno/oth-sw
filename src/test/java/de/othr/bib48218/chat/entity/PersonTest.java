@@ -9,6 +9,7 @@ public class PersonTest {
     void shouldHaveUsername() {
         var person = new Person();
 
+        // noinspection ConstantConditions
         assertThrows(NullPointerException.class, () -> person.setUsername(null));
     }
 
@@ -16,6 +17,7 @@ public class PersonTest {
     void shouldHavePassword() {
         var person = new Person();
 
+        // noinspection ConstantConditions
         assertThrows(NullPointerException.class, () -> person.setPassword(null));
     }
 }
