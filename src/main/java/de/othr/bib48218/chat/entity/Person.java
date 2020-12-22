@@ -18,7 +18,7 @@ public class Person extends User {
     private Collection<ServiceCredential> credentials;
 
     public Person(String username, String password, UserProfile profile, String firstName, String lastName, String email) {
-        super(username, password, profile);
+        super(username, password);
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
