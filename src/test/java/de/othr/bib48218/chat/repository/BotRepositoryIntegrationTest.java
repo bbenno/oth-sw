@@ -1,6 +1,7 @@
 package de.othr.bib48218.chat.repository;
 
 import de.othr.bib48218.chat.entity.Bot;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -12,28 +13,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class BotRepositoryIntegrationTest {
+    private final Bot bot = new Bot(
+        "new_bot",
+        "");
+
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
     private BotRepository botRepository;
 
+    @BeforeEach
+    void setup() {
+        entityManager.persist(bot);
+        entityManager.flush();
+    }
+
     @Test
     void whenFindByUsername_thenReturnPerson() {
-        // given
-        Bot newBot = new Bot(
-                "new_bot",
-                "");
+        Bot found = botRepository.findByUsername(bot.getUsername());
 
-        entityManager.persist(newBot);
-        entityManager.flush();
-
-        // when
-        Bot found = botRepository.findByUsername(newBot.getUsername());
-
-        // then
         assertThat(found).isNotNull();
-        assertThat(found.getUsername()).isEqualTo(newBot.getUsername());
-        assertThat(found).isEqualTo(newBot);
+        assertThat(found.getUsername()).isEqualTo(bot.getUsername());
+        assertThat(found).isEqualTo(bot);
     }
 }
