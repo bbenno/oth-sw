@@ -30,7 +30,6 @@ class UserServiceIntegrationTest {
         Person joe = new Person(
                 "joe",
                 "",
-                null,
                 "Joe",
                 "Smith",
                 "joe@smith.com");
