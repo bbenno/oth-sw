@@ -1,21 +1,25 @@
 package de.othr.bib48218.chat.entity;
 
-import lombok.NonNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Profile extends IdEntity {
+public abstract class Profile {
+    @Id
+    @NonNull
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
     @NonNull
     private String name;
     private String imagePath;
+
+    protected Profile(String name) {
+        this.name = name;
+    }
 }
