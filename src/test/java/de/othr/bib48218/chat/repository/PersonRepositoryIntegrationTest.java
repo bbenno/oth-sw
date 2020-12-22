@@ -24,7 +24,6 @@ class PersonRepositoryIntegrationTest {
         Person joe = new Person(
                 "joe",
                 "",
-                null,
                 "Joe",
                 "Smith",
                 "joe@smith.com");
@@ -47,7 +46,6 @@ class PersonRepositoryIntegrationTest {
         Person joe = new Person(
                 "joe",
                 "",
-                null,
                 "Joe",
                 "Smith",
                 "joe@smith.com");

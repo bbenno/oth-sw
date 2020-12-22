@@ -1,22 +1,22 @@
 package de.othr.bib48218.chat.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @NoArgsConstructor
 @RequiredArgsConstructor
+@EqualsAndHashCode
 public abstract class User {
     @Id
-    @lombok.NonNull
+    @NonNull
     private String username;
-    @lombok.NonNull
-    @org.springframework.lang.NonNull
+    @NonNull
     private String password;
     @OneToOne
     private UserProfile profile;
