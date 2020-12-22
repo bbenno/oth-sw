@@ -49,4 +49,10 @@ class PersonRepositoryIntegrationTest {
         assertThat(found.getUsername()).isEqualTo(joe.getUsername());
         assertThat(found).isEqualTo(joe);
     }
+
+    @Test
+    void usernameShouldBeUnique() {
+        Person joe2 = new Person(joe.getUsername(), "-.-");
+        assertThrows(Exception.class, () -> entityManager.persist(joe2));
+    }
 }
