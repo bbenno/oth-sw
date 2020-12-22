@@ -11,13 +11,15 @@ public class AttachmentTest {
     void nameShouldNotBeNull() {
         var attachment = new Attachment();
 
-        assertThrows(Exception.class, () -> attachment.setName(null));
+        // noinspection ConstantConditions
+        assertThrows(NullPointerException.class, () -> attachment.setName(null));
     }
 
     @Test
     void mimeTypeShouldNotBeNull() {
         var attachment = new Attachment();
 
-        assertThrows(Exception.class, () -> attachment.setMimeType(null));
+        // noinspection ConstantConditions
+        assertThrows(NullPointerException.class, () -> attachment.setMimeType(null));
     }
 }
