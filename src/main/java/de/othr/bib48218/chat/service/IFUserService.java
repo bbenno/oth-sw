@@ -9,4 +9,6 @@ public interface IFUserService {
     User getUserByUsername(String username);
     Person getPersonByUsername(String username);
     Bot getBotByUsername(String username);
+    Person createPerson(Person person);
+    Bot createBot(Bot bot);
 }

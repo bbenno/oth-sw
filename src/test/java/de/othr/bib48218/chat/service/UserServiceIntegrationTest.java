@@ -39,6 +39,8 @@ class UserServiceIntegrationTest {
         Mockito.when(personRepository.findByFirstName(joe.getFirstName())).thenReturn(joe);
         Mockito.when(personRepository.findByUsername(joe.getUsername())).thenReturn(joe);
         Mockito.when(botRepository.findByUsername(bot.getUsername())).thenReturn(bot);
+        Mockito.when(personRepository.save(joe)).thenReturn(joe);
+        Mockito.when(botRepository.save(bot)).thenReturn(bot);
     }
 
     @Test
@@ -91,6 +93,28 @@ class UserServiceIntegrationTest {
         // then
         assertThat(found).isNotNull();
         assertThat(found.getUsername()).isEqualTo(username);
+    }
+
+    @Test
+    void createValidPerson() {
+        Person p1 = joe;
+        Person p2;
+
+        p2 = userService.createPerson(p1);
+
+        assertThat(p1).isNotNull();
+        assertThat(p1).isEqualTo(p2);
+    }
+
+    @Test
+    void createValidBot() {
+        Bot b1 = bot;
+        Bot b2;
+
+        b2 = userService.createBot(b1);
+
+        assertThat(b1).isNotNull();
+        assertThat(b1).isEqualTo(b2);
     }
 
     @TestConfiguration

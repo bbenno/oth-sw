@@ -36,4 +36,14 @@ public class UserService implements IFUserService {
     public Bot getBotByUsername(String username) {
         return botRepository.findByUsername(username);
     }
+
+    @Override
+    public Person createPerson(Person person) {
+        return personRepository.save(person);
+    }
+
+    @Override
+    public Bot createBot(Bot bot) {
+        return botRepository.save(bot);
+    }
 }
