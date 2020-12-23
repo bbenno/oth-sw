@@ -2,36 +2,37 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <title>Create Person</title>
 </head>
 
 <body>
 
-<form th:action="@{new_person}" th:object="${Person}" method="post">
+<form th:action="@{new}" th:object="${person}" th:method="post">
 
   <div>
-    <label>Username:</label>
-    <input type="text" th:field="*{username}" />
+    <label th:for="username" th:text="#{user.username}"></label>
+    <input type="text" th:field="*{username}"/>
   </div>
   <div>
-    <label>Password:</label>
-    <input type="password" th:field="*{password}" />
+    <label th:for="password" th:text="#{user.password}"></label>
+    <input type="password" th:field="*{password}"/>
   </div>
   <div>
-    <label>First Name:</label>
-    <input type="text" th:field="*{firstName}" />
+    <label th:for="firstName" th:text="#{user.firstName}"></label>
+    <input type="text" th:field="*{firstName}"/>
   </div>
   <div>
-    <label>Last Name:</label>
-    <input type="text" th:field="*{lastName}" />
+    <label th:for="lastName" th:text="#{user.lastName}"></label>
+    <input type="text" th:field="*{lastName}"/>
   </div>
   <div>
-    <label>Email:</label>
-    <input type="email" th:field="*{email}" />
+    <label th:for="email" th:text="#{user.email}"></label>
+    <input type="email" th:field="*{email}"/>
   </div>
 
-  <input type="submit" value="Submit" />
+  <input type="submit" value="Submit"/>
+
 </form>
 
 </body>
