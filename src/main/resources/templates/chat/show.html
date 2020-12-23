@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8"/>
+  <title>Create Person</title>
+</head>
+
+<body>
+
+<div th:object="${chat}">
+
+  <div th:each="message : *{messages}">
+    <p th:text="${message.text}"></p>
+  </div>
+
+  <form th:action="@{/message/new}" th:method="post">
+    <textarea name="message"></textarea>
+    <input type="hidden" name="author" value="asdf">
+    <button type="submit" th:value="#{submit}" value="Submit"></button>
+  </form>
+
+</div>
+
+</body>
+
+</html>
