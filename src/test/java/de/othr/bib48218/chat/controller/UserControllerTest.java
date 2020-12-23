@@ -15,6 +15,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
+    private static final String namespace_prefix = "/user";
+    private static final String post_create_url = namespace_prefix + "/new";
+    private static final String form_url = namespace_prefix + "/new";
     @Autowired
     private MockMvc mvc;
 
@@ -23,7 +26,7 @@ public class UserControllerTest {
 
     @Test
     void personFormShowTest() throws Exception {
-        mvc.perform(get("/user/new"))
+        mvc.perform(get(form_url))
             .andExpect(model().attribute("person", any(Person.class)))
             .andExpect(view().name("user/new_person"))
             .andExpect(status().isOk());
@@ -31,7 +34,9 @@ public class UserControllerTest {
 
     @Test
     void personFormPostTest() throws Exception {
-        mvc.perform(post("/user/new").param("username", "test_user").param("password", "abc"))
-            .andExpect(status().is3xxRedirection());
+        final String username = "test_user";
+        mvc.perform(post(post_create_url).param("username", username).param("password", "abc"))
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl(username));
     }
 }
