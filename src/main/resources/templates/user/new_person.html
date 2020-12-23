@@ -11,23 +11,24 @@
 <form th:action="@{new}" th:object="${person}" th:method="post">
 
   <div>
-    <label th:for="username" th:text="#{user.username}"></label>
+    <label th:for="username" th:text="#{user.username}">Username</label>
     <input type="text" th:field="*{username}"/>
+    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</span>
   </div>
   <div>
-    <label th:for="password" th:text="#{user.password}"></label>
+    <label th:for="password" th:text="#{user.password}">Password</label>
     <input type="password" th:field="*{password}"/>
   </div>
   <div>
-    <label th:for="firstName" th:text="#{user.firstName}"></label>
+    <label th:for="firstName" th:text="#{user.firstName}">First Name</label>
     <input type="text" th:field="*{firstName}"/>
   </div>
   <div>
-    <label th:for="lastName" th:text="#{user.lastName}"></label>
+    <label th:for="lastName" th:text="#{user.lastName}">Last Name</label>
     <input type="text" th:field="*{lastName}"/>
   </div>
   <div>
-    <label th:for="email" th:text="#{user.email}"></label>
+    <label th:for="email" th:text="#{user.email}">Email</label>
     <input type="email" th:field="*{email}"/>
   </div>
 
