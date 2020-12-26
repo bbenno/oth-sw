@@ -21,6 +21,11 @@ public class MessageService implements IFMessageService {
     private UserRepository userRepository;
 
     @Override
+    public Message saveMessage(Message message) {
+        return repository.save(message);
+    }
+
+    @Override
     public Optional<User> findUserByUsername(String username, String serviceToken) {
         // TODO: Check serviceToken
         return userRepository.findById(username);

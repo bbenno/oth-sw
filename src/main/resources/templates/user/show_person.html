@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8"/>
+  <title>Show Person</title>
+</head>
+
+<body>
+
+<table th:object="${person}">
+  <tr>
+    <th th:text="#{user.username}">Username</th>
+    <td th:text="*{username}"></td>
+  </tr>
+  <tr>
+    <th th:text="#{user.firstName}">First Name</th>
+    <td th:text="*{firstName}"></td>
+  </tr>
+  <tr>
+    <th th:text="#{user.lastName}">Last Name</th>
+    <td th:text="*{lastName}"></td>
+  </tr>
+  <tr>
+    <th th:text="#{user.email}">Email</th>
+    <td th:text="*{email}"></td>
+  </tr>
+</table>
+
+</body>
+
+</html>
