@@ -24,7 +24,7 @@ public class Person extends User {
         super(username, password);
     }
 
-    public Person(@NonNull String username,@NonNull  String password, String firstName, String lastName, String email) {
+    public Person(@NonNull String username, @NonNull String password, String firstName, String lastName, String email) {
         super(username, password);
         this.firstName = firstName;
         this.lastName = lastName;

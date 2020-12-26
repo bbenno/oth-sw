@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "user-password-salt",
+      "type": "java.lang.String",
+      "description": "Salt value for user password encoding."
+    }
+  ] }
