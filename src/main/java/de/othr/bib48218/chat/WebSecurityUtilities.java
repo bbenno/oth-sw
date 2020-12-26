@@ -10,8 +10,9 @@ import java.security.SecureRandom;
 @Configuration
 class WebSecurityUtilities {
     private static final int STRENGTH = 15;
-    @Value("${application-config.user-password-salt}")
-    private static String salt;
+
+    @Value("${user-password-salt}")
+    private String salt;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
