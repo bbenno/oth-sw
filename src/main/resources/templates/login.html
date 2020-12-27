@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="utf-8">
@@ -65,6 +65,7 @@
   <main class="form-signin">
     <form>
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+      <p th:if="${loginError}" class="error">Wrong user or password</p>
       <label for="inputUsername" class="visually-hidden">Username</label>
       <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
       <label for="inputPassword" class="visually-hidden">Password</label>
