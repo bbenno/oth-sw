@@ -24,21 +24,27 @@ class UserServiceIntegrationTest {
         "Joe",
         "Smith",
         "joe@smith.com");
+
     private static final Bot bot = new Bot(
         "botty",
         "");
+
     @Autowired
     private IFUserService userService;
+
     @MockBean
     private PersonRepository personRepository;
+
     @MockBean
     private BotRepository botRepository;
 
     @BeforeEach
     void setUp() {
         Mockito.when(personRepository.findByFirstName(joe.getFirstName())).thenReturn(joe);
+
         Mockito.when(personRepository.findByUsername(joe.getUsername())).thenReturn(joe);
         Mockito.when(botRepository.findByUsername(bot.getUsername())).thenReturn(bot);
+
         Mockito.when(personRepository.save(joe)).thenReturn(joe);
         Mockito.when(botRepository.save(bot)).thenReturn(bot);
     }
@@ -96,7 +102,7 @@ class UserServiceIntegrationTest {
     }
 
     @Test
-    void createValidPerson() {
+    void createValidPerson() throws Exception {
         Person p1 = joe;
         Person p2;
 
@@ -107,7 +113,7 @@ class UserServiceIntegrationTest {
     }
 
     @Test
-    void createValidBot() {
+    void createValidBot() throws Exception {
         Bot b1 = bot;
         Bot b2;
 

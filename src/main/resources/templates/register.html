@@ -3,12 +3,12 @@
 
 <head>
   <meta charset="UTF-8"/>
-  <title>Create Person</title>
+  <title>Register</title>
 </head>
 
 <body>
 
-<form th:action="@{new}" th:object="${person}" th:method="post">
+<form th:action="@{register}" th:object="${person}" th:method="post">
 
   <div>
     <label th:for="username" th:text="#{user.username}">Username</label>
@@ -18,18 +18,22 @@
   <div>
     <label th:for="password" th:text="#{user.password}">Password</label>
     <input type="password" th:field="*{password}"/>
+    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</span>
   </div>
   <div>
     <label th:for="firstName" th:text="#{user.firstName}">First Name</label>
     <input type="text" th:field="*{firstName}"/>
+    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First Name Error</span>
   </div>
   <div>
     <label th:for="lastName" th:text="#{user.lastName}">Last Name</label>
     <input type="text" th:field="*{lastName}"/>
+    <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last Name Error</span>
   </div>
   <div>
     <label th:for="email" th:text="#{user.email}">Email</label>
     <input type="email" th:field="*{email}"/>
+    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</span>
   </div>
 
   <input type="submit" th:value="#{submit}"/>
