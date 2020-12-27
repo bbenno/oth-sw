@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -33,24 +32,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-            .antMatchers(ALLOW_ACCESS_WITHOUT_AUTHENTICATION)
-            .permitAll()
-            .anyRequest()
-            .authenticated();
-        http
-            .formLogin()
+            .antMatchers(ALLOW_ACCESS_WITHOUT_AUTHENTICATION).permitAll()
+            .anyRequest().authenticated();
+        http.formLogin()
             .loginPage("/login")
-            .permitAll()
+            .loginProcessingUrl("/perform_login")
             .defaultSuccessUrl("/")
-            .failureUrl("/login?error")
-            .and()
-            .logout()
-            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+            .failureUrl("/login?error=true")
+            .permitAll();
+        http.logout()
+            .logoutUrl("/logout")
             .logoutSuccessUrl("/?logout")
             .deleteCookies("remember-me")
-            .permitAll()
-            .and()
-            .rememberMe();
+            .permitAll();
+        http.rememberMe();
     }
 
     @Autowired
