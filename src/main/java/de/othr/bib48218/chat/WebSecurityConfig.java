@@ -17,9 +17,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] ALLOW_ACCESS_WITHOUT_AUTHENTICATION = {"/css/**", "/img/**", "/fonts/**", "/login", "/register"};
-    @Autowired
+
     @Qualifier("userService")
+    @Autowired
     private UserDetailsService userSecurityService;
+
     @Autowired
     private WebSecurityUtilities securityUtilities;
 
