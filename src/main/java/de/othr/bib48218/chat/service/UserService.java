@@ -1,5 +1,6 @@
 package de.othr.bib48218.chat.service;
 
+import de.othr.bib48218.chat.UserAlreadyExists;
 import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
@@ -45,13 +46,15 @@ public class UserService implements IFUserService, UserDetailsService {
     }
 
     @Override
-    public Person createPerson(Person person) {
+    public Person createPerson(Person person) throws UserAlreadyExists {
         person.setPassword(passwordEncoder.encode(person.getPassword()));
+        if (personRepository.existsById(person.getUsername()))
+            throw new UserAlreadyExists();
         return personRepository.save(person);
     }
 
     @Override
-    public Bot createBot(Bot bot) {
+    public Bot createBot(Bot bot) throws UserAlreadyExists {
         bot.setPassword(passwordEncoder.encode(bot.getPassword()));
         return botRepository.save(bot);
     }
