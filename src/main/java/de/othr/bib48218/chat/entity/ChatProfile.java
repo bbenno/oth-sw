@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Getter
@@ -13,7 +15,12 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 public class ChatProfile extends Profile {
     @NonNull
+    @lombok.NonNull
+    @NotBlank
     private String description;
+
+    @OneToOne(mappedBy = "profile")
+    private GroupChat chat;
 
     public ChatProfile(@NonNull String name, @NonNull String description) {
         super(name);
