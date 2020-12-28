@@ -1,7 +1,7 @@
 package de.othr.bib48218.chat.repository;
 
 import de.othr.bib48218.chat.entity.Bot;
-import org.junit.jupiter.api.BeforeEach;
+import de.othr.bib48218.chat.factory.UserFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -16,24 +16,17 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class BotRepositoryIntegrationTest {
-    private final Bot bot = new Bot(
-        "new_bot",
-        "password");
-
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
     private BotRepository botRepository;
 
-    @BeforeEach
-    void setup() {
-        entityManager.persist(bot);
-        entityManager.flush();
-    }
-
     @Test
     void whenFindByUsername_thenReturnPerson() {
+        Bot bot = UserFactory.newValidBot();
+        entityManager.persistAndFlush(bot);
+
         Optional<Bot> found = botRepository.findByUsername(bot.getUsername());
 
         assertThat(found).isPresent();
@@ -43,7 +36,10 @@ class BotRepositoryIntegrationTest {
 
     @Test
     void usernameShouldBeUnique() {
-        var bot2 = new Bot(bot.getUsername(), ".-.");
+        Bot bot = UserFactory.newValidBot();
+        entityManager.persistAndFlush(bot);
+
+        Bot bot2 = UserFactory.newValidBotWithUsername(bot.getUsername());
         assertThrows(Exception.class, () -> entityManager.persist(bot2));
     }
 }
