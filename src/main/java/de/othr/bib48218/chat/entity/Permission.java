@@ -9,6 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +19,8 @@ import java.util.Set;
 @NoArgsConstructor
 public class Permission extends IdEntity {
     @NonNull
+    @NotBlank
+    @lombok.NonNull
     private String name;
 
     @OneToMany(mappedBy = "permission", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

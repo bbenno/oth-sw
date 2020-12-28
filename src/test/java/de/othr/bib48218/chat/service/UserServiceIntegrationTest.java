@@ -1,5 +1,6 @@
 package de.othr.bib48218.chat.service;
 
+import java.util.Optional;
 import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
@@ -20,14 +21,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UserServiceIntegrationTest {
     private static final Person joe = new Person(
         "joe",
-        "",
+        "password",
         "Joe",
         "Smith",
         "joe@smith.com");
 
     private static final Bot bot = new Bot(
         "botty",
-        "");
+        "password");
 
     @Autowired
     private IFUserService userService;
@@ -40,10 +41,10 @@ class UserServiceIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        Mockito.when(personRepository.findByFirstName(joe.getFirstName())).thenReturn(joe);
+        Mockito.when(personRepository.findByFirstName(joe.getFirstName())).thenReturn(Optional.of(joe));
 
-        Mockito.when(personRepository.findByUsername(joe.getUsername())).thenReturn(joe);
-        Mockito.when(botRepository.findByUsername(bot.getUsername())).thenReturn(bot);
+        Mockito.when(personRepository.findByUsername(joe.getUsername())).thenReturn(Optional.of(joe));
+        Mockito.when(botRepository.findByUsername(bot.getUsername())).thenReturn(Optional.of(bot));
 
         Mockito.when(personRepository.save(joe)).thenReturn(joe);
         Mockito.when(botRepository.save(bot)).thenReturn(bot);

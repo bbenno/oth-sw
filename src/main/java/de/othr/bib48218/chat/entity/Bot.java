@@ -12,7 +12,7 @@ import javax.persistence.Entity;
 @Setter
 @NoArgsConstructor
 public class Bot extends User {
-    public Bot(@NonNull String username, @NonNull String password) {
+    public Bot(@lombok.NonNull @NonNull String username, @lombok.NonNull @NonNull String password) {
         super(username, password);
     }
 }

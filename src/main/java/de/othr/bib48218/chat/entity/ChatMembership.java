@@ -6,8 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.NonNull;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Getter
@@ -15,12 +16,17 @@ import javax.persistence.OneToOne;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChatMembership extends IdEntity {
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @NonNull
+    @lombok.NonNull
     private Chat chat;
+
     @NonNull
+    @lombok.NonNull
     private ChatMemberStatus status;
-    @OneToOne
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @NonNull
+    @lombok.NonNull
     private User user;
 }

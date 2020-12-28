@@ -13,8 +13,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService implements IFUserService, UserDetailsService {
+
     @Autowired
     private PersonRepository personRepository;
 
@@ -26,45 +29,49 @@ public class UserService implements IFUserService, UserDetailsService {
 
     @Override
     public Person getPersonByFirstName(String firstName) {
-        return personRepository.findByFirstName(firstName);
+        return personRepository.findByFirstName(firstName).orElse(null);
     }
 
     @Override
     public User getUserByUsername(String username) {
-        User found = getPersonByUsername(username);
-        return (found != null) ? found : getBotByUsername(username);
+        Optional<User> found_person = personRepository.findByUsername(username).map((person) -> person);
+        Optional<User> found_bot = botRepository.findByUsername(username).map((bot) -> bot);
+        return found_person.orElse(found_bot.orElse(null));
     }
 
     @Override
     public Person getPersonByUsername(String username) {
-        return personRepository.findByUsername(username);
+        return personRepository.findByUsername(username).orElse(null);
     }
 
     @Override
     public Bot getBotByUsername(String username) {
-        return botRepository.findByUsername(username);
+        return botRepository.findByUsername(username).orElse(null);
     }
 
     @Override
     public Person createPerson(Person person) throws UserAlreadyExists {
-        person.setPassword(passwordEncoder.encode(person.getPassword()));
-        if (personRepository.existsById(person.getUsername()))
+        if (personRepository.existsById(person.getUsername())) {
             throw new UserAlreadyExists();
-        return personRepository.save(person);
+        } else {
+            person.setPassword(passwordEncoder.encode(person.getPassword()));
+            return personRepository.save(person);
+        }
     }
 
     @Override
     public Bot createBot(Bot bot) throws UserAlreadyExists {
-        bot.setPassword(passwordEncoder.encode(bot.getPassword()));
-        return botRepository.save(bot);
+        if (botRepository.existsById(bot.getUsername())) {
+            throw new UserAlreadyExists();
+        } else {
+            bot.setPassword(passwordEncoder.encode(bot.getPassword()));
+            return botRepository.save(bot);
+        }
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = personRepository.findByUsername(username);
-        if (user == null)
-            throw new UsernameNotFoundException("No User with username '" + username + "'");
-
-        return user;
+        Optional<Person> user = personRepository.findByUsername(username);
+        return user.orElseThrow(() -> new UsernameNotFoundException("No User with username '" + username + "'"));
     }
 }
