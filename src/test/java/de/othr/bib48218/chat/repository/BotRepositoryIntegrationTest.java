@@ -25,7 +25,7 @@ class BotRepositoryIntegrationTest {
     @Test
     void whenFindByUsername_thenReturnPerson() {
         Bot bot = UserFactory.newValidBot();
-        entityManager.persistAndFlush(bot);
+        bot = entityManager.persistAndFlush(bot);
 
         Optional<Bot> found = botRepository.findByUsername(bot.getUsername());
 
@@ -35,9 +35,19 @@ class BotRepositoryIntegrationTest {
     }
 
     @Test
+    void saveValidBot() {
+        Bot bot = UserFactory.newValidBot();
+
+        Bot savedBot = botRepository.save(bot);
+
+        assertThat(savedBot).isNotNull();
+        assertThat(savedBot).isEqualTo(bot);
+    }
+
+    @Test
     void usernameShouldBeUnique() {
         Bot bot = UserFactory.newValidBot();
-        entityManager.persistAndFlush(bot);
+        bot = entityManager.persistAndFlush(bot);
 
         Bot bot2 = UserFactory.newValidBotWithUsername(bot.getUsername());
         assertThrows(Exception.class, () -> entityManager.persist(bot2));
