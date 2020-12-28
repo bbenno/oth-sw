@@ -1,5 +1,6 @@
 package de.othr.bib48218.chat.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @Getter
-@Setter
+@Setter(AccessLevel.PACKAGE)
 @NoArgsConstructor(force = true)
 public class Attachment extends IdEntity {
     @NonNull

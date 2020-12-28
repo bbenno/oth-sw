@@ -22,7 +22,7 @@ public class ChatProfile extends Profile {
     @OneToOne(mappedBy = "profile")
     private GroupChat chat;
 
-    public ChatProfile(@NonNull String name, @NonNull String description) {
+    public ChatProfile(@lombok.NonNull @NonNull String name, @lombok.NonNull @NonNull String description) {
         super(name);
         this.description = description;
     }
