@@ -1,19 +1,37 @@
 package de.othr.bib48218.chat.controller;
 
+import de.othr.bib48218.chat.service.IFChatService;
+import de.othr.bib48218.chat.service.IFMessageService;
+import de.othr.bib48218.chat.service.IFUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
+
 @Controller
 public class HomeController {
+    @Autowired
+    IFMessageService messageService;
+
+    @Autowired
+    IFChatService chatService;
+
+    @Autowired
+    IFUserService userService;
+
     @RequestMapping("/login")
     public String showLoginPage(Model model) {
         return "login";
     }
 
     @RequestMapping("/")
-    public String showHome(Model model) {
+    public String showHome(Principal principal, Model model) {
+        var user = userService.getUserByUsername(principal.getName());
+        var chats = chatService.getChatsByUser(user);
+        model.addAttribute("chats", chats);
         return "home";
     }
 
