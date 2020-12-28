@@ -1,7 +1,7 @@
 package de.othr.bib48218.chat.controller;
 
 import de.othr.bib48218.chat.WebSecurityTestConfig;
-import de.othr.bib48218.chat.factory.PersonFactory;
+import de.othr.bib48218.chat.factory.UserFactory;
 import de.othr.bib48218.chat.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class RegisterControllerTest {
 
     @Test
     void shouldAcceptRegistration() throws Exception {
-        var person = PersonFactory.newValidPerson();
+        var person = UserFactory.newValidPerson();
         when(userService.createPerson(person)).thenReturn(person);
         // ToDo: extract param names from /register view.
         var params = new LinkedMultiValueMap<String, String>();
