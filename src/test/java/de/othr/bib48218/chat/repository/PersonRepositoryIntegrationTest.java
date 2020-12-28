@@ -39,7 +39,7 @@ class PersonRepositoryIntegrationTest {
     @Test
     void whenFindByUsername_thenReturnPerson() {
         Person person = UserFactory.newValidPerson();
-        entityManager.persistAndFlush(person);
+        person = entityManager.persistAndFlush(person);
 
         Optional<Person> found = personRepository.findByUsername(person.getUsername());
 
@@ -50,9 +50,19 @@ class PersonRepositoryIntegrationTest {
     }
 
     @Test
+    void saveValidPerson() {
+        Person person = UserFactory.newValidPerson();
+
+        Person savedPerson = personRepository.save(person);
+
+        assertThat(savedPerson).isNotNull();
+        assertThat(savedPerson).isEqualTo(person);
+    }
+
+    @Test
     void usernameShouldBeUnique() {
         Person person = UserFactory.newValidPerson();
-        entityManager.persistAndFlush(person);
+        person = entityManager.persistAndFlush(person);
 
         Person otherPerson = UserFactory.newValidPersonWithUsername(person.getUsername());
 
