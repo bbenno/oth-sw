@@ -43,6 +43,9 @@ public abstract class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<UserPermission> userPermissions = new HashSet<>();
 
+    @OneToMany(mappedBy = "user")
+    private Collection<ChatMembership> memberships;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
