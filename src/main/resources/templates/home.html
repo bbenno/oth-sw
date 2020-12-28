@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="utf-8">
@@ -29,6 +29,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+          <span th:text="${#authentication.name}"></span>
           <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
               <a class="nav-link" href="/logout">Sign out</a>
@@ -39,12 +40,17 @@
     </nav>
   </header>
 
-  <!-- Begin page content -->
   <main class="flex-shrink-0">
     <div class="container">
       <h1 class="mt-5">Chat</h1>
       <p class="lead"></p>
-      <p></p>
+      <ul th:each="chat : ${chats}">
+        <li><a th:href="@{chat}" th:text="${chat}"></a></li>
+      </ul>
+      <hr>
+      <ul th:each="message : ${messages}">
+        <li th:text="${message.text}"></li>
+      </ul>
     </div>
   </main>
 

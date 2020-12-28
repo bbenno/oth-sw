@@ -8,6 +8,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -16,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class BotRepositoryIntegrationTest {
     private final Bot bot = new Bot(
         "new_bot",
-        "");
+        "password");
 
     @Autowired
     private TestEntityManager entityManager;
@@ -32,11 +34,11 @@ class BotRepositoryIntegrationTest {
 
     @Test
     void whenFindByUsername_thenReturnPerson() {
-        Bot found = botRepository.findByUsername(bot.getUsername());
+        Optional<Bot> found = botRepository.findByUsername(bot.getUsername());
 
-        assertThat(found).isNotNull();
-        assertThat(found.getUsername()).isEqualTo(bot.getUsername());
-        assertThat(found).isEqualTo(bot);
+        assertThat(found).isPresent();
+        assertThat(found.get().getUsername()).isEqualTo(bot.getUsername());
+        assertThat(found.get()).isEqualTo(bot);
     }
 
     @Test

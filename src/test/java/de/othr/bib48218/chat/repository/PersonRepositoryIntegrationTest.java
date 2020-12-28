@@ -8,6 +8,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -16,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class PersonRepositoryIntegrationTest {
     private final Person joe = new Person(
         "joe",
-        "",
+        "password",
         "Joe",
         "Smith",
         "joe@smith.com");
@@ -34,20 +36,20 @@ class PersonRepositoryIntegrationTest {
 
     @Test
     void whenFindByFirstName_thenReturnPerson() {
-        Person found = personRepository.findByFirstName(joe.getFirstName());
+        Optional<Person> found = personRepository.findByFirstName(joe.getFirstName());
 
-        assertThat(found).isNotNull();
-        assertThat(found.getFirstName()).isEqualTo(joe.getFirstName());
-        assertThat(found).isEqualTo(joe);
+        assertThat(found).isPresent();
+        assertThat(found.get().getFirstName()).isEqualTo(joe.getFirstName());
+        assertThat(found.get()).isEqualTo(joe);
     }
 
     @Test
     void whenFindByUsername_thenReturnPerson() {
-        Person found = personRepository.findByUsername(joe.getUsername());
+        Optional<Person> found = personRepository.findByUsername(joe.getUsername());
 
-        assertThat(found).isNotNull();
-        assertThat(found.getUsername()).isEqualTo(joe.getUsername());
-        assertThat(found).isEqualTo(joe);
+        assertThat(found).isPresent();
+        assertThat(found.get().getUsername()).isEqualTo(joe.getUsername());
+        assertThat(found.get()).isEqualTo(joe);
     }
 
     @Test
