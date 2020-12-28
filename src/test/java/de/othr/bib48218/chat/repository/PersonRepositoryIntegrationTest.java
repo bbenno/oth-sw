@@ -1,6 +1,7 @@
 package de.othr.bib48218.chat.repository;
 
 import de.othr.bib48218.chat.entity.Person;
+import de.othr.bib48218.chat.factory.UserFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,45 +17,45 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class PersonRepositoryIntegrationTest {
-    private final Person joe = new Person(
-        "joe",
-        "password",
-        "Joe",
-        "Smith",
-        "joe@smith.com");
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
     private PersonRepository personRepository;
 
-    @BeforeEach
-    void setup() {
-        entityManager.persist(joe);
-        entityManager.flush();
-    }
-
     @Test
     void whenFindByFirstName_thenReturnPerson() {
-        Optional<Person> found = personRepository.findByFirstName(joe.getFirstName());
+        Person person = UserFactory.newValidPerson();
+        entityManager.persistAndFlush(person);
+
+        Optional<Person> found = personRepository.findByFirstName(person.getFirstName());
 
         assertThat(found).isPresent();
-        assertThat(found.get().getFirstName()).isEqualTo(joe.getFirstName());
-        assertThat(found.get()).isEqualTo(joe);
+        Person foundPerson = found.get();
+        assertThat(foundPerson.getFirstName()).isEqualTo(person.getFirstName());
+        assertThat(foundPerson).isEqualTo(person);
     }
 
     @Test
     void whenFindByUsername_thenReturnPerson() {
-        Optional<Person> found = personRepository.findByUsername(joe.getUsername());
+        Person person = UserFactory.newValidPerson();
+        entityManager.persistAndFlush(person);
+
+        Optional<Person> found = personRepository.findByUsername(person.getUsername());
 
         assertThat(found).isPresent();
-        assertThat(found.get().getUsername()).isEqualTo(joe.getUsername());
-        assertThat(found.get()).isEqualTo(joe);
+        Person foundPerson = found.get();
+        assertThat(foundPerson.getUsername()).isEqualTo(person.getUsername());
+        assertThat(foundPerson).isEqualTo(person);
     }
 
     @Test
     void usernameShouldBeUnique() {
-        Person joe2 = new Person(joe.getUsername(), "-.-");
-        assertThrows(Exception.class, () -> entityManager.persist(joe2));
+        Person person = UserFactory.newValidPerson();
+        entityManager.persistAndFlush(person);
+
+        Person otherPerson = UserFactory.newValidPersonWithUsername(person.getUsername());
+
+        assertThrows(Exception.class, () -> entityManager.persist(otherPerson));
     }
 }
