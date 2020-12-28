@@ -5,8 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.NonNull;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.util.Collection;
@@ -16,14 +15,18 @@ import java.util.Collection;
 @Setter
 @NoArgsConstructor
 public class Person extends User {
+
     @Size(max = 100)
     private String firstName;
+
     @Size(max = 100)
     private String lastName;
+
     @Email(message = "Email should be valid")
     @Size(max = 100)
     private String email;
-    @OneToMany
+
+    @OneToMany(cascade = CascadeType.ALL)
     private Collection<ServiceCredential> credentials;
 
     public Person(@NonNull String username, @NonNull String password) {
