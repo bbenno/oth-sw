@@ -70,6 +70,7 @@
       <input type="text" id="inputUsername" class="form-control" name="username" placeholder="Username" required autofocus>
       <label for="inputPassword" class="visually-hidden">Password</label>
       <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required>
+      <input th:type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
       <div class="checkbox mb-3">
         <label>
           <input type="checkbox" value="remember-me"> Remember me
