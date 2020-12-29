@@ -14,4 +14,13 @@ public class MessageFactory {
         String text = faker.lorem().sentence();
         return new Message(text, chat, author, LocalDateTime.now());
     }
+
+    public static Message newMessageWithText(Chat chat, User author, String text) {
+        return new Message(text, chat, author, LocalDateTime.now());
+    }
+
+    public static Message newMessageAtDateTime(Chat chat, User author, LocalDateTime timestamp) {
+        String text = faker.lorem().sentence();
+        return new Message(text, chat, author, timestamp);
+    }
 }
