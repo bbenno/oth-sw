@@ -26,8 +26,8 @@ public class ChatService implements IFChatService {
     @Override
     public Collection<Chat> getChatsByUser(User user) {
         Collection<Chat> chats = new LinkedList<>();
-        //chats.addAll(groupRepository.findAllByMembershipsUser(user));
-        //chats.addAll(peerRepository.findAllByUsersUsername(user.getUsername()));
+        chats.addAll(groupRepository.findByMembershipsUser(user));
+        chats.addAll(peerRepository.findByMembershipsUser(user));
 
         return chats;
     }
