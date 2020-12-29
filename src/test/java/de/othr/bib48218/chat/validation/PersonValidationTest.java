@@ -1,4 +1,4 @@
-package de.othr.bib48218.chat.Validation;
+package de.othr.bib48218.chat.validation;
 
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.factory.UserFactory;

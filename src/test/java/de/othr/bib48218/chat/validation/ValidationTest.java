@@ -1,4 +1,4 @@
-package de.othr.bib48218.chat.Validation;
+package de.othr.bib48218.chat.validation;
 
 import javax.validation.Validation;
 import javax.validation.Validator;

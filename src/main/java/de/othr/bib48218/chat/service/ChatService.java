@@ -20,7 +20,7 @@ public class ChatService implements IFChatService {
 
     @Override
     public Chat getChatById(Long id) {
-        return groupRepository.findById(id).get();
+        return groupRepository.findById(id).orElse(null);
     }
 
     @Override

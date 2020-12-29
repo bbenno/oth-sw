@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface BotRepository extends UserRepository<Bot> {
     @Override
-    Optional<Bot> findById(String username);
+    Optional<Bot> findById(String id);
 }

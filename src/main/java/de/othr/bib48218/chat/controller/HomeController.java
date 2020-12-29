@@ -1,7 +1,6 @@
 package de.othr.bib48218.chat.controller;
 
 import de.othr.bib48218.chat.service.IFChatService;
-import de.othr.bib48218.chat.service.IFMessageService;
 import de.othr.bib48218.chat.service.IFUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 
+@SuppressWarnings("SameReturnValue")
 @Controller
 public class HomeController {
     @Autowired

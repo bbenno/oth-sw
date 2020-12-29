@@ -2,7 +2,6 @@ package de.othr.bib48218.chat.repository;
 
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.factory.UserFactory;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
