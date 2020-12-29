@@ -18,7 +18,7 @@ public class UserController {
     @RequestMapping("{username}")
     public ModelAndView showUser(@PathVariable String username) {
         User found = userService.getUserByUsername(username);
-        if (found != null && found instanceof Person) {
+        if (found instanceof Person) {
             Person person = (Person) found;
             return new ModelAndView("user/show_person", "person", person);
         } else {
