@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDateTime;
 
 import static lombok.AccessLevel.PACKAGE;
@@ -42,6 +43,7 @@ public class Message extends IdEntity {
     @NonNull
     @lombok.NonNull
     @NotNull
+    @PastOrPresent
     private LocalDateTime timestamp;
 
     @OneToOne(cascade = CascadeType.ALL)

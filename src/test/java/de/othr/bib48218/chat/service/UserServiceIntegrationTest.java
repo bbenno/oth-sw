@@ -8,7 +8,6 @@ import de.othr.bib48218.chat.factory.UserFactory;
 import de.othr.bib48218.chat.repository.BotRepository;
 import de.othr.bib48218.chat.repository.PersonRepository;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -20,6 +19,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class UserServiceIntegrationTest {
@@ -36,7 +36,7 @@ class UserServiceIntegrationTest {
     void shouldGetPersonByFirstNameIfExisting() {
         Person person = UserFactory.newValidPerson();
         String firstName = person.getFirstName();
-        Mockito.when(personRepository.findByFirstName(firstName)).thenReturn(Optional.of(person));
+        when(personRepository.findByFirstName(firstName)).thenReturn(Optional.of(person));
 
         Person found = userService.getPersonByFirstName(firstName);
 
@@ -49,7 +49,7 @@ class UserServiceIntegrationTest {
     void shouldGetBotByUsernameIfExisting() {
         Bot bot = UserFactory.newValidBot();
         String username = bot.getUsername();
-        Mockito.when(botRepository.findByUsername(username)).thenReturn(Optional.of(bot));
+        when(botRepository.findByUsername(username)).thenReturn(Optional.of(bot));
 
         Bot found = userService.getBotByUsername(username);
 
@@ -62,7 +62,7 @@ class UserServiceIntegrationTest {
     void shouldGetPersonByUsernameIfExisting() {
         Person person = UserFactory.newValidPerson();
         String username = person.getUsername();
-        Mockito.when(personRepository.findByUsername(username)).thenReturn(Optional.of(person));
+        when(personRepository.findByUsername(username)).thenReturn(Optional.of(person));
 
         Person found = userService.getPersonByUsername(username);
 
@@ -75,8 +75,8 @@ class UserServiceIntegrationTest {
     void shouldGetUserByUsernameIfPersonExisting() {
         Person user = UserFactory.newValidPerson();
         String username = user.getUsername();
-        Mockito.when(botRepository.findByUsername(username)).thenReturn(Optional.empty());
-        Mockito.when(personRepository.findByUsername(username)).thenReturn(Optional.of(user));
+        when(botRepository.findByUsername(username)).thenReturn(Optional.empty());
+        when(personRepository.findByUsername(username)).thenReturn(Optional.of(user));
 
         User found = userService.getUserByUsername(username);
 
@@ -89,8 +89,8 @@ class UserServiceIntegrationTest {
     void shouldGetUserByUsernameIfBotExisting() {
         Bot user = UserFactory.newValidBot();
         String username = user.getUsername();
-        Mockito.when(botRepository.findByUsername(username)).thenReturn(Optional.of(user));
-        Mockito.when(personRepository.findByUsername(username)).thenReturn(Optional.empty());
+        when(botRepository.findByUsername(username)).thenReturn(Optional.of(user));
+        when(personRepository.findByUsername(username)).thenReturn(Optional.empty());
 
         User found = userService.getUserByUsername(username);
 
@@ -102,8 +102,8 @@ class UserServiceIntegrationTest {
     @Test
     void shouldCreateNewPerson() {
         Person person = UserFactory.newValidPerson();
-        Mockito.when(personRepository.existsById(person.getUsername())).thenReturn(false);
-        Mockito.when(personRepository.save(person)).thenReturn(person);
+        when(personRepository.existsById(person.getUsername())).thenReturn(false);
+        when(personRepository.save(person)).thenReturn(person);
 
         assertDoesNotThrow(() -> userService.createPerson(person));
     }
@@ -111,7 +111,7 @@ class UserServiceIntegrationTest {
     @Test
     void shouldThrowExceptionOnPersonCreationWhenAlreadyExisting() {
         Person person = UserFactory.newValidPerson();
-        Mockito.when(personRepository.existsById(person.getUsername())).thenReturn(true);
+        when(personRepository.existsById(person.getUsername())).thenReturn(true);
 
         assertThrows(UserAlreadyExists.class, () -> userService.createPerson(person));
     }
@@ -119,8 +119,8 @@ class UserServiceIntegrationTest {
     @Test
     void createValidBot() {
         Bot bot = UserFactory.newValidBot();
-        Mockito.when(botRepository.existsById(bot.getUsername())).thenReturn(false);
-        Mockito.when(botRepository.save(bot)).thenReturn(bot);
+        when(botRepository.existsById(bot.getUsername())).thenReturn(false);
+        when(botRepository.save(bot)).thenReturn(bot);
 
         assertDoesNotThrow(() -> userService.createBot(bot));
     }
@@ -128,7 +128,7 @@ class UserServiceIntegrationTest {
     @Test
     void shouldThrowExceptionOnBotCreationWhenAlreadyExisting() {
         Bot bot = UserFactory.newValidBot();
-        Mockito.when(botRepository.existsById(bot.getUsername())).thenReturn(true);
+        when(botRepository.existsById(bot.getUsername())).thenReturn(true);
 
         assertThrows(UserAlreadyExists.class, () -> userService.createBot(bot));
     }
