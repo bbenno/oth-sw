@@ -3,22 +3,20 @@ package de.othr.bib48218.chat.service;
 import de.othr.bib48218.chat.entity.Message;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.repository.MessageRepository;
-import de.othr.bib48218.chat.repository.UserRepository;
+import de.othr.bib48218.chat.repository.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
 
 @Service
 public class MessageService implements IFMessageService {
     @Autowired
     private MessageRepository repository;
-    @Qualifier("personRepository")
+
     @Autowired
-    private UserRepository userRepository;
+    private PersonRepository userRepository;
 
     @Override
     public Message saveMessage(Message message) {
@@ -28,7 +26,7 @@ public class MessageService implements IFMessageService {
     @Override
     public Optional<User> findUserByUsername(String username, String serviceToken) {
         // TODO: Check serviceToken
-        return userRepository.findById(username);
+        return userRepository.findById(username).map((person) -> person);
     }
 
     @Override
