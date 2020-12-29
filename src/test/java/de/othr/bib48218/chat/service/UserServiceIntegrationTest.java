@@ -1,12 +1,12 @@
 package de.othr.bib48218.chat.service;
 
-import java.util.Optional;
+import de.othr.bib48218.chat.UserAlreadyExists;
 import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
+import de.othr.bib48218.chat.factory.UserFactory;
 import de.othr.bib48218.chat.repository.BotRepository;
 import de.othr.bib48218.chat.repository.PersonRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,21 +15,14 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 class UserServiceIntegrationTest {
-    private static final Person joe = new Person(
-        "joe",
-        "password",
-        "Joe",
-        "Smith",
-        "joe@smith.com");
-
-    private static final Bot bot = new Bot(
-        "botty",
-        "password");
-
     @Autowired
     private IFUserService userService;
 
@@ -39,89 +32,105 @@ class UserServiceIntegrationTest {
     @MockBean
     private BotRepository botRepository;
 
-    @BeforeEach
-    void setUp() {
-        Mockito.when(personRepository.findByFirstName(joe.getFirstName())).thenReturn(Optional.of(joe));
-
-        Mockito.when(personRepository.findByUsername(joe.getUsername())).thenReturn(Optional.of(joe));
-        Mockito.when(botRepository.findByUsername(bot.getUsername())).thenReturn(Optional.of(bot));
-
-        Mockito.when(personRepository.save(joe)).thenReturn(joe);
-        Mockito.when(botRepository.save(bot)).thenReturn(bot);
-    }
-
     @Test
-    void whenValidFirstName_thenPersonShouldBeFound() {
-        // given
-        String firstName = joe.getFirstName();
+    void shouldGetPersonByFirstNameIfExisting() {
+        Person person = UserFactory.newValidPerson();
+        String firstName = person.getFirstName();
+        Mockito.when(personRepository.findByFirstName(firstName)).thenReturn(Optional.of(person));
 
-        // when
         Person found = userService.getPersonByFirstName(firstName);
 
-        // then
         assertThat(found).isNotNull();
         assertThat(found.getFirstName()).isEqualTo(firstName);
+        assertThat(found).isEqualTo(person);
     }
 
     @Test
-    void whenValidBotUsername_thenBotShouldBeFound() {
-        // given
+    void shouldGetBotByUsernameIfExisting() {
+        Bot bot = UserFactory.newValidBot();
         String username = bot.getUsername();
+        Mockito.when(botRepository.findByUsername(username)).thenReturn(Optional.of(bot));
 
-        // when
         Bot found = userService.getBotByUsername(username);
 
-        // then
         assertThat(found).isNotNull();
         assertThat(found.getUsername()).isEqualTo(username);
+        assertThat(found).isEqualTo(bot);
     }
 
     @Test
-    void whenValidPersonUsername_thenPersonShouldBeFound() {
-        // given
-        String username = joe.getUsername();
+    void shouldGetPersonByUsernameIfExisting() {
+        Person person = UserFactory.newValidPerson();
+        String username = person.getUsername();
+        Mockito.when(personRepository.findByUsername(username)).thenReturn(Optional.of(person));
 
-        // when
         Person found = userService.getPersonByUsername(username);
 
-        // then
         assertThat(found).isNotNull();
         assertThat(found.getUsername()).isEqualTo(username);
+        assertThat(found).isEqualTo(person);
     }
 
     @Test
-    void whenValidUsername_thenUserShouldBeFound() {
-        // given
-        String username = bot.getUsername();
+    void shouldGetUserByUsernameIfPersonExisting() {
+        Person user = UserFactory.newValidPerson();
+        String username = user.getUsername();
+        Mockito.when(botRepository.findByUsername(username)).thenReturn(Optional.empty());
+        Mockito.when(personRepository.findByUsername(username)).thenReturn(Optional.of(user));
 
-        // when
         User found = userService.getUserByUsername(username);
 
-        // then
         assertThat(found).isNotNull();
         assertThat(found.getUsername()).isEqualTo(username);
+        assertThat(found).isEqualTo(user);
     }
 
     @Test
-    void createValidPerson() throws Exception {
-        Person p1 = joe;
-        Person p2;
+    void shouldGetUserByUsernameIfBotExisting() {
+        Bot user = UserFactory.newValidBot();
+        String username = user.getUsername();
+        Mockito.when(botRepository.findByUsername(username)).thenReturn(Optional.of(user));
+        Mockito.when(personRepository.findByUsername(username)).thenReturn(Optional.empty());
 
-        p2 = userService.createPerson(p1);
+        User found = userService.getUserByUsername(username);
 
-        assertThat(p1).isNotNull();
-        assertThat(p1).isEqualTo(p2);
+        assertThat(found).isNotNull();
+        assertThat(found.getUsername()).isEqualTo(username);
+        assertThat(found).isEqualTo(user);
     }
 
     @Test
-    void createValidBot() throws Exception {
-        Bot b1 = bot;
-        Bot b2;
+    void shouldCreateNewPerson() {
+        Person person = UserFactory.newValidPerson();
+        Mockito.when(personRepository.existsById(person.getUsername())).thenReturn(false);
+        Mockito.when(personRepository.save(person)).thenReturn(person);
 
-        b2 = userService.createBot(b1);
+        assertDoesNotThrow(() -> userService.createPerson(person));
+    }
 
-        assertThat(b1).isNotNull();
-        assertThat(b1).isEqualTo(b2);
+    @Test
+    void shouldThrowExceptionOnPersonCreationWhenAlreadyExisting() {
+        Person person = UserFactory.newValidPerson();
+        Mockito.when(personRepository.existsById(person.getUsername())).thenReturn(true);
+
+        assertThrows(UserAlreadyExists.class, () -> userService.createPerson(person));
+    }
+
+    @Test
+    void createValidBot() {
+        Bot bot = UserFactory.newValidBot();
+        Mockito.when(botRepository.existsById(bot.getUsername())).thenReturn(false);
+        Mockito.when(botRepository.save(bot)).thenReturn(bot);
+
+        assertDoesNotThrow(() -> userService.createBot(bot));
+    }
+
+    @Test
+    void shouldThrowExceptionOnBotCreationWhenAlreadyExisting() {
+        Bot bot = UserFactory.newValidBot();
+        Mockito.when(botRepository.existsById(bot.getUsername())).thenReturn(true);
+
+        assertThrows(UserAlreadyExists.class, () -> userService.createBot(bot));
     }
 
     @TestConfiguration
