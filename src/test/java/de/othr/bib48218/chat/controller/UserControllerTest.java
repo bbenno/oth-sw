@@ -11,9 +11,6 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(UserController.class)
 @Import(WebSecurityTestConfig.class)
 public class UserControllerTest {
-    private static final String namespace_prefix = "/user";
-    private static final String post_create_url = namespace_prefix + "/new";
-    private static final String form_url = namespace_prefix + "/new";
     @Autowired
     private MockMvc mvc;
 

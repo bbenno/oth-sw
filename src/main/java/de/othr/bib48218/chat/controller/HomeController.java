@@ -14,9 +14,6 @@ import java.security.Principal;
 @Controller
 public class HomeController {
     @Autowired
-    IFMessageService messageService;
-
-    @Autowired
     IFChatService chatService;
 
     @Autowired
