@@ -133,11 +133,4 @@ class UserServiceIntegrationTest {
         assertThrows(UserAlreadyExists.class, () -> userService.createBot(bot));
     }
 
-    @TestConfiguration
-    static class UserServiceTestContextConfiguration {
-        @Bean
-        IFUserService ifUserService() {
-            return new UserService();
-        }
-    }
 }
