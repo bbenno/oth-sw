@@ -19,7 +19,7 @@
   <div th:each="message : *{messages}" th:unless="${#lists.isEmpty(chat.messages)}">
     <div th:object="${message}">
       <span th:text="*{timestamp}">2020-10-10T23:54:39</span>
-      <span th:text="*{author}">Author</span>
+      <span th:include="~{fragment/person :: name (*{author})}">Author</span>
       <span th:text="*{text}">Message</span>
     </div>
   </div>
