@@ -1,44 +1,59 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" layout:decorate="~{layout/slim}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8"/>
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <title>Register</title>
+  <link crossorigin="anonymous"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" rel="stylesheet">
 </head>
 
 <body>
 
-<form th:action="@{register}" th:object="${person}" th:method="post">
+<form action="#" class="container" layout:fragment="content" method="post" th:action="@{/register}"
+      th:object="${person}">
 
-  <div>
-    <label th:for="username" th:text="#{user.username}">Username</label>
-    <input type="text" th:field="*{username}"/>
-    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</span>
+  <div class="">
+    <label class="form-label" th:for="username" th:text="#{user.username}">Username</label>
+    <input class="form-control" th:errorclass="is-invalid" th:field="*{username}" type="text"/>
+    <span class="invalid-feedback" th:errors="*{username}"
+          th:if="${#fields.hasErrors('username')}">Username Error</span>
   </div>
   <div>
-    <label th:for="password" th:text="#{user.password}">Password</label>
-    <input type="password" th:field="*{password}"/>
-    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</span>
+    <label class="form-label" th:for="password" th:text="#{user.password}">Password</label>
+    <input class="form-control" th:errorclass="is-invalid" th:field="*{password}" type="password"/>
+    <span class="invalid-feedback" th:errors="*{password}"
+          th:if="${#fields.hasErrors('password')}">Password Error</span>
   </div>
   <div>
-    <label th:for="firstName" th:text="#{user.firstName}">First Name</label>
-    <input type="text" th:field="*{firstName}"/>
-    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First Name Error</span>
+    <label class="form-label" th:for="firstName" th:text="#{user.firstName}">First Name</label>
+    <input class="form-control" th:errorclass="is-invalid" th:field="*{firstName}" type="text"/>
+    <span class="invalid-feedback" th:errors="*{firstName}"
+          th:if="${#fields.hasErrors('firstName')}">First Name Error</span>
   </div>
   <div>
-    <label th:for="lastName" th:text="#{user.lastName}">Last Name</label>
-    <input type="text" th:field="*{lastName}"/>
-    <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last Name Error</span>
+    <label class="form-label" th:for="lastName" th:text="#{user.lastName}">Last Name</label>
+    <input class="form-control" th:errorclass="is-invalid" th:field="*{lastName}" type="text"/>
+    <span class="invalid-feedback" th:errors="*{lastName}"
+          th:if="${#fields.hasErrors('lastName')}">Last Name Error</span>
   </div>
   <div>
-    <label th:for="email" th:text="#{user.email}">Email</label>
-    <input type="email" th:field="*{email}"/>
-    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</span>
+    <label class="form-label" th:for="email" th:text="#{user.email}">Email</label>
+    <input class="form-control" th:errorclass="is-invalid" th:field="*{email}" type="email"/>
+    <span class="invalid-feedback" th:errors="*{email}" th:if="${#fields.hasErrors('email')}">Email Error</span>
   </div>
 
-  <input type="submit" th:value="#{submit}"/>
+  <input th:value="#{submit}" type="submit" value="Submit"/>
 
 </form>
+
+<script crossorigin="anonymous"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js">
+</script>
 
 </body>
 

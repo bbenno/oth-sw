@@ -1,5 +1,6 @@
 package de.othr.bib48218.chat.controller;
 
+import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import java.util.Locale;
 
@@ -39,5 +41,10 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
+    }
+
+    @Bean
+    public LayoutDialect layoutDialect() {
+        return new LayoutDialect();
     }
 }
