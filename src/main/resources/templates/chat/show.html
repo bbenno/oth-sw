@@ -24,10 +24,10 @@
     </div>
   </div>
 
-  <form action="#" th:action="@{/message/new}" method="post">
-    <textarea name="message" placeholder="Write a message" th:placeholder="#{message.new}"></textarea>
+  <form action="#" class="d-flex my-3" th:action="@{/message/new}" method="post">
+    <textarea class="form-control me-2" name="message" placeholder="Write a message" th:placeholder="#{message.new}" autofocus></textarea>
     <input type="hidden" name="chat" th:value="*{id}">
-    <button type="submit" th:value="#{message.submit}" value="Send"></button>
+    <button class="btn btn-primary align-self-center" type="submit" th:text="#{message.submit}" value="submit">Send</button>
   </form>
 
 </div>
