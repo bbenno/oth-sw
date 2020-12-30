@@ -4,8 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.util.Collection;
@@ -17,13 +20,16 @@ import java.util.Collection;
 public class Person extends User {
 
     @Size(max = 100)
+    @Nullable
     private String firstName;
 
     @Size(max = 100)
+    @Nullable
     private String lastName;
 
     @Email(message = "Email should be valid")
     @Size(max = 100)
+    @Nullable
     private String email;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -38,5 +44,22 @@ public class Person extends User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        String fullName = fullName();
+        return fullName == null ? getUsername() : fullName;
+    }
+
+    public @Nullable
+    String fullName() {
+        if (firstName == null || firstName.isBlank()) {
+            return getLastName();
+        } else if (lastName == null || lastName.isBlank()) {
+            return getFirstName();
+        } else {
+            return String.join(" ", firstName, lastName);
+        }
     }
 }
