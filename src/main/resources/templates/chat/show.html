@@ -1,26 +1,38 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="${#locale}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
 
 <head>
   <meta charset="UTF-8"/>
-  <title>Create Person</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title th:text="${chat}">Chat</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 </head>
 
 <body>
 
-<div th:object="${chat}">
+<div th:object="${chat}" layout:fragment="content">
 
-  <div th:each="message : *{messages}">
-    <p th:text="${message.text}"></p>
+  <div th:each="message : *{messages}" th:unless="${#lists.isEmpty(chat.messages)}">
+    <div th:object="${message}">
+      <span th:text="*{timestamp}">2020-10-10T23:54:39</span>
+      <span th:text="*{author}">Author</span>
+      <span th:text="*{text}">Message</span>
+    </div>
   </div>
 
-  <form th:action="@{/message/new}" th:method="post">
+  <form action="#" th:action="@{/message/new}" method="post">
     <textarea name="message"></textarea>
     <input type="hidden" name="author" value="asdf">
     <button type="submit" th:value="#{submit}" value="Submit"></button>
   </form>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
+</script>
 
 </body>
 
