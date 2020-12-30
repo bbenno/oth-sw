@@ -12,7 +12,9 @@
 
 <body>
 
-<div th:object="${chat}" layout:fragment="content">
+<div class="container" th:object="${chat}" layout:fragment="content">
+
+  <h1 th:text="${chat}">Chat Title</h1>
 
   <div th:each="message : *{messages}" th:unless="${#lists.isEmpty(chat.messages)}">
     <div th:object="${message}">
@@ -23,9 +25,9 @@
   </div>
 
   <form action="#" th:action="@{/message/new}" method="post">
-    <textarea name="message"></textarea>
-    <input type="hidden" name="author" value="asdf">
-    <button type="submit" th:value="#{submit}" value="Submit"></button>
+    <textarea name="message" placeholder="Write a message" th:placeholder="#{message.new}"></textarea>
+    <input type="hidden" name="chat" th:value="*{id}">
+    <button type="submit" th:value="#{message.submit}" value="Send"></button>
   </form>
 
 </div>
