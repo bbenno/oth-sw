@@ -3,9 +3,9 @@ package de.othr.bib48218.chat.controller;
 import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.entity.Message;
 import de.othr.bib48218.chat.entity.User;
-import de.othr.bib48218.chat.service.ChatService;
-import de.othr.bib48218.chat.service.MessageService;
-import de.othr.bib48218.chat.service.UserService;
+import de.othr.bib48218.chat.service.IFChatService;
+import de.othr.bib48218.chat.service.IFMessageService;
+import de.othr.bib48218.chat.service.IFUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,13 +19,13 @@ import java.time.LocalDateTime;
 @RequestMapping("/message")
 public class MessageController {
     @Autowired
-    private MessageService messageService;
+    private IFMessageService messageService;
 
     @Autowired
-    private ChatService chatService;
+    private IFChatService chatService;
 
     @Autowired
-    private UserService userService;
+    private IFUserService userService;
 
     @RequestMapping("/new")
     private ModelAndView createMessage(@RequestParam("message") String text, @RequestParam("chat") Long chat_id, Principal principal) {
