@@ -8,6 +8,7 @@ import org.springframework.lang.NonNull;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -28,7 +29,7 @@ public class Message extends IdEntity {
     @NotBlank
     private String text;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @NonNull
     @lombok.NonNull
     @NotNull

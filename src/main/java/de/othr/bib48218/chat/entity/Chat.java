@@ -16,7 +16,7 @@ public abstract class Chat {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
     private Collection<Message> messages;
 
     @OneToMany(mappedBy = "chat")
