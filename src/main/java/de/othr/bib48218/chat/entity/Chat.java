@@ -21,4 +21,9 @@ public abstract class Chat implements HeaderSearchElement {
 
     @OneToMany(mappedBy = "chat")
     private Collection<ChatMembership> memberships;
+
+    @Override
+    public String toString() {
+        return String.join(" ", this.getClass().getSimpleName(), id.toString());
+    }
 }
