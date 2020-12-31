@@ -28,18 +28,16 @@
 
 <header th:replace="fragment/header :: header"></header>
 
-<div class="container">
-  <div layout:fragment="content">
-    <h1>Dummy Page</h1>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Praesent scelerisque neque neque, ac elementum quam dignissim interdum.
-      Phasellus et placerat elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Praesent scelerisque neque neque, ac elementum quam dignissim interdum.
-      Phasellus et placerat elit.
-    </p>
-  </div>
-</div>
+<main class="container" layout:fragment="content">
+  <h1>Dummy Page</h1>
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Praesent scelerisque neque neque, ac elementum quam dignissim interdum.
+    Phasellus et placerat elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Praesent scelerisque neque neque, ac elementum quam dignissim interdum.
+    Phasellus et placerat elit.
+  </p>
+</main>
 
 <footer th:replace="fragment/footer :: footer">© 2020 Benno Bielmeier</footer>
 
