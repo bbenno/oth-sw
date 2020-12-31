@@ -20,8 +20,13 @@ public class HomeController {
     IFUserService userService;
 
     @RequestMapping("/login")
-    public String showLoginPage(Model model) {
+    public String showLoginPage() {
         return "login";
+    }
+
+    @RequestMapping("/logout")
+    public String showLogoutPage() {
+        return "logout";
     }
 
     @RequestMapping("/")
