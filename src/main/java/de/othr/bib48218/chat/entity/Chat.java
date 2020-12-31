@@ -11,7 +11,7 @@ import java.util.Collection;
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode
-public abstract class Chat {
+public abstract class Chat implements HeaderSearchElement {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
