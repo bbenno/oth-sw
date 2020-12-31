@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Service
 public class ChatService implements IFChatService {
@@ -30,5 +33,12 @@ public class ChatService implements IFChatService {
         chats.addAll(peerRepository.findByMembershipsUser(user));
 
         return chats;
+    }
+
+    @Override
+    public Collection<Chat> getAll() {
+        Stream<Chat> groupChatStream = StreamSupport.stream(groupRepository.findAll().spliterator(), false).map((chat) -> chat);
+        Stream<Chat> peerChatStream = StreamSupport.stream(peerRepository.findAll().spliterator(), false).map((chat) -> chat);
+        return Stream.concat(groupChatStream, peerChatStream).collect(Collectors.toUnmodifiableList());
     }
 }
