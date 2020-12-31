@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public final class HeaderSearchElementFactory {
+public class HeaderSearchElementFactory {
     private static HeaderSearchElementFactory instance;
     @Autowired
     private IFUserService userService;

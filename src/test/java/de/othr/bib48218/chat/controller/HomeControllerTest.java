@@ -7,7 +7,6 @@ import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.factory.UserFactory;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
-import org.hamcrest.core.StringStartsWith;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Spy;
@@ -24,23 +23,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(HomeController.class)
 @Import(WebSecurityTestConfig.class)
 public class HomeControllerTest {
-    @Autowired
-    private MockMvc mvc;
-
-    @MockBean
-    private IFUserService userService;
-
-    @MockBean
-    private IFChatService chatService;
-
     @Spy
     HeaderSearchElementFactory headerSearchElementFactory = HeaderSearchElementFactory.getInstance();
-
+    @Autowired
+    private MockMvc mvc;
+    @MockBean
+    private IFUserService userService;
+    @MockBean
+    private IFChatService chatService;
     private User registeredUser;
 
     @BeforeEach
