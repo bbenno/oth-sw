@@ -22,4 +22,12 @@ public class GroupChat extends Chat {
 
     @OneToOne(cascade = CascadeType.ALL)
     private ChatProfile profile;
+
+    @Override
+    public String toString() {
+        String s = super.toString();
+        if (visibility != null)
+            s += " (" + visibility + ")";
+        return s;
+    }
 }
