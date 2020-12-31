@@ -33,6 +33,6 @@ public class MessageController {
         Chat chat = chatService.getChatById(chat_id);
         Message message = new Message(text, chat, author, LocalDateTime.now());
         messageService.saveMessage(message);
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/chat/" + chat.getId());
     }
 }
