@@ -8,11 +8,19 @@ import de.othr.bib48218.chat.factory.UserFactory;
 import de.othr.bib48218.chat.repository.BotRepository;
 import de.othr.bib48218.chat.repository.PersonRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.test.context.BootstrapWith;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Optional;
 
@@ -21,16 +29,19 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
-class UserServiceIntegrationTest {
-    @Autowired
-    private IFUserService userService;
+@ExtendWith(MockitoExtension.class)
+class UserServiceTest {
+    @InjectMocks
+    private UserService userService;
 
-    @MockBean
+    @Mock
     private PersonRepository personRepository;
 
-    @MockBean
+    @Mock
     private BotRepository botRepository;
+
+    @Spy
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Test
     void shouldGetPersonByFirstNameIfExisting() {
@@ -133,11 +144,4 @@ class UserServiceIntegrationTest {
         assertThrows(UserAlreadyExists.class, () -> userService.createBot(bot));
     }
 
-    @TestConfiguration
-    static class UserServiceTestContextConfiguration {
-        @Bean
-        IFUserService ifUserService() {
-            return new UserService();
-        }
-    }
 }

@@ -9,4 +9,6 @@ public interface IFChatService {
     Chat getChatById(Long id);
 
     Collection<Chat> getChatsByUser(User user);
+
+    Collection<Chat> getAll();
 }
