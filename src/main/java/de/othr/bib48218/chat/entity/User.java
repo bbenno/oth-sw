@@ -21,7 +21,7 @@ import java.util.Set;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode
-public abstract class User implements UserDetails {
+public abstract class User implements UserDetails, HeaderSearchElement {
     @Id
     @NonNull
     @lombok.NonNull
