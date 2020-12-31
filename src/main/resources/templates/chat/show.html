@@ -16,6 +16,10 @@
 
   <h1 th:text="${chat}">Chat Title</h1>
 
+  <div>
+    <span th:text="#{chat.add_user.title}">Add Member</span>
+  </div>
+
   <div th:each="message : *{messages}" th:unless="${#lists.isEmpty(chat.messages)}">
     <div th:object="${message}">
       <span th:text="*{timestamp}">2020-10-10T23:54:39</span>
@@ -25,9 +29,11 @@
   </div>
 
   <form action="#" class="d-flex my-3" th:action="@{/message/new}" method="post">
-    <textarea class="form-control me-2" name="message" placeholder="Write a message" th:placeholder="#{message.new}" autofocus></textarea>
+    <textarea class="form-control me-2" name="message" placeholder="Write a message" th:placeholder="#{message.new}"
+              autofocus></textarea>
     <input type="hidden" name="chat" th:value="*{id}">
-    <button class="btn btn-primary align-self-center" type="submit" th:text="#{message.submit}" value="submit">Send</button>
+    <button class="btn btn-primary align-self-center" type="submit" th:text="#{message.submit}" value="submit">Send
+    </button>
   </form>
 
 </div>
