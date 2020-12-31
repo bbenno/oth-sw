@@ -16,6 +16,8 @@
 <form action="#" class="container" layout:fragment="content" method="post" th:action="@{/register}"
       th:object="${person}">
 
+  <h1 th:text="#{register}">Register</h1>
+
   <div class="">
     <label class="form-label" th:for="username" th:text="#{user.username}">Username</label>
     <input class="form-control" th:errorclass="is-invalid" th:field="*{username}" type="text"/>
