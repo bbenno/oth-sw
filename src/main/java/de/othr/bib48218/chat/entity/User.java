@@ -74,4 +74,9 @@ public abstract class User implements UserDetails, HeaderSearchElement {
     public boolean isEnabled() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return username;
+    }
 }
