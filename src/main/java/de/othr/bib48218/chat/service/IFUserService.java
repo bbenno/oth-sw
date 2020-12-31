@@ -5,6 +5,8 @@ import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
 
+import java.util.Collection;
+
 public interface IFUserService {
     Person getPersonByFirstName(String firstName);
 
@@ -17,4 +19,6 @@ public interface IFUserService {
     Person createPerson(Person person) throws UserAlreadyExists;
 
     Bot createBot(Bot bot) throws UserAlreadyExists;
+
+    Collection<User> getAll();
 }

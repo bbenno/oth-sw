@@ -13,7 +13,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Service
 public class UserService implements IFUserService, UserDetailsService {
@@ -73,5 +78,12 @@ public class UserService implements IFUserService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Person> user = personRepository.findByUsername(username);
         return user.orElseThrow(() -> new UsernameNotFoundException("No User with username '" + username + "'"));
+    }
+
+    @Override
+    public Collection<User> getAll() {
+        Stream<User> personStream = StreamSupport.stream(personRepository.findAll().spliterator(), false).map((person) -> person);
+        Stream<User> botStream = StreamSupport.stream(botRepository.findAll().spliterator(), false).map((bot) -> bot);
+        return Stream.concat(personStream, botStream).collect(Collectors.toUnmodifiableList());
     }
 }
