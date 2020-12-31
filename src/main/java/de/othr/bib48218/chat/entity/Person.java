@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -48,18 +49,18 @@ public class Person extends User {
 
     @Override
     public String toString() {
-        String fullName = fullName();
-        return fullName == null ? getUsername() : fullName;
+        return fullName().orElse(super.toString());
     }
 
-    public @Nullable
-    String fullName() {
-        if (firstName == null || firstName.isBlank()) {
-            return getLastName();
-        } else if (lastName == null || lastName.isBlank()) {
-            return getFirstName();
+    public Optional<String> fullName() {
+        String fullName;
+        if (getFirstName() == null)
+            fullName = getLastName();
+        else if (getLastName() == null) {
+            fullName = getFirstName();
         } else {
-            return String.join(" ", firstName, lastName);
+            fullName = String.join(" ", firstName, lastName);
         }
+        return Optional.ofNullable(fullName);
     }
 }
