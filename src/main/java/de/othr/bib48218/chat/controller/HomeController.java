@@ -41,4 +41,9 @@ public class HomeController {
     public ModelAndView showHomeAlias(Model model) {
         return new ModelAndView("redirect:/", model.asMap());
     }
+
+    @RequestMapping("/me")
+    public ModelAndView showMe(Principal principal) {
+        return new ModelAndView("redirect:/user/" + principal.getName());
+    }
 }

@@ -1,26 +1,30 @@
 package de.othr.bib48218.chat.controller;
 
+import de.othr.bib48218.chat.HeaderSearchElementFactory;
 import de.othr.bib48218.chat.WebSecurityTestConfig;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.factory.UserFactory;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
+import org.hamcrest.core.StringStartsWith;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(HomeController.class)
 @Import(WebSecurityTestConfig.class)
@@ -34,6 +38,9 @@ public class HomeControllerTest {
     @MockBean
     private IFChatService chatService;
 
+    @Spy
+    HeaderSearchElementFactory headerSearchElementFactory = HeaderSearchElementFactory.getInstance();
+
     private User registeredUser;
 
     @BeforeEach
@@ -46,12 +53,14 @@ public class HomeControllerTest {
     @Test
     void homeShouldRequireAuthentication() throws Exception {
         mvc.perform(get("/"))
-            .andExpect(redirectedUrlPattern("**/login"));
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedToLogin());
     }
 
     @Test
+    @WithMockUser
     void homeShouldBeAccessibleWithAuthentication() throws Exception {
-        mvc.perform(get("/").with(user("user")))
+        mvc.perform(get("/"))
             .andExpect(status().isOk());
     }
 
@@ -73,9 +82,39 @@ public class HomeControllerTest {
             .andExpect(status().isOk());
     }
 
+    @Test
+    @WithMockUser
+    void meShouldRedirectToUserView() throws Exception {
+        mvc.perform(get("/me"))
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrlPattern("/user/*"));
+    }
+
+    @Test
+    @WithMockUser("username")
+    void viewOfMeRedirectShouldExist() throws Exception {
+        String target = mvc.perform(get("/me")).andReturn().getResponse().getRedirectedUrl();
+
+        assertThat(target).isNotBlank();
+        assertThat(target.contains("/user/username"));
+
+        mvc.perform(get(target))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    void meShouldRequireAuthentication() throws Exception {
+        mvc.perform(get("/me"))
+            .andExpect(redirectedToLogin());
+    }
+
     private MockHttpServletRequestBuilder postValidLogin() {
         return post("/login")
             .param("username", registeredUser.getUsername())
             .param("password", registeredUser.getPassword());
+    }
+
+    private ResultMatcher redirectedToLogin() {
+        return redirectedUrlPattern("**/login");
     }
 }
