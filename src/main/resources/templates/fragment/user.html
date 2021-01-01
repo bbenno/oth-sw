@@ -10,8 +10,8 @@
 
 <body>
 
-<div th:fragment="name (person)">
-  <a th:text="${person}" href="#" th:href="@{/person/{username}(username=${person.username})}">Bob A.</a>
+<div th:fragment="name (user)">
+  <a th:text="${user}" href="#" th:href="@{/user/{username}(username=${user.username})}">Bob A.</a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
