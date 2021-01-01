@@ -22,13 +22,8 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
-        <input class="form-control form-control-dark w-100" list="datalistHeaderSearch" type="text" placeholder="Search"
+        <input class="form-control form-control-dark w-100" type="text" placeholder="Search"
                aria-label="Search">
-        <datalist id="datalistHeaderSearch">
-          <option value="Example Chat"
-                  th:each="headerSearchElement : ${@headerSearchConfig.getHeaderSearchElementFactory().getAllHeaderSearchElements()}"
-                  th:value="${headerSearchElement}">
-        </datalist>
         <ul class="navbar-nav px-3">
           <li class="nav-item text-nowrap navbar-text" th:text="${#authentication.name}">Username</li>
           <li class="nav-item text-nowrap">
