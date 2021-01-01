@@ -43,7 +43,7 @@ public class ChatServiceTest {
         GroupChat chat = ChatFactory.newValidGroupChat();
         when(groupChatRepository.findById(id)).thenReturn(Optional.of(chat));
 
-        Chat chatFound = chatService.getChatById(id);
+        Chat chatFound = chatService.getChatById(id).get();
 
         assertThat(chatFound).isNotNull();
     }

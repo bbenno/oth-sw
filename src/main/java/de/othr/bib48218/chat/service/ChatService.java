@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -25,8 +26,12 @@ public class ChatService implements IFChatService {
     private ChatMembershipRepository chatMembershipRepository;
 
     @Override
-    public Chat getChatById(Long id) {
-        return groupRepository.findById(id).orElse(null);
+    public Optional<? extends Chat> getChatById(Long id) {
+        var groupChat = groupRepository.findById(id);
+        if (groupChat.isPresent())
+            return groupChat;
+        else
+            return peerRepository.findById(id);
     }
 
     @Override
@@ -67,5 +72,25 @@ public class ChatService implements IFChatService {
         chat = groupRepository.save(chat);
         addUserToChat(creator, chat, ChatMemberStatus.ADMINISTRATOR);
         return chat;
+    }
+
+    @Override
+    public PeerChat getPeerChatOf(User user, User otherUser) {
+        Collection<PeerChat> chatsOfUser = peerRepository.findByMembershipsUser(user);
+        Collection<PeerChat> chatsOfOtherUser = peerRepository.findByMembershipsUser(otherUser);
+
+        Optional<PeerChat> chat = chatsOfUser.stream().distinct().filter(chatsOfOtherUser::contains).findAny();
+
+        if (chat.isPresent()){
+            return chat.get();
+        } else {
+            // Create new PeerChat
+            PeerChat peerChat = new PeerChat();
+            peerChat = peerRepository.save(peerChat);
+            addUserToChat(user, peerChat);
+            addUserToChat(otherUser, peerChat);
+
+            return peerChat;
+        }
     }
 }

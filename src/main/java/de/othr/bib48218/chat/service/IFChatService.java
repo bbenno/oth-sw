@@ -2,11 +2,11 @@ package de.othr.bib48218.chat.service;
 
 import de.othr.bib48218.chat.entity.*;
 
-import java.beans.Visibility;
 import java.util.Collection;
+import java.util.Optional;
 
 public interface IFChatService {
-    Chat getChatById(Long id);
+    Optional<? extends Chat> getChatById(Long id);
 
     Collection<Chat> getChatsByUser(User user);
 
@@ -19,4 +19,6 @@ public interface IFChatService {
     GroupChat createGroupChat(User creator, GroupVisibility visibility);
 
     GroupChat createGroupChat(User creator, GroupChat chat);
+
+    PeerChat getPeerChatOf(User user, User otherUser);
 }

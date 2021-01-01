@@ -30,7 +30,7 @@ public class MessageController {
     @RequestMapping("/new")
     private ModelAndView createMessage(@RequestParam("message") String text, @RequestParam("chat") Long chat_id, Principal principal) {
         User author = userService.getUserByUsername(principal.getName());
-        Chat chat = chatService.getChatById(chat_id);
+        Chat chat = chatService.getChatById(chat_id).get();
         Message message = new Message(text, chat, author, LocalDateTime.now());
         messageService.saveMessage(message);
         return new ModelAndView("redirect:/chat/" + chat.getId());

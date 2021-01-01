@@ -7,7 +7,6 @@ import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.factory.ChatFactory;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
-import org.junit.jupiter.api.Test;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -16,7 +15,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
@@ -38,14 +36,18 @@ public class ChatControllerTest {
         return Faker.instance().name().username();
     }
 
+    private static Chat anyChat() {
+        return ChatFactory.newValidGroupChat();
+    }
+
     // ToDo: chat.id must not be null
     //@Test
     @WithMockUser
     void shouldRedirectToChatAfterAddingUser() throws Exception {
         Long id = 1L;
         Chat chat = anyChat();
-        when(chatService.getChatById(id)).thenReturn(chat);
-        mvc.perform(post("/chat/"+ id + "/add").param("username", anyUsername()))
+        //when(chatService.getChatById(id)).thenReturn(Optional.of(chat));
+        mvc.perform(post("/chat/" + id + "/add").param("username", anyUsername()))
             .andExpect(status().is3xxRedirection())
             .andExpect(redirectedUrl("/chat/" + id));
     }
@@ -56,12 +58,8 @@ public class ChatControllerTest {
     void shouldDisplayAddMemberView() throws Exception {
         Long id = 1L;
         Chat chat = anyChat();
-        when(chatService.getChatById(id)).thenReturn(chat);
+        // when(chatService.getChatById(id)).thenReturn(Optional.of(chat));
         mvc.perform(get("/chat/" + id + "/add"))
             .andExpect(status().isOk());
-    }
-
-    private static Chat anyChat() {
-        return ChatFactory.newValidGroupChat();
     }
 }
