@@ -1,10 +1,8 @@
 package de.othr.bib48218.chat.service;
 
-import de.othr.bib48218.chat.entity.Chat;
-import de.othr.bib48218.chat.entity.ChatMemberStatus;
-import de.othr.bib48218.chat.entity.ChatMembership;
-import de.othr.bib48218.chat.entity.User;
+import de.othr.bib48218.chat.entity.*;
 
+import java.beans.Visibility;
 import java.util.Collection;
 
 public interface IFChatService {
@@ -17,4 +15,8 @@ public interface IFChatService {
     ChatMembership addUserToChat(User user, Chat chat);
 
     ChatMembership addUserToChat(User user, Chat chat, ChatMemberStatus status);
+
+    GroupChat createGroupChat(User creator, GroupVisibility visibility);
+
+    GroupChat createGroupChat(User creator, GroupChat chat);
 }

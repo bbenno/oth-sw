@@ -152,6 +152,18 @@ public class ChatServiceTest {
         assertThat(chatMembership.getStatus()).isEqualTo(status);
     }
 
+    @Test
+    void shouldReturnGroupChatWhenCreateGroupChat() {
+        User user = anyUser();
+        GroupVisibility visibility = GroupVisibility.PRIVATE;
+        when(groupChatRepository.save(any(GroupChat.class))).thenAnswer(i -> i.getArgument(0, GroupChat.class));
+
+        var groupChat = chatService.createGroupChat(user, visibility);
+
+        assertThat(groupChat).isNotNull();
+        assertThat(groupChat.getVisibility()).isEqualTo(visibility);
+    }
+
     private static long id() {
         return Faker.instance().number().randomNumber();
     }

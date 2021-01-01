@@ -40,6 +40,8 @@ public class ChatMembershipRepositoryIntegrationTest {
     void shouldFindChatMembershipsByChat() {
         Chat chat = ChatFactory.newValidGroupChat();
         ChatMembership chatMembership = ChatMembershipFactory.newChatMembershipWithChat(chat);
+        entityManager.persist(chatMembership.getChat());
+        entityManager.persist(chatMembership.getUser());
         entityManager.persistAndFlush(chatMembership);
 
         var found = chatMembershipRepository.findByChat(chat);

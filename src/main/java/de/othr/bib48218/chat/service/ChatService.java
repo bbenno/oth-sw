@@ -1,9 +1,6 @@
 package de.othr.bib48218.chat.service;
 
-import de.othr.bib48218.chat.entity.Chat;
-import de.othr.bib48218.chat.entity.ChatMemberStatus;
-import de.othr.bib48218.chat.entity.ChatMembership;
-import de.othr.bib48218.chat.entity.User;
+import de.othr.bib48218.chat.entity.*;
 import de.othr.bib48218.chat.repository.ChatMembershipRepository;
 import de.othr.bib48218.chat.repository.GroupChatRepository;
 import de.othr.bib48218.chat.repository.PeerChatRepository;
@@ -58,5 +55,17 @@ public class ChatService implements IFChatService {
         ChatMembership chatMembership = new ChatMembership(chat, status, user);
         chatMembership = chatMembershipRepository.save(chatMembership);
         return chatMembership;
+    }
+
+    @Override
+    public GroupChat createGroupChat(User creator, GroupVisibility visibility) {
+        return createGroupChat(creator, new GroupChat(visibility));
+    }
+
+    @Override
+    public GroupChat createGroupChat(User creator, GroupChat chat) {
+        chat = groupRepository.save(chat);
+        addUserToChat(creator, chat, ChatMemberStatus.ADMINISTRATOR);
+        return chat;
     }
 }
