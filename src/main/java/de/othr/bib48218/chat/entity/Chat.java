@@ -24,6 +24,10 @@ public abstract class Chat implements HeaderSearchElement {
 
     @Override
     public String toString() {
-        return String.join(" ", this.getClass().getSimpleName(), id.toString());
+        String s = getClass().getSimpleName();
+        if (id != null) {
+            s += id.toString();
+        }
+        return s;
     }
 }
