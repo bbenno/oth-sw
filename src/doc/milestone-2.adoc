@@ -1,0 +1,67 @@
+= Milestone 2: Requirements
+v1.0
+:icons: font
+
+[NOTE]
+====
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in https://www.ietf.org/rfc/rfc2119.txt[RFC 2119].
+====
+
+.Architecture
+. _MUST_ separate between front-end and back-end.
+  .. _SHOULD_ be separated by different packages.
+  .. _MAY_ be separated by different deployment components
+. _MUST_ apply layer architecture (presentation, business logic, persistence).
+. User-web-interface _MUST_ be realized with the MVC pattern.
+
+.Dependency Injection (DI) / Inversion of Control (IoC)
+. Connecting the classes of different components _MUST_ be realized via DI / IoC (`@Autowired`).
+. Application _MUST_ contain at least one custom producer method for bean creation.
+  This method _MUST_ be used.
+. Each CDI bean _MUST_ have an appropriate scope.
+
+.Persistence
+. Database access _MUST_ only be done via spring persistence (entities and repositories).
+. It _MUST NOT_ access a database directly via JDBC and native SQL.
+. Embeddables _SHOULD_ be used.
+. Cascading _SHOULD_ be used at least once.
+  Purpose _MUST_ be understood.
+. OrphanRemoval _SHOULD_ be used at least once.
+  Purpose _MUST_ be understood.
+. CRUD repositories _MUST_ be used.
+. JPA repositories _SHOULD_ be used.
+. PagingAndSorting repositories _SHOULD_ be used.
+. Inheritance mapping _MAY_ be used.
+. MappedSuperclass _SHOULD_ be used.
+  Purpose _MUST_ be understood.
+
+.Web UI
+. UI _MUST_ be realized via Spring-MVC.
+. Thymeleaf _MUST_ be used as rendering library.
+. View fragmentation and re-usage _SHOULD_ be used.
+. [Bootstrap](https://getbootstrap.com) _SHOULD_ be used.
+
+.Repository
+. Write access _MUST_ be done in transactional context.
+  .. Therefore, service classes _MUST_ be annotated with `@Transactional` with an appropriate transaction type.
+
+.Integration
+. One service class _MUST_ be public accessible for a partner project.
+  .. At least one method _MUST_ be callable.
+. At least one service method provided by a foreign service _MUST_ be called.
+  .. Service method(s) _SHOULD_ be used internally.
+. Integration _MUST_ be realized either with RESTful web service or asynchronous messaging (queues or topics).
+. RESTful paths _MUST_ be intuitive.
+
+.Deployment
+. Application _MUST_ be deployed on lab server.
+. Application with all its source code and configuration files (but without any binaries) _MUST_ be uploaded to GRIPS as one ZIP file.
+
+.Usage of foreign sources
+. Project _MUST_ be realized individually.
+. Project _MAY_ re-use some small parts of foreign source code.
+  .. If so, the origin of the source code _MUST_ be stated in the comments.
+  .. The inclusion of foreign code _MUST NOT_ fulfill essential requirements of the application.
+. Additional dependencies _MAY_ be used.
+  .. If so, they _MUST_ be imported via Maven.
+  
