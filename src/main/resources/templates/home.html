@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Home</title>
+  <title th:text="#{home.title}">Home</title>
   <style>
     main > .container {
       padding: 60px 15px 0;
@@ -19,7 +19,7 @@
 <body>
 
 <main class="container" layout:fragment="content">
-  <h1>Chat</h1>
+  <h1 th:text="${applicationName}">Chat</h1>
   <p class="lead"></p>
   <ul th:each="chat : ${chats}" th:unless="${#lists.isEmpty(chats)}">
     <li><a th:href="@{chat/{chatId}(chatId=${chat.id})}" th:text="${chat}">Example Chat</a></li>
