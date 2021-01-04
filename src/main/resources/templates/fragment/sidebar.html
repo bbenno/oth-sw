@@ -15,9 +15,9 @@
 
 <aside id="sidebar-wrapper">
   <nav aria-label="Chat navigation">
-    <div class="sidebar-heading" th:text="#{chats}">Chats</div>
+    <div class="sidebar-heading" th:text="#{entity.chat.other}">Chats</div>
     <ul class="list-unstyled" th:each="chat : ${chats}">
-      <li><a href="#" th:href="@{/chat/chat_id(chat_id=${chat.id})}" th:text="${chat}">Example Chat</a></li>
+      <li><a href="#" th:href="@{/chat/{chat_id}(chat_id=${chat.id})}" th:text="${chat}">Example Chat</a></li>
     </ul>
   </nav>
 </aside>

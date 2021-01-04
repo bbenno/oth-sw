@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>Login</title>
+  <title th:text="#{login.title}">Login</title>
 
   <style>
     html,
@@ -68,12 +68,12 @@
   <form th:action="@{/perform_login}" th:method="post">
     <h1 class="h3 mb-3 fw-normal" th:text="#{login.title}">Please sign in</h1>
     <p th:if="${param.error}" class="text-danger" th:text="#{login.error}">Wrong user or password</p>
-    <label for="inputUsername" class="visually-hidden" th:text="#{user.username}">Username</label>
+    <label for="inputUsername" class="visually-hidden" th:text="#{attribute.user.username}">Username</label>
     <input type="text" id="inputUsername" class="form-control" name="username" placeholder="Username"
-           th:placeholder="#{user.username}" required autofocus>
-    <label for="inputPassword" class="visually-hidden" th:text="#{user.password}">Password</label>
+           th:placeholder="#{attribute.user.username}" required autofocus>
+    <label for="inputPassword" class="visually-hidden" th:text="#{attribute.user.password}">Password</label>
     <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password"
-           th:placeholder="#{user.password}" required>
+           th:placeholder="#{attribute.user.password}" required>
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <div class="checkbox mb-3">
       <input id="remember-me" type="checkbox" value="remember-me">
