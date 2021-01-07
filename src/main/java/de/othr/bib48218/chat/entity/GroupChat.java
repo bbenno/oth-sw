@@ -8,6 +8,7 @@ import org.springframework.lang.NonNull;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -20,7 +21,7 @@ public class GroupChat extends Chat {
     @lombok.NonNull
     private GroupVisibility visibility;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private ChatProfile profile;
 
     @Override
