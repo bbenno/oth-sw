@@ -1,5 +1,6 @@
 package de.othr.bib48218.chat.service;
 
+import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.entity.Message;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.repository.MessageRepository;
@@ -7,6 +8,7 @@ import de.othr.bib48218.chat.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -19,8 +21,28 @@ public class MessageService implements IFMessageService {
     private PersonRepository userRepository;
 
     @Override
+    public Collection<Message> getAllMessagesByChat(Chat chat) {
+        return repository.findByChat(chat);
+    }
+
+    @Override
+    public Collection<Message> getMessagesByChatFrom(Chat chat, LocalDateTime time) {
+        return repository.findByChatAndTimestampBefore(chat, time);
+    }
+
+    @Override
     public Message saveMessage(Message message) {
         return repository.save(message);
+    }
+
+    @Override
+    public void deleteMessageById(Long id) {
+
+    }
+
+    @Override
+    public void deleteMessage(Message message) {
+
     }
 
     @Override
