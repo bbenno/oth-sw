@@ -142,6 +142,8 @@ chat:
     submit: Add User
     title: Add User to Chat
     caption: Add User to Chat
+    add_user: Add User
+    delete_chat: Delete Chat
   new_group:
     title: Create Group Chat
     submit: Create
@@ -169,3 +171,8 @@ person:
 register:
   title: Register
   submit: Register
+sidebar:
+  create_group_chat: Create Group Chat
+user:
+  show_person:
+    messaging: Write Message

@@ -30,8 +30,7 @@
 
 <header th:replace="fragment/header :: header"></header>
 
-<div class="d-flex" id="wrapper">
-  <aside th:replace="fragment/sidebar :: aside" th:if="${chats != null && !chat.isEmpty()}"></aside>
+<div id="wrapper">
   <main layout:fragment="content">
     <h1>Dummy Page</h1>
     <p>
