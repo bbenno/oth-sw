@@ -32,11 +32,11 @@ public class ChatController {
     public ModelAndView showChat(@PathVariable String identifier, Principal principal) {
         try {
             Long id = Long.parseLong(identifier);
+            User principal_user = userService.getUserByUsername(principal.getName());
             Optional<? extends Chat> chat = chatService.getChatById(id);
-            if (chat.isPresent()) {
+            if (chat.isPresent() && chat.get().getMemberships().stream().anyMatch(m -> m.getUser().equals(principal_user))) {
                 return new ModelAndView("chat/show", "chat", chat.get());
-            }
-            else
+            } else
                 return new ModelAndView("redirect:/");
         } catch (NumberFormatException e) {
             // Interpret id as username
@@ -45,7 +45,7 @@ public class ChatController {
             PeerChat chat = chatService.getPeerChatOf(user, other);
 
             return new ModelAndView("chat/show", "chat", chat);
-        } catch(Exception e) {
+        } catch (Exception e) {
             return new ModelAndView("redirect:/");
         }
     }
