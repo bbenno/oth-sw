@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/chat")
@@ -31,8 +32,12 @@ public class ChatController {
     public ModelAndView showChat(@PathVariable String identifier, Principal principal) {
         try {
             Long id = Long.parseLong(identifier);
-            Chat chat = chatService.getChatById(id).get();
-            return new ModelAndView("chat/show", "chat", chat);
+            Optional<? extends Chat> chat = chatService.getChatById(id);
+            if (chat.isPresent()) {
+                return new ModelAndView("chat/show", "chat", chat.get());
+            }
+            else
+                return new ModelAndView("redirect:/");
         } catch (NumberFormatException e) {
             // Interpret id as username
             User user = userService.getUserByUsername(principal.getName());
