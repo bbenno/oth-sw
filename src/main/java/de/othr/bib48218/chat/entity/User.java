@@ -77,6 +77,10 @@ public abstract class User implements UserDetails, HeaderSearchElement {
 
     @Override
     public String toString() {
-        return username;
+        if (profile == null) {
+            return username;
+        } else {
+            return profile.getName();
+        }
     }
 }
