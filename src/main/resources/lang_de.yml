@@ -157,6 +157,8 @@ chat:
     submit: Benutzer hinzufügen
     title: Benutzer zu Chat hinzufügen
     caption: Benutzer zu Chat hinzufügen
+    add_user: Add User
+    delete_chat: Delete Chat
   new_group:
     title: Neuen Gruppenchat anlegen
     submit: Anlegen
@@ -184,3 +186,8 @@ person:
 register:
   title: Registrieren
   submit: Registrieren
+sidebar:
+  create_group_chat: Create Group Chat
+user:
+  show_person:
+    messaging: Write Message
