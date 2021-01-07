@@ -32,14 +32,20 @@ public class UserService implements IFUserService, UserDetailsService {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public Person getPersonByFirstName(String firstName) {
-        return personRepository.findByFirstName(firstName).orElse(null);
+    public Collection<Person> getPersonByFirstName(String firstName) {
+        return personRepository.findByFirstName(firstName);
+    }
+
+    @Override
+    public Collection<Person> getPersonByLastName(String lastName) {
+        return personRepository.findByLastName(lastName);
     }
 
     @Override
     public User getUserByUsername(String username) {
         Optional<User> found_person = personRepository.findByUsername(username).map((person) -> person);
         Optional<User> found_bot = botRepository.findByUsername(username).map((bot) -> bot);
+
         return found_person.orElse(found_bot.orElse(null));
     }
 
@@ -76,13 +82,29 @@ public class UserService implements IFUserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Person> user = personRepository.findByUsername(username);
+
         return user.orElseThrow(() -> new UsernameNotFoundException("No User with username '" + username + "'"));
     }
 
     @Override
-    public Collection<User> getAll() {
+    public Collection<User> getAllUsers() {
         Stream<User> personStream = StreamSupport.stream(personRepository.findAll().spliterator(), false).map((person) -> person);
         Stream<User> botStream = StreamSupport.stream(botRepository.findAll().spliterator(), false).map((bot) -> bot);
+
         return Stream.concat(personStream, botStream).collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    public Collection<Person> getAllPersons() {
+        Stream<Person> personStream = StreamSupport.stream(personRepository.findAll().spliterator(), false);
+
+        return personStream.collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    public Collection<Bot> getAllBots() {
+        Stream<Bot> botStream = StreamSupport.stream(botRepository.findAll().spliterator(), false);
+
+        return botStream.collect(Collectors.toUnmodifiableList());
     }
 }

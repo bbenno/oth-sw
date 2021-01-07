@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,12 +27,11 @@ class PersonRepositoryIntegrationTest {
         Person person = UserFactory.newValidPerson();
         entityManager.persistAndFlush(person);
 
-        Optional<Person> found = personRepository.findByFirstName(person.getFirstName());
+        Collection<Person> found = personRepository.findByFirstName(person.getFirstName());
 
-        assertThat(found).isPresent();
-        Person foundPerson = found.get();
-        assertThat(foundPerson.getFirstName()).isEqualTo(person.getFirstName());
-        assertThat(foundPerson).isEqualTo(person);
+        assertThat(found).isNotNull();
+        assertThat(found).isNotEmpty();
+        assertThat(found).contains(person);
     }
 
     @Test
