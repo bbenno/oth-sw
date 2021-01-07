@@ -28,11 +28,11 @@ public class UserFactory {
         return new Person(username, password, firstName, lastName, email);
     }
 
-    private static String password() {
+    protected static String password() {
         return faker.internet().password(8, 20);
     }
 
-    private static String username() {
+    protected static String username() {
         return faker.name().username();
     }
 }
