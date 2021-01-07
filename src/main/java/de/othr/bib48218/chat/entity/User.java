@@ -37,7 +37,7 @@ public abstract class User implements UserDetails, HeaderSearchElement {
     @Size(min = 8, max = 80)
     private String password;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private UserProfile profile;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
