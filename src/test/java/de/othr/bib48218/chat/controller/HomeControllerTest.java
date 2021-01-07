@@ -88,14 +88,11 @@ public class HomeControllerTest {
 
     @Test
     @WithMockUser("username")
-    void viewOfMeRedirectShouldExist() throws Exception {
+    void viewOfMeRedirectShouldTargetUserPage() throws Exception {
         String target = mvc.perform(get("/me")).andReturn().getResponse().getRedirectedUrl();
 
         assertThat(target).isNotBlank();
         assertThat(target.contains("/user/username"));
-
-        mvc.perform(get(target))
-            .andExpect(status().isOk());
     }
 
     @Test
