@@ -171,3 +171,5 @@ person:
 register:
   title: Register
   submit: Register
+sidebar:
+  create_group_chat: Create Group Chat
