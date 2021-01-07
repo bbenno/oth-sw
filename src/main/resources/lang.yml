@@ -1,0 +1,178 @@
+entity:
+  attachment:
+    one: &attachment Attachment
+    other: Attachments
+  bot:
+    one: Bot
+    other: Bots
+  chat:
+    one: &chat Chat
+    other: Chats
+  chat_membership:
+    one: Chat Membership
+    other: &chat_memberships Chat Memberships
+  chat_member_status: &chat_member_status Chat Membership Status
+  chat_profile:
+    one: &group_profile Chat Profile
+    other: Chat Profiles
+  group_chat:
+    one: &group_chat Group Chat
+    other: Group Chats
+  group_chat_visibility:
+    one: Group Chat Visibility
+    other: Group Chat Visibilities
+  message:
+    one: &message Message
+    other: &messages Messages
+  peer_chat:
+    one: Peer Chat
+    other: Peer Chats
+  permission:
+    one: &permission Permission
+    other: Permissions
+  person:
+    one: Person
+    other: People
+  profile:
+    one: Profile
+    other: Profiles
+  service_credentials: Service Credentials
+  service_type:
+    one: &service_type Service Type
+    other: Service Types
+  user:
+    one: &user User
+    other: Users
+  user_permission:
+    one: User Permission
+    other: &user_permissions User Permissions
+  user_profile:
+    one: &user_profile User Profile
+    other: User Profiles
+
+enum:
+  chat_member_status:
+    ADMINISTRATOR: Administrator
+    MEMBER: Member
+    RESTRICTED: Restricted
+    LEFT: Left
+    KICKED: Kicked
+  group_chat_visibility:
+    PRIVATE: Private
+    PUBLIC: Public
+  service_type:
+    WEBSHOP: Webshop
+    BANK: Bank
+    PAYMENT: Payment Service
+
+attribute:
+  id_entity: &id_entity_attributes
+    id: ID
+  attachment:
+    <<: *id_entity_attributes
+    name: Name
+    mimeType: MIME Type
+    message: *message
+  chat: &chat_attributes
+    <<: *id_entity_attributes
+    messages: *messages
+    memberships: Memberships
+  chat_membership:
+    <<: *id_entity_attributes
+    chat: *chat
+    status: *chat_member_status
+    user: *user
+  group_chat:
+    <<: *chat_attributes
+    visibility: Visibility
+    profile: *group_profile
+  message:
+    <<: *id_entity_attributes
+    text: *message
+    chat: *chat
+    author: Author
+    timestamp: Timestamp
+    attachment: *attachment
+    reply_of: Reply Of
+  peer_chat:
+    <<: *chat_attributes
+  permission:
+    <<: *id_entity_attributes
+    name: Name
+    user_permissions: *user_permissions
+  profile: &profile_attributes
+    <<: *id_entity_attributes
+    name: Name
+    image_path: Image Path
+  chat_profile:
+    <<: *profile_attributes
+    description: Description
+    chat: *group_chat
+  user_profile:
+    <<: *profile_attributes
+    bio: Biographie
+    country: Country
+  service_credential:
+    <<: *id_entity_attributes
+    login_token: Login Token
+    service_type: *service_type
+  user: &user_attributes
+    <<: *id_entity_attributes
+    username: &user_username Username
+    id: *user_username
+    password: Password
+    profile: *user_profile
+    user_permissions: *user_permissions
+    memberships: *chat_memberships
+  bot:
+    <<: *user_attributes
+  person:
+    <<: *user_attributes
+    first_name: First Name
+    last_name: Last Name
+    email: Email
+    credentials: Credentials
+  user_permission:
+    <<: *id_entity_attributes
+    user: *user
+    permission: *permission
+
+chat:
+  add_user:
+    submit: Add User
+    title: Add User to Chat
+    caption: Add User to Chat
+    add_user: Add User
+    delete_chat: Delete Chat
+  new_group:
+    title: Create Group Chat
+    submit: Create
+header:
+  search: Search
+  logout: Sign out
+home:
+  title: Home
+login:
+  caption: Please sign in
+  error: Wrong Username or Password
+  remember_me: Remember me
+  submit: Sign in
+  title: Login
+logout:
+  loading: Loading...
+  title: Logout
+message:
+  new:
+    placeholder: Write a message...
+    submit: Send
+person:
+  show:
+    title: Person
+register:
+  title: Register
+  submit: Register
+sidebar:
+  create_group_chat: Create Group Chat
+user:
+  show_person:
+    messaging: Write Message

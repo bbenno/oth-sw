@@ -1,0 +1,186 @@
+---
+entity:
+  attachment:
+    one: Anhang
+    other: Anhänge
+  bot:
+    one: Bot
+    other: Bots
+  chat:
+    one: Chat
+    other: Chats
+  chat_membership:
+    one: Chat Mitgliedschaft
+    other: Chat Mitgliederschaften
+  chat_member_status: Chat Mitgliedschaftsstatus
+  chat_profile:
+    one: Chat Profil
+    other: Chat Profile
+  group_chat:
+    one: Gruppen Chat
+    other: Gruppen Chat
+  group_chat_visibility:
+    one: Gruppen Chat Sichtbarkeit
+    other: Gruppen Chat Sichtbarkeiten
+  message:
+    one: Nachricht
+    other: Nachrichten
+  peer_chat:
+    one: Einzelchat
+    other: Einzelchats
+  permission:
+    one: Berechtigung
+    other: Berechtigungen
+  person:
+    one: Person
+    other: Personen
+  profile:
+    one: Profil
+    other: Profile
+  service_credentials: Service Zugänge
+  service_type:
+    one: Service Art
+    other: Service Arten
+  user:
+    one: Benutzer
+    other: Benutzer
+  user_permission:
+    one: Benutzerberechtigung
+    other: Benutzerberechtigungen
+  user_profile:
+    one: Benutzerprofil
+    other: Benutzerprofile
+enum:
+  chat_member_status:
+    ADMINISTRATOR: Administrator
+    MEMBER: Mitglied
+    RESTRICTED: Beschränkt
+    LEFT: Ausgetreten
+    KICKED: Entfernt
+  group_chat_visibility:
+    PRIVATE: Privat
+    PUBLIC: Öffentlich
+  service_type:
+    WEBSHOP: Webshop
+    BANK: Bank
+    PAYMENT: Zahlungsdienst
+attribute:
+  id_entity:
+    id: ID
+  attachment:
+    id: ID
+    name: Name
+    mimeType: MIME Typ
+    message: Nachricht
+  chat:
+    id: ID
+    messages: Nachrichten
+    memberships: Mitgliedschaften
+  chat_membership:
+    id: ID
+    chat: Chat
+    status: Chat Mitgliedschaftsstatus
+    user: Benutzer
+  group_chat:
+    id: ID
+    messages: Nachrichten
+    memberships: Mitgliedschaften
+    visibility: Sichtbarkeit
+    profile: Chat Profil
+  message:
+    id: ID
+    text: Nachricht
+    chat: Chat
+    author: Autor
+    timestamp: Zeitpunkt
+    attachment: Anhang
+    reply_of: Antwort zu
+  peer_chat:
+    id: ID
+    messages: Nachrichten
+    memberships: Mitgliedschaften
+  permission:
+    id: ID
+    name: Name
+    user_permissions: Benutzerberechtigungen
+  profile:
+    id: ID
+    name: Name
+    image_path: Bild Dateipfad
+  chat_profile:
+    id: ID
+    name: Name
+    image_path: Bild Dateipfad
+    description: Beschreibung
+    chat: Gruppen Chat
+  user_profile:
+    id: ID
+    name: Name
+    image_path: Bild Dateipfad
+    bio: Bibliographie
+    country: Land
+  service_credential:
+    id: ID
+    login_token: Anmelde Token
+    service_type: Service Art
+  user:
+    id: Benutzername
+    username: Benutzername
+    password: Passwort
+    profile: Benutzerprofil
+    user_permissions: Benutzerberechtigungen
+    memberships: Chat Mitgliederschaften
+  bot:
+    id: Benutzername
+    username: Benutzername
+    password: Passwort
+    profile: Benutzerprofil
+    user_permissions: Benutzerberechtigungen
+    memberships: Chat Mitgliederschaften
+  person:
+    id: Benutzername
+    username: Benutzername
+    password: Passwort
+    profile: Benutzerprofil
+    user_permissions: Benutzerberechtigungen
+    memberships: Chat Mitgliederschaften
+    first_name: Vorname
+    last_name: Nachname
+    email: Email
+    credentials: Zugänge
+  user_permission:
+    id: ID
+    user: Benutzer
+    permission: Berechtigung
+chat:
+  add_user:
+    submit: Benutzer hinzufügen
+    title: Benutzer zu Chat hinzufügen
+    caption: Benutzer zu Chat hinzufügen
+  new_group:
+    title: Neuen Gruppenchat anlegen
+    submit: Anlegen
+header:
+  search: Suche
+  logout: Abmelden
+home:
+  title: Hauptseite
+login:
+  caption: Anmeldung
+  error: Falscher Benutzername oder Passwort
+  remember_me: Angemeldet bleiben
+  submit: Anmelden
+  title: Anmelden
+logout:
+  loading: Lädt...
+  title: Abmelden
+message:
+  new:
+    placeholder: Nachricht schreiben...
+    submit: Senden
+person:
+  show:
+    title: Person
+register:
+  title: Registrieren
+  submit: Registrieren
