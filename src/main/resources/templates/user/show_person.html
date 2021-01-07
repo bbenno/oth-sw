@@ -34,6 +34,12 @@
     <dt th:text="#{attribute.person.email}">Email</dt>
     <dd th:text="*{email}">milky@mail.com</dd>
   </dl>
+  <div class="btn-group">
+    <a class="btn btn-primary" href="#" th:href="@{/chat/{username}(username=${person.username})}"
+       th:text="#{user.show_person.messaging}">
+      Write Message
+    </a>
+  </div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"

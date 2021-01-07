@@ -173,3 +173,6 @@ register:
   submit: Register
 sidebar:
   create_group_chat: Create Group Chat
+user:
+  show_person:
+    messaging: Write Message
