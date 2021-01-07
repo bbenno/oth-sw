@@ -13,11 +13,11 @@
 
 <body>
 
-<aside id="sidebar-wrapper">
+<aside id="sidebar-wrapper" class="border-end">
   <nav aria-label="Chat navigation">
     <div class="sidebar-heading" th:text="#{entity.chat.other}">Chats</div>
-    <ul class="list-unstyled" th:each="chat : ${chats}">
-      <li><a href="#" th:href="@{/chat/{chat_id}(chat_id=${chat.id})}" th:text="${chat}">Example Chat</a></li>
+    <ul class="list-group" th:each="chat : ${chats}">
+      <li class="list-group-item"><a href="#" th:href="@{/chat/{chat_id}(chat_id=${chat.id})}" th:text="${chat}">Example Chat</a></li>
     </ul>
   </nav>
 </aside>
