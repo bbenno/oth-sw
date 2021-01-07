@@ -42,7 +42,7 @@ public class ChatController {
             // Interpret id as username
             User user = userService.getUserByUsername(principal.getName());
             User other = userService.getUserByUsername(identifier);
-            PeerChat chat = chatService.getPeerChatOf(user, other);
+            PeerChat chat = chatService.getOrCreatePeerChatOf(user, other);
 
             return new ModelAndView("chat/show", "chat", chat);
         } catch (Exception e) {
@@ -76,7 +76,7 @@ public class ChatController {
             return new ModelAndView("chat/form_groupChat", "chat", chat);
         } else {
             User creator = userService.getUserByUsername(principal.getName());
-            chat = chatService.createGroupChat(creator, chat);
+            chat = chatService.saveChat(creator, chat);
             return new ModelAndView("redirect:/chat/" + chat.getId());
         }
     }

@@ -3,12 +3,10 @@ package de.othr.bib48218.chat.service;
 import com.github.javafaker.Faker;
 import de.othr.bib48218.chat.entity.*;
 import de.othr.bib48218.chat.factory.ChatFactory;
-import de.othr.bib48218.chat.factory.ChatMembershipFactory;
 import de.othr.bib48218.chat.factory.UserFactory;
 import de.othr.bib48218.chat.repository.ChatMembershipRepository;
 import de.othr.bib48218.chat.repository.GroupChatRepository;
 import de.othr.bib48218.chat.repository.PeerChatRepository;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -92,7 +90,7 @@ public class ChatServiceTest {
         when(groupChatRepository.findAll()).thenReturn(new ArrayList<>(0));
         when(peerChatRepository.findAll()).thenReturn(new ArrayList<>(0));
 
-        var allChats = chatService.getAll();
+        var allChats = chatService.getAllChats();
 
         assertThat(allChats).isNotNull();
     }
@@ -104,7 +102,7 @@ public class ChatServiceTest {
         chats.add(chat);
         when(groupChatRepository.findAll()).thenReturn(chats);
 
-        var allChats = chatService.getAll();
+        var allChats = chatService.getAllChats();
 
         assertThat(allChats).contains(chat);
     }
@@ -116,7 +114,7 @@ public class ChatServiceTest {
         chats.add(chat);
         when(peerChatRepository.findAll()).thenReturn(chats);
 
-        var allChats = chatService.getAll();
+        var allChats = chatService.getAllChats();
 
         assertThat(allChats).contains(chat);
     }
