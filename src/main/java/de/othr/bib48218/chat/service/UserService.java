@@ -107,4 +107,20 @@ public class UserService implements IFUserService, UserDetailsService {
 
         return botStream.collect(Collectors.toUnmodifiableList());
     }
+
+    @Override
+    public void deleteUserByUsername(String username) {
+        deletePersonByUsername(username);
+        deleteBotByUsername(username);
+    }
+
+    @Override
+    public void deletePersonByUsername(String username) {
+        personRepository.deleteById(username);
+    }
+
+    @Override
+    public void deleteBotByUsername(String username) {
+        botRepository.deleteById(username);
+    }
 }

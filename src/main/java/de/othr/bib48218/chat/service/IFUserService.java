@@ -86,4 +86,25 @@ public interface IFUserService {
      * @return all bot users.
      */
     Collection<Bot> getAllBots();
+
+    /**
+     * Deletes user with given username.
+     *
+     * @param username sting identifying user
+     */
+    void deleteUserByUsername(String username);
+
+    /**
+     * Deletes person with given username.
+     *
+     * @param username sting identifying person
+     */
+    void deletePersonByUsername(String username);
+
+    /**
+     * Deletes bot with given username.
+     *
+     * @param username sting identifying bot
+     */
+    void deleteBotByUsername(String username);
 }
