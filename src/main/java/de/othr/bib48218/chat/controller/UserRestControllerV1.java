@@ -6,6 +6,7 @@ import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -48,33 +49,63 @@ public class UserRestControllerV1 implements IFUserRestControllerV1 {
      */
 
     @GetMapping("users")
-    public Collection<User> getUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<Collection<User>> getUsers() {
+        Collection<User> users = userService.getAllUsers();
+        if (users.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(users);
+        }
     }
 
     @GetMapping("users/{username}")
-    public User getUser(@PathVariable("username") String username) {
-        return userService.getUserByUsername(username);
+    public ResponseEntity<User> getUser(@PathVariable("username") String username) {
+        User user = userService.getUserByUsername(username);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(user);
+        }
     }
 
     @GetMapping("persons")
-    public Collection<Person> getPersons() {
-        return userService.getAllPersons();
+    public ResponseEntity<Collection<Person>> getPersons() {
+        Collection<Person> persons = userService.getAllPersons();
+        if (persons.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(persons);
+        }
     }
 
     @GetMapping("persons/{username}")
-    public Person getPerson(@PathVariable("username") String username) {
-        return userService.getPersonByUsername(username);
+    public ResponseEntity<Person> getPerson(@PathVariable("username") String username) {
+        Person person = userService.getPersonByUsername(username);
+        if (person == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(person);
+        }
     }
 
     @GetMapping("bots")
-    public Collection<Bot> getBots() {
-        return userService.getAllBots();
+    public ResponseEntity<Collection<Bot>> getBots() {
+        Collection<Bot> bots = userService.getAllBots();
+        if (bots.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(bots);
+        }
     }
 
     @GetMapping("bots/{username}")
-    public Bot getBot(@PathVariable("username") String username) {
-        return userService.getBotByUsername(username);
+    public ResponseEntity<Bot> getBot(@PathVariable("username") String username) {
+        Bot bot =  userService.getBotByUsername(username);
+        if (bot == null) {
+            return ResponseEntity.notFound().build();
+        } else  {
+            return ResponseEntity.ok(bot);
+        }
     }
 
     /*

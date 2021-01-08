@@ -3,6 +3,7 @@ package de.othr.bib48218.chat.controller;
 import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Collection;
 
@@ -34,40 +35,40 @@ public interface IFUserRestControllerV1 {
      * Gets all users
      * @return all users
      */
-    Collection<User> getUsers();
+    ResponseEntity<Collection<User>> getUsers();
 
     /**
      * Gets all persons
      * @return all persons
      */
-    Collection<Person> getPersons();
+    ResponseEntity<Collection<Person>> getPersons();
 
     /**
      * Gets all bots
      * @return bots
      */
-    Collection<Bot> getBots();
+    ResponseEntity<Collection<Bot>> getBots();
 
     /**
      * Gets user by username
      * @param username username, identifying user
      * @return identified user
      */
-    User getUser(String username);
+    ResponseEntity<User> getUser(String username);
 
     /**
      * Gets person by username
      * @param username username, identifying person
      * @return identified person
      */
-    Person getPerson(String username);
+    ResponseEntity<Person> getPerson(String username);
 
     /**
      * Gets bot by username
      * @param username username, identifying bot
      * @return identified bot
      */
-    Bot getBot(String username);
+    ResponseEntity<Bot> getBot(String username);
 
     /*
      * UPDATE
