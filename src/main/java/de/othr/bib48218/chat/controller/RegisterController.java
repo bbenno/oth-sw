@@ -1,6 +1,6 @@
 package de.othr.bib48218.chat.controller;
 
-import de.othr.bib48218.chat.UserAlreadyExistsException;
+import de.othr.bib48218.chat.util.UserAlreadyExistsException;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
