@@ -4,6 +4,7 @@ import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.entity.Message;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFMessageService;
+import de.othr.bib48218.chat.service.IFUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,16 +28,21 @@ public class MessageRestControllerV1 implements IFMessageRestControllerV1 {
     @Autowired
     private IFChatService chatService;
 
+    @Autowired
+    private IFUserService userService;
+
     @Override
     @GetMapping("messages")
     public ResponseEntity<Collection<Message>> getMessages(
         @PathParam("chat") Long chatId,
-        @PathParam("from") String dateTime
+        @PathParam("since") String dateTime,
+        @PathParam("from") String username
     ) {
         Optional<LocalDateTime> timestamp = Optional.empty();
         Optional<? extends Chat> chat = Optional.empty();
+        Optional<String> author_name = Optional.ofNullable(username);
 
-        // Parse DateTime
+        // Parse DateTime if present
         if (dateTime != null && !dateTime.isBlank()) {
             try {
                 timestamp = Optional.of(LocalDateTime.parse(dateTime));
@@ -53,10 +59,19 @@ public class MessageRestControllerV1 implements IFMessageRestControllerV1 {
 
         // Return Response
         if (chat.isPresent()) {
-            if (timestamp.isPresent())
-                return ResponseEntity.ok(messageService.getMessagesByChatFrom(chat.get(), timestamp.get()));
-            else
-                return ResponseEntity.ok(messageService.getAllMessagesByChat(chat.get()));
+            if (author_name.isPresent()) {
+                if (timestamp.isPresent()) {
+                    return ResponseEntity.ok(messageService.getMessagesByChatSinceFrom(chat.get(), timestamp.get(), author_name.get()));
+                } else {
+                    return ResponseEntity.ok(messageService.getAllMessagesByChatFrom(chat.get(), author_name.get()));
+                }
+            } else {
+                if (timestamp.isPresent()) {
+                    return ResponseEntity.ok(messageService.getMessagesByChatSince(chat.get(), timestamp.get()));
+                } else {
+                    return ResponseEntity.ok(messageService.getAllMessagesByChat(chat.get()));
+                }
+            }
         }
 
         // Default Return

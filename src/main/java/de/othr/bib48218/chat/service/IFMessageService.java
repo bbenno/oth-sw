@@ -16,13 +16,32 @@ public interface IFMessageService extends IFSendMessage {
     Collection<Message> getAllMessagesByChat(Chat chat);
 
     /**
-     * Returns all messages of a given chat starting from a given time.
+     * Returns all messages of a given chat since a given time.
      *
      * @param chat the chat whose messages to receive
      * @param time the point in time since when the messages should be returned
      * @return messages
      */
-    Collection<Message> getMessagesByChatFrom(Chat chat, LocalDateTime time);
+    Collection<Message> getMessagesByChatSince(Chat chat, LocalDateTime time);
+
+    /**
+     * Returns all messages of given chat from given author.
+     *
+     * @param chat     the chat whose messages to receive
+     * @param username the name of the author
+     * @return messages
+     */
+    Collection<Message> getAllMessagesByChatFrom(Chat chat, String username);
+
+    /**
+     * Returns all messages of a given chat since a given time by a given author.
+     *
+     * @param chat          the chat whose messages to receive
+     * @param localDateTime the point in time since when the messages should be returned
+     * @param username      the name of the author
+     * @return messages
+     */
+    Collection<Message> getMessagesByChatSinceFrom(Chat chat, LocalDateTime localDateTime, String username);
 
     /**
      * Saves given message.

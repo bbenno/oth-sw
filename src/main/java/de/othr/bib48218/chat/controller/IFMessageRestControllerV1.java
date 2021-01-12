@@ -11,9 +11,10 @@ public interface IFMessageRestControllerV1 {
      *
      * @param chatId   the id of the chat whose messages to receive
      * @param dateTime the optional date time since when messages to receive
+     * @param username the username of the authorg
      * @return messages matching parameter constraint
      */
-    ResponseEntity<Collection<Message>> getMessages(Long chatId, String dateTime);
+    ResponseEntity<Collection<Message>> getMessages(Long chatId, String dateTime, String username);
 
     /**
      * Saves given message.

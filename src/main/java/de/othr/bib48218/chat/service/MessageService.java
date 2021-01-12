@@ -26,8 +26,18 @@ public class MessageService implements IFMessageService {
     }
 
     @Override
-    public Collection<Message> getMessagesByChatFrom(Chat chat, LocalDateTime time) {
+    public Collection<Message> getMessagesByChatSince(Chat chat, LocalDateTime time) {
         return repository.findByChatAndTimestampBefore(chat, time);
+    }
+
+    @Override
+    public Collection<Message> getAllMessagesByChatFrom(Chat chat, String username) {
+        return repository.findByChatAndAuthor_Username(chat, username);
+    }
+
+    @Override
+    public Collection<Message> getMessagesByChatSinceFrom(Chat chat, LocalDateTime localDateTime, String username) {
+        return repository.findByChatAndTimestampBeforeAndAuthor_Username(chat, localDateTime, username);
     }
 
     @Override
