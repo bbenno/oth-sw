@@ -23,18 +23,41 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <scope>runtime</scope>
+                    <version>8.0.22</version>
+                </dependency>
+            </dependencies>
         </profile>
         <profile>
             <id>production</id>
             <properties>
                 <activatedProperties>production</activatedProperties>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <version>5.1.48</version>
+                </dependency>
+            </dependencies>
         </profile>
         <profile>
             <id>testing</id>
             <properties>
                 <activatedProperties>testing</activatedProperties>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <scope>runtime</scope>
+                    <version>8.0.22</version>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
 
@@ -60,13 +83,6 @@
             <groupId>org.springframework.boot</groupId>
             <!-- Starter for using Spring Data JPA with Hibernate -->
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-            <version>8.0.22</version>
         </dependency>
 
         <dependency>
