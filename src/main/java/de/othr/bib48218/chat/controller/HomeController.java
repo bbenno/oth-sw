@@ -34,11 +34,13 @@ public class HomeController {
     }
 
     @RequestMapping("/")
-    public String showHome(Principal principal, Model model) {
+    public ModelAndView showHome(Principal principal, Model model) {
         Optional<User> user = userService.getUserByUsername(principal.getName());
-        Collection<Chat> chats = chatService.getChatsByUser(user.get());
-        model.addAttribute("chats", chats);
-        return "home";
+        if (user.isPresent()) {
+            Collection<Chat> chats = chatService.getChatsByUser(user.get());
+            return new ModelAndView("home", "chats", chats);
+        } else
+            return new ModelAndView("redirect:/login");
     }
 
     @RequestMapping("/home")
