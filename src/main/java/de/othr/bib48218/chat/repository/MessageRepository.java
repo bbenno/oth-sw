@@ -6,10 +6,13 @@ import de.othr.bib48218.chat.entity.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 public interface MessageRepository extends PagingAndSortingRepository<Message, Long> {
     Collection<Message> findByAuthor(User author);
 
     Collection<Message> findByChat(Chat chat);
+
+    Collection<Message> findByChatAndTimestampBefore(Chat chat, LocalDateTime timestamp);
 }

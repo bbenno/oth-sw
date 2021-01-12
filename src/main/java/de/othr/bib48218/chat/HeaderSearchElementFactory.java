@@ -26,8 +26,8 @@ public class HeaderSearchElementFactory {
     }
 
     public Collection<HeaderSearchElement> getAllHeaderSearchElements() {
-        Collection<HeaderSearchElement> headerSearchElements = userService.getAll().stream().map((user) -> user).collect(Collectors.toList());
-        headerSearchElements.addAll(chatService.getAll());
+        Collection<HeaderSearchElement> headerSearchElements = userService.getAllUsers().stream().map((user) -> user).collect(Collectors.toList());
+        headerSearchElements.addAll(chatService.getAllChats());
         return headerSearchElements;
     }
 }

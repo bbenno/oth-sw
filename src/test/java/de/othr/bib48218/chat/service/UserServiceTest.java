@@ -13,15 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.test.context.BootstrapWith;
-import org.springframework.test.context.ContextConfiguration;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,13 +42,15 @@ class UserServiceTest {
     void shouldGetPersonByFirstNameIfExisting() {
         Person person = UserFactory.newValidPerson();
         String firstName = person.getFirstName();
-        when(personRepository.findByFirstName(firstName)).thenReturn(Optional.of(person));
+        var persons = new ArrayList<Person>();
+        persons.add(person);
+        when(personRepository.findByFirstName(firstName)).thenReturn(persons);
 
-        Person found = userService.getPersonByFirstName(firstName);
+        Collection<Person> found = userService.getPersonByFirstName(firstName);
 
         assertThat(found).isNotNull();
-        assertThat(found.getFirstName()).isEqualTo(firstName);
-        assertThat(found).isEqualTo(person);
+        assertThat(found).isNotEmpty();
+        assertThat(found).contains(person);
     }
 
     @Test

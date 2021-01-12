@@ -27,11 +27,21 @@ public class ChatService implements IFChatService {
 
     @Override
     public Optional<? extends Chat> getChatById(Long id) {
-        var groupChat = groupRepository.findById(id);
+        var groupChat = getGroupChatById(id);
         if (groupChat.isPresent())
             return groupChat;
         else
-            return peerRepository.findById(id);
+            return getPeerChatById(id);
+    }
+
+    @Override
+    public Optional<GroupChat> getGroupChatById(Long id) {
+        return groupRepository.findById(id);
+    }
+
+    @Override
+    public Optional<PeerChat> getPeerChatById(Long id) {
+        return peerRepository.findById(id);
     }
 
     @Override
@@ -44,10 +54,24 @@ public class ChatService implements IFChatService {
     }
 
     @Override
-    public Collection<Chat> getAll() {
+    public Collection<Chat> getAllChats() {
         Stream<Chat> groupChatStream = StreamSupport.stream(groupRepository.findAll().spliterator(), false).map((chat) -> chat);
         Stream<Chat> peerChatStream = StreamSupport.stream(peerRepository.findAll().spliterator(), false).map((chat) -> chat);
         return Stream.concat(groupChatStream, peerChatStream).collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    public Collection<GroupChat> getAllGroupChats() {
+        Stream<GroupChat> groupChatStream = StreamSupport.stream(groupRepository.findAll().spliterator(), false);
+
+        return groupChatStream.collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    public Collection<PeerChat> getAllPeerChats() {
+        Stream<PeerChat> peerChatStream = StreamSupport.stream(peerRepository.findAll().spliterator(), false);
+
+        return peerChatStream.collect(Collectors.toUnmodifiableList());
     }
 
     @Override
@@ -64,24 +88,31 @@ public class ChatService implements IFChatService {
 
     @Override
     public GroupChat createGroupChat(User creator, GroupVisibility visibility) {
-        return createGroupChat(creator, new GroupChat(visibility));
+        return saveChat(creator, new GroupChat(visibility));
     }
 
     @Override
-    public GroupChat createGroupChat(User creator, GroupChat chat) {
+    public GroupChat saveChat(User creator, GroupChat chat) {
         chat = groupRepository.save(chat);
         addUserToChat(creator, chat, ChatMemberStatus.ADMINISTRATOR);
         return chat;
     }
 
     @Override
-    public PeerChat getPeerChatOf(User user, User otherUser) {
+    public PeerChat saveChat(User creator, PeerChat chat) {
+        chat = peerRepository.save(chat);
+        addUserToChat(creator, chat, ChatMemberStatus.ADMINISTRATOR);
+        return chat;
+    }
+
+    @Override
+    public PeerChat getOrCreatePeerChatOf(User user, User otherUser) {
         Collection<PeerChat> chatsOfUser = peerRepository.findByMembershipsUser(user);
         Collection<PeerChat> chatsOfOtherUser = peerRepository.findByMembershipsUser(otherUser);
 
         Optional<PeerChat> chat = chatsOfUser.stream().distinct().filter(chatsOfOtherUser::contains).findAny();
 
-        if (chat.isPresent()){
+        if (chat.isPresent()) {
             return chat.get();
         } else {
             // Create new PeerChat
@@ -92,5 +123,27 @@ public class ChatService implements IFChatService {
 
             return peerChat;
         }
+    }
+
+    @Override
+    public void deleteChat(Long id) {
+        groupRepository.deleteById(id);
+        peerRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteChat(GroupChat chat) {
+        groupRepository.delete(chat);
+    }
+
+    @Override
+    public void deleteChat(PeerChat chat) {
+        peerRepository.delete(chat);
+    }
+
+    @Override
+    public Optional<ChatMemberStatus> getChatMembership(Chat chat, User user) {
+        var memberships_chat = chatMembershipRepository.findByChat(chat);
+        return memberships_chat.stream().filter(m -> m.getUser().equals(user)).map(ChatMembership::getStatus).findFirst();
     }
 }

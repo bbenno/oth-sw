@@ -10,7 +10,7 @@
     </parent>
     <groupId>de.othr.bib48218</groupId>
     <artifactId>chat</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.1-SNAPSHOT</version>
     <name>chat</name>
     <description>Chat and communication platform</description>
 
@@ -23,24 +23,47 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <scope>runtime</scope>
+                    <version>8.0.22</version>
+                </dependency>
+            </dependencies>
         </profile>
         <profile>
             <id>production</id>
             <properties>
                 <activatedProperties>production</activatedProperties>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <version>5.1.48</version>
+                </dependency>
+            </dependencies>
         </profile>
         <profile>
             <id>testing</id>
             <properties>
                 <activatedProperties>testing</activatedProperties>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <scope>runtime</scope>
+                    <version>8.0.22</version>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>15</java.version>
+        <java.version>13</java.version>
     </properties>
 
     <dependencies>
@@ -60,13 +83,6 @@
             <groupId>org.springframework.boot</groupId>
             <!-- Starter for using Spring Data JPA with Hibernate -->
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-            <version>8.0.22</version>
         </dependency>
 
         <dependency>
@@ -143,6 +159,12 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -150,6 +172,17 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>de.othr.bib48218.chat.ChatApplication</mainClass>
+                    <executable>true</executable>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

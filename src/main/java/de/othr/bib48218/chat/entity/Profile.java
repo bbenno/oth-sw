@@ -17,8 +17,10 @@ public abstract class Profile {
     @NonNull
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+
     @NonNull
     private String name;
+
     private String imagePath;
 
     protected Profile(String name) {
