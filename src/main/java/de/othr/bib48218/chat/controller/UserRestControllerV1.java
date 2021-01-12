@@ -1,6 +1,6 @@
 package de.othr.bib48218.chat.controller;
 
-import de.othr.bib48218.chat.UserAlreadyExists;
+import de.othr.bib48218.chat.UserAlreadyExistsException;
 import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
@@ -25,7 +25,7 @@ public class UserRestControllerV1 implements IFUserRestControllerV1 {
     public Person createPerson(@RequestBody Person person) {
         try {
             return userService.createPerson(person);
-        } catch (UserAlreadyExists userAlreadyExists) {
+        } catch (UserAlreadyExistsException userAlreadyExistsException) {
             return null;
         }
     }
@@ -34,7 +34,7 @@ public class UserRestControllerV1 implements IFUserRestControllerV1 {
     public Bot createBot(@RequestBody Bot bot) {
         try {
             return userService.createBot(bot);
-        } catch (UserAlreadyExists userAlreadyExists) {
+        } catch (UserAlreadyExistsException userAlreadyExistsException) {
             return null;
         }
     }

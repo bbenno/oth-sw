@@ -1,6 +1,6 @@
 package de.othr.bib48218.chat.controller;
 
-import de.othr.bib48218.chat.UserAlreadyExists;
+import de.othr.bib48218.chat.UserAlreadyExistsException;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class RegisterController {
             try {
                 userService.createPerson(person);
                 return new ModelAndView("redirect:/user/" + person.getUsername());
-            } catch (UserAlreadyExists userAlreadyExists) {
+            } catch (UserAlreadyExistsException userAlreadyExistsException) {
                 var notUniqueError = new FieldError(bindingResult.getObjectName(), "username", "Username exists already");
                 bindingResult.addError(notUniqueError);
                 return new ModelAndView("register", "person", person);

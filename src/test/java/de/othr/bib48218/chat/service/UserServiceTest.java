@@ -1,6 +1,6 @@
 package de.othr.bib48218.chat.service;
 
-import de.othr.bib48218.chat.UserAlreadyExists;
+import de.othr.bib48218.chat.UserAlreadyExistsException;
 import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
@@ -121,7 +121,7 @@ class UserServiceTest {
         Person person = UserFactory.newValidPerson();
         when(personRepository.existsById(person.getUsername())).thenReturn(true);
 
-        assertThrows(UserAlreadyExists.class, () -> userService.createPerson(person));
+        assertThrows(UserAlreadyExistsException.class, () -> userService.createPerson(person));
     }
 
     @Test
@@ -138,7 +138,7 @@ class UserServiceTest {
         Bot bot = UserFactory.newValidBot();
         when(botRepository.existsById(bot.getUsername())).thenReturn(true);
 
-        assertThrows(UserAlreadyExists.class, () -> userService.createBot(bot));
+        assertThrows(UserAlreadyExistsException.class, () -> userService.createBot(bot));
     }
 
 }

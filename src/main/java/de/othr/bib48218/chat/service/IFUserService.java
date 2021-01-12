@@ -1,6 +1,6 @@
 package de.othr.bib48218.chat.service;
 
-import de.othr.bib48218.chat.UserAlreadyExists;
+import de.othr.bib48218.chat.UserAlreadyExistsException;
 import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
@@ -53,18 +53,18 @@ public interface IFUserService {
      *
      * @param person person to save
      * @return saved person
-     * @throws UserAlreadyExists if person already is present
+     * @throws UserAlreadyExistsException if person already is present
      */
-    Person createPerson(Person person) throws UserAlreadyExists;
+    Person createPerson(Person person) throws UserAlreadyExistsException;
 
     /**
      * Saves given bot
      *
      * @param bot bot to save
      * @return saved bot
-     * @throws UserAlreadyExists if bot already is present
+     * @throws UserAlreadyExistsException if bot already is present
      */
-    Bot createBot(Bot bot) throws UserAlreadyExists;
+    Bot createBot(Bot bot) throws UserAlreadyExistsException;
 
     /**
      * Returns all person and bot users
