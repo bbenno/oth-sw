@@ -1,3 +1,13 @@
 # Chat Service
 
 image:https://github.com/bbenno/oth-sw/workflows/Java%20CI%20with%20Maven/badge.svg[Java CI with Maven]
+
+== Setup
+
+=== Deployment
+
+. Download https://github.com/bbenno/oth-sw/releases/latest[latest `chat-<VERSION>.jar`]
+. Set environment variablesfootnote:[See sample link:src/.pam_environment.sample[.pam_environment]]
+. Start webserverfootnote:[See sample link:src/production-run.sh[run script]] +
+[source, bash]
+java -jar chat-<VERSION>.jar >> console.log 2>> error.log &
