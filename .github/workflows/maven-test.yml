@@ -10,6 +10,8 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    env:
+      SPRING_USER_PASSWORD_SALT: ${{ secrets.PASSWORD_SALT }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 15
