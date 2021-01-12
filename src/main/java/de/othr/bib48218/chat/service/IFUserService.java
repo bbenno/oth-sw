@@ -6,6 +6,7 @@ import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface IFUserService {
     /**
@@ -14,7 +15,7 @@ public interface IFUserService {
      * @param username string identifying user
      * @return user with given username
      */
-    User getUserByUsername(String username);
+    Optional<User> getUserByUsername(String username);
 
     /**
      * Returns Person with given username.
@@ -22,7 +23,7 @@ public interface IFUserService {
      * @param username string identifying person
      * @return person with given username
      */
-    Person getPersonByUsername(String username);
+    Optional<Person> getPersonByUsername(String username);
 
     /**
      * Returns Bot with given username.
@@ -30,7 +31,7 @@ public interface IFUserService {
      * @param username string identifying bot
      * @return bot with given username
      */
-    Bot getBotByUsername(String username);
+    Optional<Bot> getBotByUsername(String username);
 
     /**
      * Returns Persons with given first name.

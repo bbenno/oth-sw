@@ -42,21 +42,22 @@ public class UserService implements IFUserService, UserDetailsService {
     }
 
     @Override
-    public User getUserByUsername(String username) {
-        Optional<User> found_person = personRepository.findByUsername(username).map((person) -> person);
-        Optional<User> found_bot = botRepository.findByUsername(username).map((bot) -> bot);
-
-        return found_person.orElse(found_bot.orElse(null));
+    public Optional<User> getUserByUsername(String username) {
+        Optional<User> found = personRepository.findByUsername(username).map((person) -> person);
+        if (found.isEmpty()) {
+            found = botRepository.findByUsername(username).map((bot) -> bot);
+        }
+        return found;
     }
 
     @Override
-    public Person getPersonByUsername(String username) {
-        return personRepository.findByUsername(username).orElse(null);
+    public Optional<Person> getPersonByUsername(String username) {
+        return personRepository.findByUsername(username);
     }
 
     @Override
-    public Bot getBotByUsername(String username) {
-        return botRepository.findByUsername(username).orElse(null);
+    public Optional<Bot> getBotByUsername(String username) {
+        return botRepository.findByUsername(username);
     }
 
     @Override

@@ -1,15 +1,16 @@
 package de.othr.bib48218.chat.controller;
 
-import de.othr.bib48218.chat.util.UserAlreadyExistsException;
 import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFUserService;
+import de.othr.bib48218.chat.util.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/webapi/v1/")
@@ -60,12 +61,8 @@ public class UserRestControllerV1 implements IFUserRestControllerV1 {
 
     @GetMapping("users/{username}")
     public ResponseEntity<User> getUser(@PathVariable("username") String username) {
-        User user = userService.getUserByUsername(username);
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(user);
-        }
+        Optional<User> user = userService.getUserByUsername(username);
+        return ResponseEntity.of(user);
     }
 
     @GetMapping("persons")
@@ -80,12 +77,8 @@ public class UserRestControllerV1 implements IFUserRestControllerV1 {
 
     @GetMapping("persons/{username}")
     public ResponseEntity<Person> getPerson(@PathVariable("username") String username) {
-        Person person = userService.getPersonByUsername(username);
-        if (person == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(person);
-        }
+        Optional<Person> person = userService.getPersonByUsername(username);
+        return ResponseEntity.of(person);
     }
 
     @GetMapping("bots")
@@ -100,12 +93,8 @@ public class UserRestControllerV1 implements IFUserRestControllerV1 {
 
     @GetMapping("bots/{username}")
     public ResponseEntity<Bot> getBot(@PathVariable("username") String username) {
-        Bot bot =  userService.getBotByUsername(username);
-        if (bot == null) {
-            return ResponseEntity.notFound().build();
-        } else  {
-            return ResponseEntity.ok(bot);
-        }
+        Optional<Bot> bot = userService.getBotByUsername(username);
+        return ResponseEntity.of(bot);
     }
 
     /*

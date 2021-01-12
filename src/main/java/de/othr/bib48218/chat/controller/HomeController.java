@@ -1,5 +1,7 @@
 package de.othr.bib48218.chat.controller;
 
+import de.othr.bib48218.chat.entity.Chat;
+import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.Collection;
+import java.util.Optional;
 
 @SuppressWarnings("SameReturnValue")
 @Controller
@@ -31,8 +35,8 @@ public class HomeController {
 
     @RequestMapping("/")
     public String showHome(Principal principal, Model model) {
-        var user = userService.getUserByUsername(principal.getName());
-        var chats = chatService.getChatsByUser(user);
+        Optional<User> user = userService.getUserByUsername(principal.getName());
+        Collection<Chat> chats = chatService.getChatsByUser(user.get());
         model.addAttribute("chats", chats);
         return "home";
     }

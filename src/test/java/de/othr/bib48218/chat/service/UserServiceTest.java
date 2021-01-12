@@ -59,11 +59,11 @@ class UserServiceTest {
         String username = bot.getUsername();
         when(botRepository.findByUsername(username)).thenReturn(Optional.of(bot));
 
-        Bot found = userService.getBotByUsername(username);
+        Optional<Bot> found = userService.getBotByUsername(username);
 
-        assertThat(found).isNotNull();
-        assertThat(found.getUsername()).isEqualTo(username);
-        assertThat(found).isEqualTo(bot);
+        assertThat(found).isPresent();
+        assertThat(found.get().getUsername()).isEqualTo(username);
+        assertThat(found.get()).isEqualTo(bot);
     }
 
     @Test
@@ -72,25 +72,24 @@ class UserServiceTest {
         String username = person.getUsername();
         when(personRepository.findByUsername(username)).thenReturn(Optional.of(person));
 
-        Person found = userService.getPersonByUsername(username);
+        Optional<Person> found = userService.getPersonByUsername(username);
 
-        assertThat(found).isNotNull();
-        assertThat(found.getUsername()).isEqualTo(username);
-        assertThat(found).isEqualTo(person);
+        assertThat(found).isPresent();
+        assertThat(found.get().getUsername()).isEqualTo(username);
+        assertThat(found.get()).isEqualTo(person);
     }
 
     @Test
     void shouldGetUserByUsernameIfPersonExisting() {
         Person user = UserFactory.newValidPerson();
         String username = user.getUsername();
-        when(botRepository.findByUsername(username)).thenReturn(Optional.empty());
         when(personRepository.findByUsername(username)).thenReturn(Optional.of(user));
 
-        User found = userService.getUserByUsername(username);
+        Optional<User> found = userService.getUserByUsername(username);
 
-        assertThat(found).isNotNull();
-        assertThat(found.getUsername()).isEqualTo(username);
-        assertThat(found).isEqualTo(user);
+        assertThat(found).isPresent();
+        assertThat(found.get().getUsername()).isEqualTo(username);
+        assertThat(found.get()).isEqualTo(user);
     }
 
     @Test
@@ -100,11 +99,11 @@ class UserServiceTest {
         when(botRepository.findByUsername(username)).thenReturn(Optional.of(user));
         when(personRepository.findByUsername(username)).thenReturn(Optional.empty());
 
-        User found = userService.getUserByUsername(username);
+        Optional<User> found = userService.getUserByUsername(username);
 
-        assertThat(found).isNotNull();
-        assertThat(found.getUsername()).isEqualTo(username);
-        assertThat(found).isEqualTo(user);
+        assertThat(found).isPresent();
+        assertThat(found.get().getUsername()).isEqualTo(username);
+        assertThat(found.get()).isEqualTo(user);
     }
 
     @Test

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -17,9 +19,9 @@ public class UserController {
 
     @RequestMapping("{username}")
     public ModelAndView showUser(@PathVariable String username) {
-        User found = userService.getUserByUsername(username);
-        if (found instanceof Person) {
-            Person person = (Person) found;
+        Optional<User> found = userService.getUserByUsername(username);
+        if (found.isPresent()) {
+            Person person = (Person) found.get();
             return new ModelAndView("user/show_person", "person", person);
         } else {
             return new ModelAndView("redirect:new");

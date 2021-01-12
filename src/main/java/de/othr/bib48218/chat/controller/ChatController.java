@@ -32,17 +32,17 @@ public class ChatController {
     public ModelAndView showChat(@PathVariable String identifier, Principal principal) {
         try {
             Long id = Long.parseLong(identifier);
-            User principal_user = userService.getUserByUsername(principal.getName());
+            Optional<User> principal_user = userService.getUserByUsername(principal.getName());
             Optional<? extends Chat> chat = chatService.getChatById(id);
-            if (chat.isPresent() && chat.get().getMemberships().stream().anyMatch(m -> m.getUser().equals(principal_user))) {
+            if (chat.isPresent() && chat.get().getMemberships().stream().anyMatch(m -> m.getUser().equals(principal_user.get()))) {
                 return new ModelAndView("chat/show", "chat", chat.get());
             } else
                 return new ModelAndView("redirect:/");
         } catch (NumberFormatException e) {
             // Interpret id as username
-            User user = userService.getUserByUsername(principal.getName());
-            User other = userService.getUserByUsername(identifier);
-            PeerChat chat = chatService.getOrCreatePeerChatOf(user, other);
+            Optional<User> user = userService.getUserByUsername(principal.getName());
+            Optional<User> other = userService.getUserByUsername(identifier);
+            PeerChat chat = chatService.getOrCreatePeerChatOf(user.get(), other.get());
 
             return new ModelAndView("chat/show", "chat", chat);
         } catch (Exception e) {
@@ -58,10 +58,10 @@ public class ChatController {
 
     @PostMapping("/{id}/add")
     public ModelAndView addChatMember(@PathVariable Long id, @RequestParam String username) {
-        Chat chat = chatService.getChatById(id).get();
-        User user = userService.getUserByUsername(username);
-        chatService.addUserToChat(user, chat);
-        return new ModelAndView("redirect:/chat/" + chat.getId());
+        Optional<? extends Chat> chat = chatService.getChatById(id);
+        Optional<User> user = userService.getUserByUsername(username);
+        chatService.addUserToChat(user.get(), chat.get());
+        return new ModelAndView("redirect:/chat/" + chat.get().getId());
     }
 
     @RequestMapping("/new")
@@ -75,8 +75,8 @@ public class ChatController {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("chat/form_groupChat", "chat", chat);
         } else {
-            User creator = userService.getUserByUsername(principal.getName());
-            chat = chatService.saveChat(creator, chat);
+            Optional<User> creator = userService.getUserByUsername(principal.getName());
+            chat = chatService.saveChat(creator.get(), chat);
             return new ModelAndView("redirect:/chat/" + chat.getId());
         }
     }
