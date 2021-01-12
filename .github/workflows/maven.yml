@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      SPRING_USER_PASSWORD_SALT: ${{ secrets.PASSWORD_SALT }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 13
@@ -16,7 +18,7 @@ jobs:
       with:
         java-version: 13
     - name: Build with Maven
-      run: mvn -B package spring-boot:repackage -p production
+      run: mvn -B package spring-boot:repackage -P production
     - name: Copy JAR
       run: mkdir package && cp target/*.jar package
     - name: Upload JAR
