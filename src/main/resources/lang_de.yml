@@ -170,6 +170,7 @@ login:
   error: Falscher Benutzername oder Passwort
   remember_me: Angemeldet bleiben
   submit: Anmelden
+  sign_up: Noch keinen Account? Registriere dich!
   title: Anmelden
 logout:
   loading: Lädt...
@@ -182,5 +183,5 @@ person:
   show:
     title: Person
 register:
-  title: Registrieren
+  title: Benutzer Registrieren
   submit: Registrieren
