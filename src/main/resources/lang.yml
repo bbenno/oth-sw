@@ -170,7 +170,7 @@ person:
   show:
     title: Person
 register:
-  title: Register
+  title: Register User
   submit: Register
 sidebar:
   create_group_chat: Create Group Chat

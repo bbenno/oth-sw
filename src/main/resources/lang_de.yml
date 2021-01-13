@@ -183,5 +183,5 @@ person:
   show:
     title: Person
 register:
-  title: Registrieren
+  title: Benutzer Registrieren
   submit: Registrieren
