@@ -159,6 +159,9 @@ chat:
     caption: Benutzer zu Chat hinzufügen
     add_user: Add User
     delete_chat: Delete Chat
+  join_public:
+    title: Join Public Chat
+    join: Join
   new_group:
     title: Neuen Gruppenchat anlegen
     submit: Anlegen
@@ -171,6 +174,7 @@ login:
   caption: Anmeldung
   error: Falscher Benutzername oder Passwort
   remember_me: Angemeldet bleiben
+  sign_up: No Account? Register!
   submit: Anmelden
   title: Anmelden
 logout:
@@ -184,10 +188,11 @@ person:
   show:
     title: Person
 register:
-  title: Registrieren
+  title: Register User
   submit: Registrieren
 sidebar:
-  create_group_chat: Create Group Chat
+  create_group_chat: Create Chat
+  join_public_group_chat: Join public Chat
 user:
   show_person:
     messaging: Write Message
