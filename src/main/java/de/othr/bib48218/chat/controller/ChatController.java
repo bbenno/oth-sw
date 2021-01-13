@@ -7,6 +7,7 @@ import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.Collection;
 import java.util.Optional;
 
 @Controller
@@ -53,6 +55,7 @@ public class ChatController {
     @RequestMapping("/{id}/add")
     public ModelAndView addChatMember(@PathVariable long id, Principal principal) {
         Chat chat = chatService.getChatById(id).get();
+
         return new ModelAndView("chat/add_member", "chat", chat);
     }
 
@@ -61,7 +64,24 @@ public class ChatController {
         Optional<? extends Chat> chat = chatService.getChatById(id);
         Optional<User> user = userService.getUserByUsername(username);
         chatService.addUserToChat(user.get(), chat.get());
-        return new ModelAndView("redirect:/chat/" + chat.get().getId());
+
+        return redirectToChat(chat.get());
+    }
+
+    @RequestMapping("/{id}/join")
+    public ModelAndView joinChat(@PathVariable Long id, Principal principal){
+        Optional<User> user = userService.getUserByUsername(principal.getName());
+        Optional<? extends Chat> chat = chatService.getChatById(id);
+        chatService.addUserToChat(user.get(), chat.get());
+
+        return redirectToChat(chat.get());
+    }
+
+    @RequestMapping("/public")
+    public ModelAndView publicChats() {
+        Collection<GroupChat> chats = chatService.getAllPublicGroupChats();
+
+        return new ModelAndView("chat/join_public", "chats", chats);
     }
 
     @RequestMapping("/new")
@@ -77,7 +97,12 @@ public class ChatController {
         } else {
             Optional<User> creator = userService.getUserByUsername(principal.getName());
             chat = chatService.saveChat(creator.get(), chat);
-            return new ModelAndView("redirect:/chat/" + chat.getId());
+
+            return redirectToChat(chat);
         }
+    }
+
+    private ModelAndView redirectToChat(@Nullable Chat chat) {
+        return new ModelAndView("redirect:/chat/" + ((chat == null) ? "" : chat.getId()));
     }
 }

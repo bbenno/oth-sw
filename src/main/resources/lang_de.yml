@@ -157,6 +157,9 @@ chat:
     submit: Benutzer hinzufügen
     title: Benutzer zu Chat hinzufügen
     caption: Benutzer zu Chat hinzufügen
+  join_public:
+    title: Join Public Chat
+    join: Join
   new_group:
     title: Neuen Gruppenchat anlegen
     submit: Anlegen
@@ -185,3 +188,9 @@ person:
 register:
   title: Benutzer Registrieren
   submit: Registrieren
+sidebar:
+  create_group_chat: Chat erstellen
+  join_public_group_chat: Öffentlichen Chat beitreten
+user:
+  show_person:
+    messaging: Nachricht schreiben

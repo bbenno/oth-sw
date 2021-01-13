@@ -68,6 +68,11 @@ public class ChatService implements IFChatService {
     }
 
     @Override
+    public Collection<GroupChat> getAllPublicGroupChats() {
+        return groupRepository.findByVisibilityIs(GroupVisibility.PUBLIC);
+    }
+
+    @Override
     public Collection<PeerChat> getAllPeerChats() {
         Stream<PeerChat> peerChatStream = StreamSupport.stream(peerRepository.findAll().spliterator(), false);
 

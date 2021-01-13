@@ -1,6 +1,7 @@
 package de.othr.bib48218.chat.service;
 
 import de.othr.bib48218.chat.entity.*;
+import org.hibernate.persister.walking.spi.CollectionIndexDefinition;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -51,6 +52,13 @@ public interface IFChatService {
      * @return all group chats
      */
     Collection<GroupChat> getAllGroupChats();
+
+    /**
+     * Returns all {@link GroupChat} object with public visibility.
+     *
+     * @return all group chats
+     */
+    Collection<GroupChat> getAllPublicGroupChats();
 
     /**
      * Returns all {@link PeerChat} object that are stored.
