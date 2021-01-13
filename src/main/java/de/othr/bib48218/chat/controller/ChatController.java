@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.Collection;
 import java.util.Optional;
 
 @Controller
@@ -74,6 +75,13 @@ public class ChatController {
         chatService.addUserToChat(user.get(), chat.get());
 
         return redirectToChat(chat.get());
+    }
+
+    @RequestMapping("/public")
+    public ModelAndView publicChats() {
+        Collection<GroupChat> chats = chatService.getAllPublicGroupChats();
+
+        return new ModelAndView("chat/join_public", "chats", chats);
     }
 
     @RequestMapping("/new")
