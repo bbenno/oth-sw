@@ -176,7 +176,8 @@ register:
   title: Register User
   submit: Register
 sidebar:
-  create_group_chat: Create Group Chat
+  create_group_chat: Create Chat
+  join_public_group_chat: Join public Chat
 user:
   show_person:
     messaging: Write Message

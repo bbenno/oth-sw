@@ -188,3 +188,9 @@ person:
 register:
   title: Benutzer Registrieren
   submit: Registrieren
+sidebar:
+  create_group_chat: Chat erstellen
+  join_public_group_chat: Öffentlichen Chat beitreten
+user:
+  show_person:
+    messaging: Nachricht schreiben
