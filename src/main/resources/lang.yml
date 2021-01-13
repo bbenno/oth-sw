@@ -156,6 +156,7 @@ login:
   caption: Please sign in
   error: Wrong Username or Password
   remember_me: Remember me
+  sign_up: No Account? Register!
   submit: Sign in
   title: Login
 logout:
