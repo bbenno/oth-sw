@@ -144,6 +144,9 @@ chat:
     caption: Add User to Chat
     add_user: Add User
     delete_chat: Delete Chat
+  join_public:
+    title: Join Public Chat
+    join: Join
   new_group:
     title: Create Group Chat
     submit: Create

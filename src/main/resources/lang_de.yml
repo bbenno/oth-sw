@@ -157,6 +157,9 @@ chat:
     submit: Benutzer hinzufügen
     title: Benutzer zu Chat hinzufügen
     caption: Benutzer zu Chat hinzufügen
+  join_public:
+    title: Join Public Chat
+    join: Join
   new_group:
     title: Neuen Gruppenchat anlegen
     submit: Anlegen
