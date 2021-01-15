@@ -137,6 +137,11 @@ public class ChatService implements IFChatService {
     }
 
     @Override
+    public void deleteChat(Chat chat) {
+        deleteChat(chat.getId());
+    }
+
+    @Override
     public void deleteChat(GroupChat chat) {
         groupRepository.delete(chat);
     }

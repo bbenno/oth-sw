@@ -1,7 +1,6 @@
 package de.othr.bib48218.chat.service;
 
 import de.othr.bib48218.chat.entity.*;
-import org.hibernate.persister.walking.spi.CollectionIndexDefinition;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -131,6 +130,13 @@ public interface IFChatService {
     void deleteChat(Long id);
 
     /**
+     * Delete given chat.
+     *
+     * @param chat the chat to delete
+     */
+    void deleteChat(Chat chat);
+
+    /**
      * Deletes given group chat.
      *
      * @param chat the group chat to delete
@@ -146,6 +152,7 @@ public interface IFChatService {
 
     /**
      * Returns {@link ChatMemberStatus} of user in chat.
+     *
      * @param chat the chat to look up
      * @param user the user in the chat
      * @return membership status of user in chat

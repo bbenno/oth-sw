@@ -1,9 +1,6 @@
 package de.othr.bib48218.chat.controller;
 
-import de.othr.bib48218.chat.entity.Chat;
-import de.othr.bib48218.chat.entity.GroupChat;
-import de.othr.bib48218.chat.entity.PeerChat;
-import de.othr.bib48218.chat.entity.User;
+import de.othr.bib48218.chat.entity.*;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/chat")
@@ -69,12 +65,33 @@ public class ChatController {
     }
 
     @RequestMapping("/{id}/join")
-    public ModelAndView joinChat(@PathVariable Long id, Principal principal){
+    public ModelAndView joinChat(@PathVariable Long id, Principal principal) {
         Optional<User> user = userService.getUserByUsername(principal.getName());
         Optional<? extends Chat> chat = chatService.getChatById(id);
         chatService.addUserToChat(user.get(), chat.get());
 
         return redirectToChat(chat.get());
+    }
+
+    @RequestMapping("/{id}/delete")
+    public ModelAndView deleteChat(@PathVariable Long id, Principal principal) {
+        String message;
+        Optional<? extends Chat> chat_opt = chatService.getChatById(id);
+
+        if (chat_opt.isPresent()) {
+            Chat chat = chat_opt.get();
+            User user = userOfPrincipal(principal);
+
+            if (userIsAllowedToDeleteChat(user, chat)) {
+                chatService.deleteChat(chat);
+                message = "Deleted chat successfully";
+            } else {
+                message = "No permission to delete chat";
+            }
+        }else {
+            message = "Error deleting chat";
+        }
+        return new ModelAndView("redirect:/", "notification", message);
     }
 
     @RequestMapping("/public")
@@ -104,5 +121,15 @@ public class ChatController {
 
     private ModelAndView redirectToChat(@Nullable Chat chat) {
         return new ModelAndView("redirect:/chat/" + ((chat == null) ? "" : chat.getId()));
+    }
+
+    private User userOfPrincipal(Principal principal) {
+        return userService.getUserByUsername(principal.getName()).orElseThrow();
+    }
+
+    private boolean userIsAllowedToDeleteChat(User user, Chat chat) {
+        Optional<ChatMembership> membership = chat.getMemberships().stream().filter(m -> m.getUser() == user).findFirst();
+        List<ChatMemberStatus> allowedStatus = Arrays.asList(ChatMemberStatus.ADMINISTRATOR);
+        return membership.isPresent() && allowedStatus.contains(membership.get().getStatus());
     }
 }
