@@ -18,7 +18,7 @@
 
   <div class="btn-group my-4">
     <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/add(id=${chat.id})}" th:text="#{chat.add_user.add_user}">Add Member</a>
-    <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/delete}" th:text="#{chat.add_user.delete_chat}">Delete Chat</a>
+    <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/delete(id=${chat.id})}" th:text="#{chat.add_user.delete_chat}">Delete Chat</a>
   </div>
 
   <div th:each="message : *{messages}" th:unless="${#lists.isEmpty(chat.messages)}">
