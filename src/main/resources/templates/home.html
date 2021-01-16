@@ -21,11 +21,11 @@
 <div class="d-flex" layout:fragment="content">
   <aside th:replace="fragment/sidebar :: aside" th:if="${chats != null && !chat.isEmpty()}"></aside>
   <main class="container">
+    <div class="alert alert-warning alert-dismissible fade show" role="alsert" th:if="${notification}">
+      <span th:text="${notification}">Notification text</span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     <h1 th:text="${applicationName}">Chat</h1>
-    <p class="lead"></p>
-    <ul th:each="chat : ${chats}" th:unless="${#lists.isEmpty(chats)}">
-      <li><a th:href="@{chat/{chatId}(chatId=${chat.id})}" th:text="${chat}">Example Chat</a></li>
-    </ul>
   </main>
 </div>
 

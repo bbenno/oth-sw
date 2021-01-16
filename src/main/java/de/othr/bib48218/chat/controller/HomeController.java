@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.websocket.server.PathParam;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.HashSet;
@@ -35,11 +36,13 @@ public class HomeController {
     }
 
     @RequestMapping("/")
-    public ModelAndView showHome(Principal principal, Model model) {
+    public ModelAndView showHome(@PathParam("notification") String notification, Principal principal, Model model) {
         Optional<User> user = userService.getUserByUsername(principal.getName());
         if (user.isPresent()) {
             Collection<Chat> chats = chatService.getChatsByUser(user.get());
-            return new ModelAndView("home", "chats", new HashSet<Chat>(chats));
+            model.addAttribute("notification", notification);
+            model.addAttribute("chats", new HashSet<>(chats));
+            return new ModelAndView("home", model.asMap());
         } else
             return new ModelAndView("redirect:/login");
     }
