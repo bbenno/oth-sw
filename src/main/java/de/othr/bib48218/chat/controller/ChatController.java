@@ -6,6 +6,7 @@ import de.othr.bib48218.chat.service.IFUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,25 +28,30 @@ public class ChatController {
     private IFUserService userService;
 
     @RequestMapping("/{identifier}")
-    public ModelAndView showChat(@PathVariable String identifier, Principal principal) {
+    public ModelAndView showChat(@PathVariable String identifier, Principal principal, Model model) {
+        Chat chat;
         try {
             Long id = Long.parseLong(identifier);
             Optional<User> principal_user = userService.getUserByUsername(principal.getName());
-            Optional<? extends Chat> chat = chatService.getChatById(id);
-            if (chat.isPresent() && chat.get().getMemberships().stream().anyMatch(m -> m.getUser().equals(principal_user.get()))) {
-                return new ModelAndView("chat/show", "chat", chat.get());
-            } else
+            Optional<? extends Chat> chat_opt = chatService.getChatById(id);
+            if (chat_opt.isEmpty() || chat_opt.get().getMemberships().stream().noneMatch(m -> m.getUser().equals(principal_user.get()))) {
                 return new ModelAndView("redirect:/");
+            } else {
+                chat = chat_opt.get();
+            }
         } catch (NumberFormatException e) {
             // Interpret id as username
             Optional<User> user = userService.getUserByUsername(principal.getName());
             Optional<User> other = userService.getUserByUsername(identifier);
-            PeerChat chat = chatService.getOrCreatePeerChatOf(user.get(), other.get());
-
-            return new ModelAndView("chat/show", "chat", chat);
+            chat = chatService.getOrCreatePeerChatOf(user.get(), other.get());
         } catch (Exception e) {
-            return new ModelAndView("redirect:/");
+            return new ModelAndView("redirect:/", "notification", "Chat not found");
         }
+
+        model.addAttribute("chat", chat);
+        model.addAttribute("isGroupChat", chat.getClass().equals(GroupChat.class));
+
+        return new ModelAndView("chat/show", model.asMap());
     }
 
     @RequestMapping("/{id}/add")
