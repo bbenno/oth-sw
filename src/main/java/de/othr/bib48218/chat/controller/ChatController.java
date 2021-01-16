@@ -82,7 +82,7 @@ public class ChatController {
             Chat chat = chat_opt.get();
             User user = userOfPrincipal(principal);
 
-            if (userIsAllowedToDeleteChat(user, chat)) {
+            if (chat.getClass().equals(GroupChat.class) && userIsAllowedToDeleteChat(user, chat)) {
                 chatService.deleteChat(chat);
                 message = "Deleted chat successfully";
             } else {
