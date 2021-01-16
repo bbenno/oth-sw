@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
 
 @SuppressWarnings("SameReturnValue")
@@ -38,7 +39,7 @@ public class HomeController {
         Optional<User> user = userService.getUserByUsername(principal.getName());
         if (user.isPresent()) {
             Collection<Chat> chats = chatService.getChatsByUser(user.get());
-            return new ModelAndView("home", "chats", chats);
+            return new ModelAndView("home", "chats", new HashSet<Chat>(chats));
         } else
             return new ModelAndView("redirect:/login");
     }
