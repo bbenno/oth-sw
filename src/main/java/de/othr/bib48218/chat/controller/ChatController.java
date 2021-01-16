@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/chat")
@@ -58,15 +61,26 @@ public class ChatController {
     public ModelAndView addChatMember(@PathVariable long id, Principal principal) {
         Chat chat = chatService.getChatById(id).get();
 
+        if (!userIsAllowedToAddMember(userOfPrincipal(principal), chat))
+            return new ModelAndView("redirect:/");
         return new ModelAndView("chat/add_member", "chat", chat);
     }
 
     @PostMapping("/{id}/add")
-    public ModelAndView addChatMember(@PathVariable Long id, @RequestParam String username) {
+    public ModelAndView addChatMember(@PathVariable Long id, @RequestParam String username, Principal principal) {
         Optional<? extends Chat> chat = chatService.getChatById(id);
-        Optional<User> user = userService.getUserByUsername(username);
-        chatService.addUserToChat(user.get(), chat.get());
+        if (chat.isEmpty()) {
+            return new ModelAndView("redirect:/", "notification", "Chat not found");
+        }
 
+        Optional<User> user = userService.getUserByUsername(username);
+        if (user.isEmpty()) {
+            return new ModelAndView("chat/add_member", "chat", chat.get());
+        }
+
+        if (userIsAllowedToAddMember(userOfPrincipal(principal), chat.get())) {
+            chatService.addUserToChat(user.get(), chat.get());
+        }
         return redirectToChat(chat.get());
     }
 
@@ -94,7 +108,7 @@ public class ChatController {
             } else {
                 message = "No permission to delete chat";
             }
-        }else {
+        } else {
             message = "Error deleting chat";
         }
         return new ModelAndView("redirect:/", "notification", message);
@@ -134,8 +148,15 @@ public class ChatController {
     }
 
     private boolean userIsAllowedToDeleteChat(User user, Chat chat) {
+        return hasUserMemberStatus(user, chat, Arrays.asList(ChatMemberStatus.ADMINISTRATOR));
+    }
+
+    private boolean userIsAllowedToAddMember(User user, Chat chat) {
+        return hasUserMemberStatus(user, chat, Arrays.asList(ChatMemberStatus.ADMINISTRATOR));
+    }
+
+    private boolean hasUserMemberStatus(User user, Chat chat, List<ChatMemberStatus> allowedStatus) {
         Optional<ChatMembership> membership = chat.getMemberships().stream().filter(m -> m.getUser() == user).findFirst();
-        List<ChatMemberStatus> allowedStatus = Arrays.asList(ChatMemberStatus.ADMINISTRATOR);
         return membership.isPresent() && allowedStatus.contains(membership.get().getStatus());
     }
 }
