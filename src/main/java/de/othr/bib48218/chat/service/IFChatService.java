@@ -137,20 +137,6 @@ public interface IFChatService {
     void deleteChat(Chat chat);
 
     /**
-     * Deletes given group chat.
-     *
-     * @param chat the group chat to delete
-     */
-    void deleteChat(GroupChat chat);
-
-    /**
-     * Deletes given peer chat.
-     *
-     * @param chat the peer chat to delete
-     */
-    void deleteChat(PeerChat chat);
-
-    /**
      * Returns {@link ChatMemberStatus} of user in chat.
      *
      * @param chat the chat to look up

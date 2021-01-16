@@ -132,23 +132,16 @@ public class ChatService implements IFChatService {
 
     @Override
     public void deleteChat(Long id) {
-        groupRepository.deleteById(id);
-        peerRepository.deleteById(id);
+        Optional<? extends Chat> chat = getChatById(id);
+        chat.ifPresent(this::deleteChat);
     }
 
     @Override
     public void deleteChat(Chat chat) {
-        deleteChat(chat.getId());
-    }
-
-    @Override
-    public void deleteChat(GroupChat chat) {
-        groupRepository.delete(chat);
-    }
-
-    @Override
-    public void deleteChat(PeerChat chat) {
-        peerRepository.delete(chat);
+        if (chat.getClass().equals(GroupChat.class))
+            groupRepository.delete((GroupChat) chat);
+        else if (chat.getClass().equals(PeerChat.class))
+            peerRepository.delete((PeerChat) chat);
     }
 
     @Override
