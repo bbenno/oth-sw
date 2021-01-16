@@ -53,6 +53,7 @@ public class ChatController {
 
         model.addAttribute("chat", chat);
         model.addAttribute("isGroupChat", chat.getClass().equals(GroupChat.class));
+        model.addAttribute("isAdmin", hasUserMemberStatus(userOfPrincipal(principal), chat, ChatMemberStatus.ADMINISTRATOR));
 
         return new ModelAndView("chat/show", model.asMap());
     }
@@ -155,8 +156,11 @@ public class ChatController {
         return hasUserMemberStatus(user, chat, Arrays.asList(ChatMemberStatus.ADMINISTRATOR));
     }
 
-    private boolean hasUserMemberStatus(User user, Chat chat, List<ChatMemberStatus> allowedStatus) {
-        Optional<ChatMembership> membership = chat.getMemberships().stream().filter(m -> m.getUser() == user).findFirst();
-        return membership.isPresent() && allowedStatus.contains(membership.get().getStatus());
+    private boolean hasUserMemberStatus(User user, Chat chat, List<ChatMemberStatus> status) {
+        return chat.getMemberships().stream().filter(m -> m.getUser() == user).anyMatch(m -> status.contains(m.getStatus()));
+    }
+
+    private boolean hasUserMemberStatus(User user, Chat chat, ChatMemberStatus status) {
+        return chat.getMemberships().stream().filter(m -> m.getUser() == user).anyMatch(m -> m.getStatus() == status);
     }
 }

@@ -16,7 +16,7 @@
 
   <h1 th:text="${chat}">Chat Title</h1>
 
-  <div class="btn-group my-4" th:if="${isGroupChat}">
+  <div class="btn-group my-4" th:if="${isGroupChat && isAdmin}">
     <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/add(id=${chat.id})}" th:text="#{chat.add_user.add_user}">Add Member</a>
     <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/delete(id=${chat.id})}" th:text="#{chat.add_user.delete_chat}">Delete Chat</a>
   </div>
