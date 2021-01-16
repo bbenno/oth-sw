@@ -147,6 +147,7 @@ chat:
   join_public:
     title: Join Public Chat
     join: Join
+    no_public_chats: No public chats available
   new_group:
     title: Create Group Chat
     submit: Create

@@ -158,8 +158,9 @@ chat:
     title: Benutzer zu Chat hinzufügen
     caption: Benutzer zu Chat hinzufügen
   join_public:
-    title: Join Public Chat
-    join: Join
+    title: Tritt öffentlicher Chatgruppe bei
+    join: Beitreten
+    no_public_chats: Keine öffentlichen Chatgruppen
   new_group:
     title: Neuen Gruppenchat anlegen
     submit: Anlegen
