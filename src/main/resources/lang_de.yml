@@ -162,9 +162,11 @@ chat:
   join_public:
     title: Join Public Chat
     join: Join
+    no_public_chats: No public chats available
   new_group:
     title: Neuen Gruppenchat anlegen
     submit: Anlegen
+    description_help: Short description of the chats purpose.
 header:
   search: Suche
   logout: Abmelden
