@@ -15,6 +15,7 @@
 <div class="container" th:object="${chat}" layout:fragment="content">
 
   <h1 th:text="${chat}">Chat Title</h1>
+  <p th:if="${isGroupChat && !#strings.isEmpty(chat.profile.description)}" th:text="${chat.profile.description}">Chat description</p>
 
   <div class="btn-group my-4" th:if="${isGroupChat && isAdmin}">
     <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/add(id=${chat.id})}" th:text="#{chat.add_user.add_user}">Add Member</a>
