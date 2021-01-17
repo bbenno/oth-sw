@@ -42,7 +42,7 @@ public abstract class User implements UserDetails, HeaderSearchElement {
         cascade = CascadeType.ALL,
         fetch = FetchType.EAGER,
         orphanRemoval = true)
-    private UserProfile profile = new UserProfile();
+    private UserProfile profile = new UserProfile("");
 
     @OneToMany(
         mappedBy = "user",
@@ -87,8 +87,22 @@ public abstract class User implements UserDetails, HeaderSearchElement {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        if (o == this) return true;
+        if (!(o instanceof User)) return false;
+        return equals((User) o);
+    }
+
+    public boolean equals(User other) {
+        if (other == null) return false;
+        if (other == this) return true;
+        return username.equals(other.username);
+    }
+
+    @Override
     public String toString() {
-        if (profile == null) {
+        if (profile == null || profile.getName().isBlank()) {
             return username;
         } else {
             return profile.getName();
