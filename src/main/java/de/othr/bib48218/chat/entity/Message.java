@@ -12,11 +12,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDateTime;
 
-import static lombok.AccessLevel.PACKAGE;
-
 @Entity
 @Getter
-@Setter(PACKAGE)
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Message extends IdEntity {
@@ -34,9 +32,10 @@ public class Message extends IdEntity {
     @NotNull
     private Chat chat;
 
-    @OneToOne(
+    @ManyToOne(
         fetch = FetchType.EAGER,
-        cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE})
+        cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE},
+        optional = true)
     @NonNull
     @lombok.NonNull
     @NotNull
