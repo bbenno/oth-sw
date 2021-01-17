@@ -52,6 +52,14 @@ public class Person extends User {
         return fullName().orElse(super.toString());
     }
 
+    public void addCredential(ServiceCredential credential) {
+        this.credentials.add(credential);
+    }
+
+    public void removeCredential(ServiceCredential credential) {
+        this.credentials.remove(credential);
+    }
+
     public Optional<String> fullName() {
         String fullName;
         if (getFirstName() == null)
