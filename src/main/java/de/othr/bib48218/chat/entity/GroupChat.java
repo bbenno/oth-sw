@@ -1,20 +1,17 @@
 package de.othr.bib48218.chat.entity;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @RequiredArgsConstructor
 public class GroupChat extends Chat {
     @NonNull
@@ -23,6 +20,10 @@ public class GroupChat extends Chat {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private ChatProfile profile;
+
+    public GroupChat() {
+        profile = new ChatProfile();
+    }
 
     @Override
     public String toString() {
