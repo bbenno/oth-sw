@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@NoArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode
 public abstract class User implements UserDetails, HeaderSearchElement {
@@ -40,24 +42,20 @@ public abstract class User implements UserDetails, HeaderSearchElement {
         cascade = CascadeType.ALL,
         fetch = FetchType.EAGER,
         orphanRemoval = true)
-    private UserProfile profile;
+    private UserProfile profile = new UserProfile();
 
     @OneToMany(
         mappedBy = "user",
         cascade = CascadeType.ALL,
         fetch = FetchType.EAGER,
         orphanRemoval = true)
-    private Set<UserPermission> userPermissions = new HashSet<>();
+    private Set<UserPermission> userPermissions = Collections.emptySet();
 
     @OneToMany(
         mappedBy = "user",
         cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE},
         orphanRemoval = true)
-    private Collection<ChatMembership> memberships;
-
-    protected User() {
-        this.profile = new UserProfile();
-    }
+    private Set<ChatMembership> memberships = Collections.emptySet();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

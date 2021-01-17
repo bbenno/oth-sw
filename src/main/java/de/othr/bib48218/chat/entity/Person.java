@@ -11,8 +11,9 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -34,7 +35,7 @@ public class Person extends User {
     private String email;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Collection<ServiceCredential> credentials;
+    private Set<ServiceCredential> credentials = Collections.emptySet();
 
     public Person(@NonNull String username, @NonNull String password) {
         super(username, password);
