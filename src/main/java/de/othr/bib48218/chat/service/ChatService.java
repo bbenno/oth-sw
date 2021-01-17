@@ -5,6 +5,7 @@ import de.othr.bib48218.chat.repository.ChatMembershipRepository;
 import de.othr.bib48218.chat.repository.GroupChatRepository;
 import de.othr.bib48218.chat.repository.PeerChatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -131,17 +132,17 @@ public class ChatService implements IFChatService {
     }
 
     @Override
-    public void deleteChat(Long id) {
-        Optional<? extends Chat> chat = getChatById(id);
-        chat.ifPresent(this::deleteChat);
+    public void deleteChat(@NonNull Long id) {
+        if (groupRepository.existsById(id)) {
+            groupRepository.deleteById(id);
+        } else if (peerRepository.existsById(id)) {
+            peerRepository.deleteById(id);
+        }
     }
 
     @Override
-    public void deleteChat(Chat chat) {
-        if (chat.getClass().equals(GroupChat.class))
-            groupRepository.delete((GroupChat) chat);
-        else if (chat.getClass().equals(PeerChat.class))
-            peerRepository.delete((PeerChat) chat);
+    public void deleteChat(@NonNull Chat chat) {
+        deleteChat(chat.getId());
     }
 
     @Override
