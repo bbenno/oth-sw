@@ -28,7 +28,7 @@ public class UserController {
         if (found.isPresent()) {
             return new ModelAndView("user/show", "user", found.get());
         } else {
-            return new ModelAndView("redirect:new");
+            return new ModelAndView("redirect:/");
         }
     }
 }
