@@ -108,11 +108,11 @@ public class UserRestControllerV1 implements IFUserRestControllerV1 {
 
     @DeleteMapping("persons/{username}")
     public void deletePerson(@PathVariable("username") String username) {
-        userService.deletePersonByUsername(username);
+        userService.deleteUserByUsername(username);
     }
 
     @DeleteMapping("bots/{username}")
     public void deleteBot(@PathVariable("username") String username) {
-        userService.deleteBotByUsername(username);
+        userService.deleteUserByUsername(username);
     }
 }

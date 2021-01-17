@@ -1,9 +1,9 @@
 package de.othr.bib48218.chat.service;
 
-import de.othr.bib48218.chat.util.UserAlreadyExistsException;
 import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
+import de.othr.bib48218.chat.util.UserAlreadyExistsException;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -96,22 +96,9 @@ public interface IFUserService {
     void deleteUserByUsername(String username);
 
     /**
-     * Deletes person with given username.
+     * Updates user by username
      *
-     * @param username sting identifying person
+     * @param user the user to be updated
      */
-    void deletePersonByUsername(String username);
-
-    /**
-     * Deletes bot with given username.
-     *
-     * @param username sting identifying bot
-     */
-    void deleteBotByUsername(String username);
-
-    /**
-     * Save new or updated user.
-     * @param user the user to save.
-     */
-    void saveUser(User user);
+    void updateUser(User user);
 }

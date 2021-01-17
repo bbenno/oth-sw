@@ -7,11 +7,13 @@ import de.othr.bib48218.chat.repository.BotRepository;
 import de.othr.bib48218.chat.repository.PersonRepository;
 import de.othr.bib48218.chat.util.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -61,22 +63,22 @@ public class UserService implements IFUserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public Person createPerson(Person person) throws UserAlreadyExistsException {
         if (personRepository.existsById(person.getUsername())) {
             throw new UserAlreadyExistsException();
         } else {
-            person.setPassword(passwordEncoder.encode(person.getPassword()));
-            return personRepository.save(person);
+            return personRepository.save(withEncryptedPassword(person));
         }
     }
 
     @Override
+    @Transactional
     public Bot createBot(Bot bot) throws UserAlreadyExistsException {
         if (botRepository.existsById(bot.getUsername())) {
             throw new UserAlreadyExistsException();
         } else {
-            bot.setPassword(passwordEncoder.encode(bot.getPassword()));
-            return botRepository.save(bot);
+            return botRepository.save(withEncryptedPassword(bot));
         }
     }
 
@@ -111,25 +113,49 @@ public class UserService implements IFUserService, UserDetailsService {
 
     @Override
     public void deleteUserByUsername(String username) {
-        deletePersonByUsername(username);
-        deleteBotByUsername(username);
+        if (personRepository.existsById(username)) {
+            personRepository.deleteById(username);
+        } else if (botRepository.existsById(username)) {
+            botRepository.deleteById(username);
+        }
     }
 
     @Override
-    public void deletePersonByUsername(String username) {
-        personRepository.deleteById(username);
+    public void updateUser(@NonNull User user) {
+        if (user.getClass().equals(Person.class)) {
+            updateUser((Person) user);
+        } else if (user.getClass().equals(Bot.class)) {
+            updateUser((Bot) user);
+        }
     }
 
-    @Override
-    public void deleteBotByUsername(String username) {
-        botRepository.deleteById(username);
+    public void updateUser(@NonNull Person person) {
+        Optional<Person> found = personRepository.findByUsername(person.getUsername());
+
+        if (found.isPresent()) {
+            Person p = found.get();
+
+            p.setEmail(person.getEmail());
+            p.setFirstName(person.getFirstName());
+            p.setLastName(person.getLastName());
+            p.setPassword(person.getPassword());
+            p = withEncryptedPassword(p);
+        }
     }
 
-    @Override
-    public void saveUser(User user) {
-        if (user.getClass().equals(Person.class))
-            personRepository.save((Person) user);
-        else if (user.getClass().equals(Bot.class))
-            botRepository.save((Bot) user);
+    public void updateUser(@NonNull Bot bot) {
+        Optional<Bot> found = botRepository.findByUsername(bot.getUsername());
+
+        if (found.isPresent()) {
+            Bot b = found.get();
+
+            b.setPassword(bot.getPassword());
+            b = withEncryptedPassword(b);
+        }
+    }
+
+    private <T extends User> T withEncryptedPassword(T user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return user;
     }
 }

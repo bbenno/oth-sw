@@ -1,10 +1,12 @@
 package de.othr.bib48218.chat.controller;
 
+import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -71,7 +73,9 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("redirect:/user/" + user.getUsername() + "/edit", "user", user);
         }
-        userService.saveUser(user);
+
+        userService.updateUser(user);
+
         return new ModelAndView("redirect:/user/" + user.getUsername());
     }
 
@@ -81,6 +85,8 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("redirect:/user/" + user.getUsername() + "/edit", "user", user);
         }
+
+        userService.updateUser(user);
 
         return new ModelAndView("redirect:/user/" + user.getUsername());
     }
