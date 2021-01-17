@@ -22,14 +22,16 @@
 <main class="container" layout:fragment="content">
   <h1 th:text="${user}">Michael Sky</h1>
 
-  <form th:object="${user}" action="#" th:action="@{/user/{username}/edit(username=*{username})}" method="post">
+  <form th:object="${user}" action="#"
+        th:action="@{/user/{username}/{edit}(username=*{username}, edit=${isPerson ? 'edit-person' : 'edit-bot'})}"
+        method="post">
 
     <div class="row justify-content-center">
       <div class="col-6">
         <div>
           <label class="form-label mark-required" th:for="username"
                  th:text="#{attribute.person.username}">Username</label>
-          <input class="form-control" th:errorclass="is-invalid" th:field="*{username}" type="text" required/>
+          <input class="form-control" th:errorclass="is-invalid" th:field="*{username}" type="text" required disabled/>
           <span class="invalid-feedback" th:errors="*{username}"
                 th:if="${#fields.hasErrors('username')}">Username Error</span>
         </div>

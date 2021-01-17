@@ -66,12 +66,22 @@ public class UserController {
         return new ModelAndView("redirect:/");
     }
 
-    @PostMapping("/{username}/edit")
-    public ModelAndView saveEditedUser(@Validated User user, BindingResult bindingResult) {
+    @PostMapping("/{username}/edit-bot")
+    public ModelAndView saveEditedBot(@Validated Bot user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("redirect:/user/" + user.getUsername() + "/edit", "user", user);
         }
         userService.saveUser(user);
+        return new ModelAndView("redirect:/user/" + user.getUsername());
+    }
+
+    @PostMapping("/{username}/edit-person")
+    @Transactional
+    public ModelAndView saveEditedPerson(@Validated Person user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("redirect:/user/" + user.getUsername() + "/edit", "user", user);
+        }
+
         return new ModelAndView("redirect:/user/" + user.getUsername());
     }
 }
