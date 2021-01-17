@@ -22,7 +22,7 @@
 
   <div th:each="visibility : ${T(de.othr.bib48218.chat.entity.GroupVisibility).values()}">
     <div class="form-check">
-      <input type="radio" th:field="*{visibility}" th:value="${visibility}" class="form-check-input">
+      <input type="radio" th:field="*{visibility}" th:value="${visibility.name()}" class="form-check-input">
       <label class="custom-control-label" th:for="${#ids.prev('visibility')}"
              th:text="${visibility}">model</label>
     </div>
