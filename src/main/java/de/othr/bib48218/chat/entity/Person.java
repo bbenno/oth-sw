@@ -50,7 +50,12 @@ public class Person extends User {
 
     @Override
     public String toString() {
-        return fullName().orElse(super.toString());
+        String profileName = getProfile().getName();
+        if (!profileName.isBlank()) {
+            return profileName;
+        } else {
+            return fullName().orElse(super.toString());
+        }
     }
 
     public void addCredential(ServiceCredential credential) {

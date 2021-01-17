@@ -32,6 +32,20 @@ public abstract class Chat implements HeaderSearchElement {
     private Set<ChatMembership> memberships = Collections.emptySet();
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        if (o == this) return true;
+        if (!(o instanceof Chat)) return false;
+        return equals((Chat) o);
+    }
+
+    public boolean equals(Chat other) {
+        if (other == null) return false;
+        if (other == this) return true;
+        return id.equals(other.id);
+    }
+
+    @Override
     public String toString() {
         String s = getClass().getSimpleName();
         if (id != null) {
