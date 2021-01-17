@@ -18,7 +18,11 @@ public class GroupChat extends Chat {
     @lombok.NonNull
     private GroupVisibility visibility;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToOne(
+        cascade = CascadeType.ALL
+        //fetch = FetchType.EAGER,
+        //orphanRemoval = true
+    )
     private ChatProfile profile;
 
     public GroupChat() {
