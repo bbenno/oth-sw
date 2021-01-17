@@ -33,6 +33,9 @@ public class UserFactory {
     }
 
     protected static String username() {
-        return faker.name().username();
+        String username = faker.name().username();
+        if (username.length() > 20)
+            username = username.substring(0,19);
+        return username;
     }
 }
