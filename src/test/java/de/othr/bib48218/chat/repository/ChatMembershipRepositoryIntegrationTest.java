@@ -13,6 +13,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -28,6 +31,9 @@ public class ChatMembershipRepositoryIntegrationTest {
     void shouldFindChatMembershipsByUser() {
         User user = UserFactory.newValidPerson();
         ChatMembership chatMembership = ChatMembershipFactory.newChatMembershipWithUser(user);
+
+        entityManager.persist(chatMembership.getUser());
+        entityManager.persist(chatMembership.getChat());
         entityManager.persistAndFlush(chatMembership);
 
         var found = chatMembershipRepository.findByUser(user);

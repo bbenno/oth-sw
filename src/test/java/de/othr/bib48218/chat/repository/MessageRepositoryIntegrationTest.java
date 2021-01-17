@@ -31,6 +31,9 @@ public class MessageRepositoryIntegrationTest {
         Chat chat = ChatFactory.newValidGroupChat();
         User author = UserFactory.newValidPerson();
         Message message = MessageFactory.newMessage(chat, author);
+
+        chat = entityManager.persist(chat);
+        author = entityManager.persist(author);
         message = entityManager.persistAndFlush(message);
 
         Collection<Message> messages = messageRepository.findByAuthor(author);
@@ -45,6 +48,9 @@ public class MessageRepositoryIntegrationTest {
         Chat chat = ChatFactory.newValidGroupChat();
         User author = UserFactory.newValidPerson();
         Message message = MessageFactory.newMessage(chat, author);
+
+        chat = entityManager.persist(chat);
+        author = entityManager.persist(author);
         message = entityManager.persistAndFlush(message);
 
         Collection<Message> messages = messageRepository.findByChat(chat);
