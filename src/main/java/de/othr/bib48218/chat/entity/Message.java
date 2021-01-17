@@ -36,8 +36,7 @@ public class Message extends IdEntity {
 
     @OneToOne(
         fetch = FetchType.EAGER,
-        cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE},
-        optional = false)
+        cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE})
     @NonNull
     @lombok.NonNull
     @NotNull
