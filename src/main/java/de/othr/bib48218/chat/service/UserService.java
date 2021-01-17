@@ -113,9 +113,16 @@ public class UserService implements IFUserService, UserDetailsService {
 
     @Override
     public void deleteUserByUsername(String username) {
+        var deleted = botRepository.findById("deleted").get();
         if (personRepository.existsById(username)) {
+            var person = personRepository.findByUsername(username);
+            person.get().getMessages().forEach(m -> m.setAuthor(deleted));
+
             personRepository.deleteById(username);
         } else if (botRepository.existsById(username)) {
+            var bot = botRepository.findByUsername(username);
+            bot.get().getMessages().forEach(m -> m.setAuthor(deleted));
+
             botRepository.deleteById(username);
         }
     }
