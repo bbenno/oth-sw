@@ -23,10 +23,12 @@ public class UserController {
     private IFUserService userService;
 
     @RequestMapping("{username}")
-    public ModelAndView showUser(@PathVariable String username) {
+    public ModelAndView showUser(@PathVariable String username, Model model) {
         Optional<User> found = userService.getUserByUsername(username);
         if (found.isPresent()) {
-            return new ModelAndView("user/show", "user", found.get());
+            model.addAttribute("user", found.get());
+            model.addAttribute("isPerson", found.get().getClass().equals(Person.class));
+            return new ModelAndView("user/show", model.asMap());
         } else {
             return new ModelAndView("redirect:/");
         }
