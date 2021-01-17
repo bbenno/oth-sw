@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -20,14 +22,14 @@ public abstract class Chat implements HeaderSearchElement {
         mappedBy = "chat",
         cascade = {CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.DETACH},
         orphanRemoval = true)
-    private Collection<Message> messages;
+    private List<Message> messages = Collections.emptyList();
 
     @OneToMany(
         mappedBy = "chat",
         fetch = FetchType.EAGER,
         cascade = {CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.DETACH},
         orphanRemoval = true)
-    private Collection<ChatMembership> memberships;
+    private Set<ChatMembership> memberships = Collections.emptySet();
 
     @Override
     public String toString() {
