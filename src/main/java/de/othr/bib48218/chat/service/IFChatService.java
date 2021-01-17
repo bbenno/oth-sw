@@ -144,4 +144,13 @@ public interface IFChatService {
      * @return membership status of user in chat
      */
     Optional<ChatMemberStatus> getChatMembership(Chat chat, User user);
+
+    /**
+     * Returns whether given user is member of chat.
+     *
+     * @param user the user to check
+     * @param chat the chat to check for
+     * @return <code>true</code> if user is member of chat; otherwise <code>false</code>
+     */
+    boolean isUserMember(User user, Chat chat);
 }

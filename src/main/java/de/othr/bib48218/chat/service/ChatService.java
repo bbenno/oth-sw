@@ -149,4 +149,9 @@ public class ChatService implements IFChatService {
         var memberships_chat = chatMembershipRepository.findByChat(chat);
         return memberships_chat.stream().filter(m -> m.getUser().equals(user)).map(ChatMembership::getStatus).findFirst();
     }
+
+    @Override
+    public boolean isUserMember(User user, Chat chat) {
+        return chat.getMemberships().stream().anyMatch(m -> m.getUser() == user);
+    }
 }
