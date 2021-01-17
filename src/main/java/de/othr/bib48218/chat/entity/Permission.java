@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,6 +24,8 @@ public class Permission extends IdEntity {
     @lombok.NonNull
     private String name;
 
-    @OneToMany(mappedBy = "permission", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<UserPermission> userPermissions = new HashSet<>();
+    @OneToMany(
+        mappedBy = "permission",
+        cascade = CascadeType.ALL)
+    private Set<UserPermission> userPermissions = Collections.emptySet();
 }
