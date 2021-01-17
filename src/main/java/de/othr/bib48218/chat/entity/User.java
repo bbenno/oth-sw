@@ -57,6 +57,11 @@ public abstract class User implements UserDetails, HeaderSearchElement {
         orphanRemoval = true)
     private Set<ChatMembership> memberships = Collections.emptySet();
 
+    @OneToMany(
+        mappedBy = "author",
+        cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
+    private Collection<Message> messages = Collections.emptySet();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
