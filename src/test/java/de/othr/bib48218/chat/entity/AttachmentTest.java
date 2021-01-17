@@ -13,7 +13,7 @@ public class AttachmentTest {
         var attachment = new Attachment();
 
         assertThrows(NullPointerException.class, () -> attachment.setName(null));
-        assertThrows(NullPointerException.class, () -> new Attachment(null, "application/image"));
+        assertThrows(NullPointerException.class, () -> new Attachment(null, "application/image", "path"));
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -22,7 +22,16 @@ public class AttachmentTest {
         var attachment = new Attachment();
 
         assertThrows(NullPointerException.class, () -> attachment.setMimeType(null));
-        assertThrows(NullPointerException.class, () -> new Attachment("image", null));
+        assertThrows(NullPointerException.class, () -> new Attachment("image", null, "path"));
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    @Test
+    void pathShouldNotBeNull() {
+        var attachment = new Attachment();
+
+        assertThrows(NullPointerException.class, () -> attachment.setPath(null));
+        assertThrows(NullPointerException.class, () -> new Attachment("image", "application/image", null));
     }
 
     @Test
