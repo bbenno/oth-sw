@@ -196,5 +196,9 @@ sidebar:
   create_group_chat: Create Chat
   join_public_group_chat: Join public Chat
 user:
-  show_person:
+  edit:
+    submit: Save
+  show:
     messaging: Write Message
+    delete: Delete my user account
+    edit: Edit my user account
