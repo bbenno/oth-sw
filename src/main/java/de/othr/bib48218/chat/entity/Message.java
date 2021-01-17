@@ -27,7 +27,6 @@ public class Message extends IdEntity {
     private String text;
 
     @ManyToOne(
-        fetch = FetchType.EAGER,
         cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE},
         optional = false)
     @NonNull
