@@ -7,7 +7,6 @@ import org.springframework.lang.NonNull;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Getter
@@ -16,7 +15,6 @@ import javax.validation.constraints.NotBlank;
 public class ChatProfile extends Profile {
     @NonNull
     @lombok.NonNull
-    @NotBlank
     private String description;
 
     @OneToOne(mappedBy = "profile")
