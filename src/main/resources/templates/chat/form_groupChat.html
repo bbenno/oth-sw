@@ -28,6 +28,24 @@
     </div>
   </div>
 
+  <div th:object="${chat.profile}">
+
+    <div class="mb-3">
+      <label class="form-label" th:for="*{name}" th:text="#{attribute.chat_profile.name}">Name</label>
+      <input class="form-control" type="text" th:field="*{name}" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" th:for="description"
+             th:text="#{attribute.chat_profile.description}">Description</label>
+      <input class="form-control" type="text" th:field="*{description}">
+      <div id="description-help" class="form-text" th:text="#{chat.new_group.description_help}">Short description of
+        the chats purpose.
+      </div>
+    </div>
+
+  </div>
+
   <button class="btn btn-primary align-self-center" type="submit" th:text="#{chat.new_group.submit}" value="submit">
     Create
   </button>
