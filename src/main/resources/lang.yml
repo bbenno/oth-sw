@@ -61,9 +61,10 @@ enum:
     PRIVATE: Private
     PUBLIC: Public
   service_type:
-    WEBSHOP: Webshop
     BANK: Bank
+    CHAT: Chat
     PAYMENT: Payment Service
+    WEBSHOP: Webshop
 
 attribute:
   id_entity: &id_entity_attributes
