@@ -28,7 +28,7 @@ class PersonRepositoryIntegrationTest {
         Person person = UserFactory.newValidPerson();
         entityManager.persistAndFlush(person);
 
-        Collection<Person> found = personRepository.findByFirstName(person.getFirstName());
+        Collection<Person> found = personRepository.findByFirstNameOrderByFirstName(person.getFirstName());
 
         assertThat(found).isNotNull();
         assertThat(found).isNotEmpty();

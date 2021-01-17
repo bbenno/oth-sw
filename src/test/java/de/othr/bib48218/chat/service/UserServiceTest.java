@@ -44,7 +44,7 @@ class UserServiceTest {
         String firstName = person.getFirstName();
         var persons = new ArrayList<Person>();
         persons.add(person);
-        when(personRepository.findByFirstName(firstName)).thenReturn(persons);
+        when(personRepository.findByFirstNameOrderByFirstName(firstName)).thenReturn(persons);
 
         Collection<Person> found = userService.getPersonByFirstName(firstName);
 
