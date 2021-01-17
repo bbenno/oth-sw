@@ -16,7 +16,7 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChatMembership extends IdEntity {
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @NonNull
     @lombok.NonNull
     private Chat chat;
@@ -25,7 +25,7 @@ public class ChatMembership extends IdEntity {
     @lombok.NonNull
     private ChatMemberStatus status;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @NonNull
     @lombok.NonNull
     private User user;
