@@ -1,6 +1,9 @@
 package de.othr.bib48218.chat.controller;
 
-import de.othr.bib48218.chat.entity.*;
+import de.othr.bib48218.chat.entity.Chat;
+import de.othr.bib48218.chat.entity.ChatMemberStatus;
+import de.othr.bib48218.chat.entity.GroupChat;
+import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +55,10 @@ public class ChatController {
         }
 
         model.addAttribute("chat", chat);
-        model.addAttribute("isGroupChat", chat.getClass().equals(GroupChat.class));
-        model.addAttribute("isAdmin", hasUserMemberStatus(userOfPrincipal(principal), chat, ChatMemberStatus.ADMINISTRATOR));
+        boolean isAdmin = chat.getClass().equals(GroupChat.class);
+        model.addAttribute("isGroupChat", isAdmin);
+        if (isAdmin)
+            model.addAttribute("isAdmin", hasUserMemberStatus(userOfPrincipal(principal), chat, ChatMemberStatus.ADMINISTRATOR));
 
         return new ModelAndView("chat/show", model.asMap());
     }
