@@ -16,10 +16,10 @@ public abstract class Chat implements HeaderSearchElement {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
-    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Collection<Message> messages;
 
-    @OneToMany(mappedBy = "chat")
+    @OneToMany(mappedBy = "chat", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<ChatMembership> memberships;
 
     @Override
