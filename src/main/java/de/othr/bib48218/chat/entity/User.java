@@ -37,13 +37,23 @@ public abstract class User implements UserDetails, HeaderSearchElement {
     @Size(min = 8, max = 80)
     private String password;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToOne(
+        cascade = CascadeType.ALL,
+        fetch = FetchType.EAGER,
+        orphanRemoval = true)
     private UserProfile profile;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(
+        mappedBy = "user",
+        cascade = CascadeType.ALL,
+        fetch = FetchType.EAGER,
+        orphanRemoval = true)
     private Set<UserPermission> userPermissions = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(
+        mappedBy = "user",
+        cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE},
+        orphanRemoval = true)
     private Collection<ChatMembership> memberships;
 
     @Override

@@ -33,7 +33,7 @@ public class Person extends User {
     @Nullable
     private String email;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<ServiceCredential> credentials;
 
     public Person(@NonNull String username, @NonNull String password) {

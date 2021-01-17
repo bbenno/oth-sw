@@ -27,10 +27,7 @@ public class GroupChat extends Chat {
     @Override
     public String toString() {
         if (profile == null) {
-            String s = super.toString();
-            if (visibility != null)
-                s += " (" + visibility + ")";
-            return s;
+            return super.toString() + " (" + visibility + ")";
         } else {
             return profile.getName();
         }

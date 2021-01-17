@@ -26,11 +26,19 @@ public class Attachment extends IdEntity {
     private String mimeType;
 
     @NonNull
+    @lombok.NonNull
+    @NotBlank
+    private String path;
+
+    @NonNull
     @OneToOne(mappedBy = "attachment")
     private Message message;
 
-    public Attachment(@lombok.NonNull @NonNull String name, @lombok.NonNull @NonNull String mimeType) {
+    public Attachment(@lombok.NonNull @NonNull String name,
+                      @lombok.NonNull @NonNull String mimeType,
+                      @lombok.NonNull @NonNull String path) {
         this.name = name;
         this.mimeType = mimeType;
+        this.path = path;
     }
 }
