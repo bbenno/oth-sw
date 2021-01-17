@@ -18,7 +18,6 @@ import java.util.Set;
 @Getter
 @Setter
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@NoArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode
 public abstract class User implements UserDetails, HeaderSearchElement {
@@ -55,6 +54,10 @@ public abstract class User implements UserDetails, HeaderSearchElement {
         cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE},
         orphanRemoval = true)
     private Collection<ChatMembership> memberships;
+
+    protected User() {
+        this.profile = new UserProfile();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
