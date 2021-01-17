@@ -35,12 +35,12 @@ public class UserService implements IFUserService, UserDetailsService {
 
     @Override
     public Collection<Person> getPersonByFirstName(String firstName) {
-        return personRepository.findByFirstName(firstName);
+        return personRepository.findByFirstNameOrderByFirstName(firstName);
     }
 
     @Override
     public Collection<Person> getPersonByLastName(String lastName) {
-        return personRepository.findByLastName(lastName);
+        return personRepository.findByLastNameOrderByLastName(lastName);
     }
 
     @Override
