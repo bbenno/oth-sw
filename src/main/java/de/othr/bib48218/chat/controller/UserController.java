@@ -31,4 +31,45 @@ public class UserController {
             return new ModelAndView("redirect:/");
         }
     }
+
+    @RequestMapping("/{username}/delete")
+    public ModelAndView deleteUser(@PathVariable String username, Model model, Principal principal) {
+        Optional<User> user_opt = userService.getUserByUsername(username);
+        if (user_opt.isPresent()) {
+            User user = user_opt.get();
+            boolean isSelf = user.getUsername().equals(principal.getName());
+            if (isSelf) {
+                userService.deleteUserByUsername(username);
+            } else {
+                model.addAttribute("notification", "No Permission to delete user");
+            }
+        }
+        return new ModelAndView("redirect:/", model.asMap());
+    }
+
+    @RequestMapping("/{username}/edit")
+    public ModelAndView editUser(@PathVariable String username, Model model, Principal principal) {
+        Optional<User> user_opt = userService.getUserByUsername(username);
+
+        if (user_opt.isPresent()) {
+            User user = user_opt.get();
+            boolean isSelf = user.getUsername().equals(principal.getName());
+
+            if (isSelf) {
+                model.addAttribute("user", user);
+                model.addAttribute("isPerson", user.getClass().equals(Person.class));
+                return new ModelAndView("user/edit", model.asMap());
+            }
+        }
+        return new ModelAndView("redirect:/");
+    }
+
+    @PostMapping("/{username}/edit")
+    public ModelAndView saveEditedUser(@Validated User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("redirect:/user/" + user.getUsername() + "/edit", "user", user);
+        }
+        userService.saveUser(user);
+        return new ModelAndView("redirect:/user/" + user.getUsername());
+    }
 }
