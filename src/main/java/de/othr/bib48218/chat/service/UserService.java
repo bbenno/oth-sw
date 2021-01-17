@@ -1,11 +1,11 @@
 package de.othr.bib48218.chat.service;
 
-import de.othr.bib48218.chat.util.UserAlreadyExistsException;
 import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.repository.BotRepository;
 import de.othr.bib48218.chat.repository.PersonRepository;
+import de.othr.bib48218.chat.util.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -123,5 +123,13 @@ public class UserService implements IFUserService, UserDetailsService {
     @Override
     public void deleteBotByUsername(String username) {
         botRepository.deleteById(username);
+    }
+
+    @Override
+    public void saveUser(User user) {
+        if (user.getClass().equals(Person.class))
+            personRepository.save((Person) user);
+        else if (user.getClass().equals(Bot.class))
+            botRepository.save((Bot) user);
     }
 }

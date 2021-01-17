@@ -108,4 +108,10 @@ public interface IFUserService {
      * @param username sting identifying bot
      */
     void deleteBotByUsername(String username);
+
+    /**
+     * Save new or updated user.
+     * @param user the user to save.
+     */
+    void saveUser(User user);
 }
