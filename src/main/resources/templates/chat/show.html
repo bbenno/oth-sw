@@ -19,8 +19,11 @@
 
 <body>
 
-<div th:class="${isGroupChat ? 'd-flex' : ''}" class="d-flex" layout:fragment="content">
-  <aside th:if="${isGroupChat}" id="sidebar-wrapper" class="border-end mr-4">
+<div class="d-flex"
+     th:class="${chat instanceof T(de.othr.bib48218.chat.entity.GroupChat) ? 'd-flex' : ''}"
+     layout:fragment="content">
+  <aside id="sidebar-wrapper" class="border-end mr-4"
+         th:if="${chat instanceof T(de.othr.bib48218.chat.entity.GroupChat)}">
     <nav class="mt-5" aria-label="Chat navigation">
       <div class="sidebar-heading" th:text="#{attribute.chat.memberships}">Members</div>
       <div class="btn-group">
@@ -42,10 +45,13 @@
   <main class="container" th:object="${chat}">
 
     <h1 th:text="${chat}">Chat Title</h1>
-    <p th:if="${isGroupChat && !#strings.isEmpty(chat.profile.description)}"
-       th:text="${chat.profile.description}">Chat description</p>
 
-    <div class="btn-group my-4" th:if="${isGroupChat && isAdmin}">
+    <p
+      th:if="${chat instanceof T(de.othr.bib48218.chat.entity.GroupChat) && !#strings.isEmpty(chat.profile.description)}"
+      th:text="${chat.profile.description}">Chat description</p>
+
+    <div class="btn-group my-4"
+         th:if="${chat instanceof T(de.othr.bib48218.chat.entity.GroupChat) && isAdmin}">
       <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/delete(id=${chat.id})}"
          th:text="#{chat.add_user.delete_chat}">Delete Chat</a>
       <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/edit(id=${chat.id})}"

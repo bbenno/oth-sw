@@ -57,9 +57,8 @@ public class ChatController {
         }
 
         model.addAttribute("chat", chat);
-        boolean isAdmin = chat.getClass().equals(GroupChat.class);
-        model.addAttribute("isGroupChat", isAdmin);
-        if (isAdmin) {
+        boolean isGroupChat = chat.getClass().equals(GroupChat.class);
+        if (isGroupChat) {
             model.addAttribute("isAdmin", hasUserMemberStatus(userOfPrincipal(principal), chat,
                 ChatMemberStatus.ADMINISTRATOR));
         }
