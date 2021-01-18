@@ -19,15 +19,15 @@
 
 <body>
 
-<form action="#" class="container" th:action="@{/chat/{id}/edit(id=${chat.id})}"
-      layout:fragment="content" method="post">
+<form action="#" class="container" th:action="@{/chat/edited}" layout:fragment="content"
+      method="post" th:object="${chat}">
 
   <h1 th:text="#{chat.group.edit.title}">Edit Group Chat</h1>
 
   <div th:replace="~{fragment/group_chat_form :: form_fields (chat)}"></div>
 
-  <button class="btn btn-primary align-self-center" type="submit" th:text="#{chat.group.edit.submit}"
-          value="submit">Edit
+  <button class="btn btn-primary align-self-center" type="submit"
+          th:text="#{chat.group.edit.submit}" value="submit">Edit
   </button>
 
 </form>

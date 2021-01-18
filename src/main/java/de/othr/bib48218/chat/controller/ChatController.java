@@ -112,6 +112,19 @@ public class ChatController {
         return new ModelAndView("redirect:/");
     }
 
+    @RequestMapping("/{id}/edit")
+    public ModelAndView editChat(@PathVariable Long id, Principal principal) {
+        return chatService.getGroupChatById(id)
+            .map(groupChat -> new ModelAndView("chat/edit_group_chat", "chat", groupChat))
+            .orElseGet(() -> new ModelAndView("redirect:/", "notification", "Chat not found"));
+    }
+
+    @PostMapping("/edited")
+    public ModelAndView saveEditedChat(@Validated GroupChat chat, Principal principal) {
+        chatService.editGroupChat(chat);
+        return new ModelAndView("redirect:/chat/" + chat.getId());
+    }
+
     @RequestMapping("/{id}/delete")
     public ModelAndView deleteChat(@PathVariable Long id, Principal principal) {
         String message;

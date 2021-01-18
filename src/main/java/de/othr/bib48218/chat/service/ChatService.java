@@ -178,4 +178,17 @@ public class ChatService implements IFChatService {
             .ifPresent(chat -> chat.getMemberships().stream().filter(m -> m.getUser() == user)
                 .forEach(m -> chatMembershipRepository.delete(m)));
     }
+
+    @Override
+    @Transactional
+    public void editGroupChat(GroupChat chat) {
+        Optional<GroupChat> chat_opt = groupRepository.findById(chat.getId());
+        if (chat_opt.isPresent()) {
+            GroupChat c = chat_opt.get();
+            c.setVisibility(chat.getVisibility());
+            c.getProfile().setDescription(chat.getProfile().getDescription());
+            c.getProfile().setName(chat.getProfile().getName());
+            c.getProfile().setImagePath(chat.getProfile().getImagePath());
+        }
+    }
 }

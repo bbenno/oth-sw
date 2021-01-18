@@ -167,4 +167,11 @@ public interface IFChatService {
      * @param chatId the id of the chat
      */
     void deleteChatMembership(User user, Long chatId);
+
+    /**
+     * Save edited group chat.
+     *
+     * @param chat the group chat to save
+     */
+    void editGroupChat(GroupChat chat);
 }
