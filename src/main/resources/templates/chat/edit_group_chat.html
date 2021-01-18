@@ -24,7 +24,37 @@
 
   <h1 th:text="#{chat.group.edit.title}">Edit Group Chat</h1>
 
-  <div th:replace="~{fragment/group_chat_form :: form_fields (chat)}"></div>
+  <div id="errors" th:if="${#fields.hasAnyErrors()}">
+    <p class="text-danger" th:text="error" th:each="error : ${#fields.errors()}">Field Error</p>
+  </div>
+
+  <div th:each="visibility : ${T(de.othr.bib48218.chat.entity.GroupVisibility).values()}">
+    <div class="form-check">
+      <input type="radio" th:field="*{visibility}" th:value="${visibility.name()}"
+             class="form-check-input">
+      <label class="custom-control-label" th:for="${#ids.prev('visibility')}"
+             th:text="${visibility}">model</label>
+    </div>
+  </div>
+
+  <div th:object="${chat.profile}">
+
+    <div class="mb-3">
+      <label class="form-label" th:for="*{name}"
+             th:text="#{attribute.chat_profile.name}">Name</label>
+      <input class="form-control" type="text" th:field="*{name}" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" th:for="description"
+             th:text="#{attribute.chat_profile.description}">Description</label>
+      <input class="form-control" type="text" th:field="*{description}">
+      <div id="description-help" class="form-text" th:text="#{chat.new_group.description_help}">
+        Short description of the chats purpose.
+      </div>
+    </div>
+
+  </div>
 
   <button class="btn btn-primary align-self-center" type="submit"
           th:text="#{chat.group.edit.submit}" value="submit">Edit
