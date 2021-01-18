@@ -156,6 +156,7 @@ chat:
     submit: Create
     description_help: Short description of the chats purpose.
   show:
+    edit_chat: Edit Chat
     sidebar:
       leave: Leave Chat
 header:

@@ -48,6 +48,8 @@
     <div class="btn-group my-4" th:if="${isGroupChat && isAdmin}">
       <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/delete(id=${chat.id})}"
          th:text="#{chat.add_user.delete_chat}">Delete Chat</a>
+      <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/edit(id=${chat.id})}"
+         th:text="#{chat.show.edit_chat}">Edit Chat</a>
     </div>
 
     <div th:each="message : *{messages}" th:unless="${#lists.isEmpty(chat.messages)}">
