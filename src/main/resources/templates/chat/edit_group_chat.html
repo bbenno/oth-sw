@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title th:text="#{chat.group.edit.title}">Edit Group Chat</title>
+
+  <!--/*-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+        crossorigin="anonymous">
+  <!--*/-->
+</head>
+
+<body>
+
+<form action="#" class="container" th:action="@{/chat/{id}/edit(id=${chat.id})}"
+      layout:fragment="content" method="post">
+
+  <h1 th:text="#{chat.group.edit.title}">Edit Group Chat</h1>
+
+  <div th:replace="~{fragment/group_chat_form :: form_fields (chat)}"></div>
+
+  <button class="btn btn-primary align-self-center" type="submit" th:text="#{chat.group.edit.submit}"
+          value="submit">Edit
+  </button>
+
+</form>
+
+<!--/*-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous">
+</script>
+<!--*/-->
+
+</body>
+
+</html>
