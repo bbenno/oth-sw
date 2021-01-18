@@ -23,7 +23,7 @@ Main success scenario::
 Extensions::
 * 6a) username is already taken.
 . System displays error message.
-. User enters different username.
+. User enters a different username.
 . User submits updated registration.
 
 
@@ -39,15 +39,15 @@ Postconditions::
 * User is logged in.
 * User is on starting page.
 Main success scenario::
-. User navigates to login form.
+. User navigates to login-form.
 . User enters username.
 . User enters password.
 . User submits login credentials.
 . System checks validity of provided login credentials.
-. System loggs user in.
+. System logs user in.
 . System forwards user to starting page.
 Extensions::
-* 5a) Username is unkown.
+* 5a) Username is unknown.
 . System displays error message.
 . User re-enters username.
 . User submits updated login credentials.
@@ -86,7 +86,7 @@ Preconditions::
 Postconditions::
 * None
 Main success scenario::
-. User enter username into searchbar.
+. User enter username into the searchbar of navigation header.
 . System displays list of user and chats with similar or equal name.
 . User selects intended user from list.
 . System displays peer chat with this user.
@@ -108,13 +108,13 @@ Preconditions::
 Postconditions::
 * Updated information are stored.
 * Other users have access to updated information.
-* Other users have noc access to previous information.
+* Other users have no access to previous information.
 Main success scenario::
 * User navigates to his profile.
 . User switches to "`edit`" view mode.
 . User enters name.
 . User enters bio text.
-. User enters country name.
+. User enters a country name.
 . User uploads image.
 . User confirms changes.
 . System stores updated information.
@@ -183,27 +183,27 @@ Postconditions::
 * Message is stored.
 * Receiver(s) can read the message.
 Main success scenario::
-. User enters name of user or group chat into searchbar.
+. User enters name of user or group chat into the searchbar of navigation header.
 . System displays list of user and group chats with similar or equal names.
 . User selects intended user or group chat from list.
 . System displays peer chat with this selected user or group chat.
 . User selects receiving user or group chat from visible list.
-. User types message into textfield.
+. User types message into text field.
 . User confirms message.
 . System stores message.
-. System shows sent message in chat.
+. System shows sent message in the chat.
 Extensions::
-* 6a) User attaches attachement to message.
-. User selects local file.
+* 6a) User attaches an attachment to message.
+. User selects a local file.
 . User uploads file.
 . System verifies file format.
-. System stores attachement.
+. System stores the attachment.
 
 === Use Case 9: Change Profile of Group Chat
 
 [horizontal]
 Name:: Change profile of group chat
-Short description:: User changes profil of group chat.
+Short description:: User changes profile of group chat.
 Actor:: User
 Preconditions::
 * User is logged in.
@@ -242,7 +242,7 @@ Main success scenario::
 . User selects new membership status from list.
 . User confirms selected new membership.
 . System alters status and privilege of selected user.
-. System displays confirmatation.
+. System displays confirmation.
 Extensions::
 * None
 
