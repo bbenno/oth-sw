@@ -1,11 +1,17 @@
 package de.othr.bib48218.chat.service;
 
-import de.othr.bib48218.chat.entity.*;
-
+import de.othr.bib48218.chat.entity.Chat;
+import de.othr.bib48218.chat.entity.ChatMemberStatus;
+import de.othr.bib48218.chat.entity.ChatMembership;
+import de.othr.bib48218.chat.entity.GroupChat;
+import de.othr.bib48218.chat.entity.GroupVisibility;
+import de.othr.bib48218.chat.entity.PeerChat;
+import de.othr.bib48218.chat.entity.User;
 import java.util.Collection;
 import java.util.Optional;
 
 public interface IFChatService {
+
     /**
      * Returns the chat with the given id.
      *
@@ -86,8 +92,8 @@ public interface IFChatService {
     ChatMembership addUserToChat(User user, Chat chat, ChatMemberStatus status);
 
     /**
-     * Creates new {@link GroupChat} if not yet present.
-     * The creating user will be administrator by default.
+     * Creates new {@link GroupChat} if not yet present. The creating user will be administrator by
+     * default.
      *
      * @param creator    the creating user
      * @param visibility the visibility of the created group chat

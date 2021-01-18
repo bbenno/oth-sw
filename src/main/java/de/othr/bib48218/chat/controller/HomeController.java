@@ -4,21 +4,21 @@ import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
+import java.security.Principal;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Optional;
+import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.websocket.server.PathParam;
-import java.security.Principal;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Optional;
-
 @SuppressWarnings("SameReturnValue")
 @Controller
 public class HomeController {
+
     @Autowired
     IFChatService chatService;
 
@@ -36,15 +36,17 @@ public class HomeController {
     }
 
     @RequestMapping("/")
-    public ModelAndView showHome(@PathParam("notification") String notification, Principal principal, Model model) {
+    public ModelAndView showHome(@PathParam("notification") String notification,
+        Principal principal, Model model) {
         Optional<User> user = userService.getUserByUsername(principal.getName());
         if (user.isPresent()) {
             Collection<Chat> chats = chatService.getChatsByUser(user.get());
             model.addAttribute("notification", notification);
             model.addAttribute("chats", new HashSet<>(chats));
             return new ModelAndView("home", model.asMap());
-        } else
+        } else {
             return new ModelAndView("redirect:/login");
+        }
     }
 
     @RequestMapping("/home")

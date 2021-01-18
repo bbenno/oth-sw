@@ -1,19 +1,18 @@
 package de.othr.bib48218.chat.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
-
+import java.util.Collections;
+import java.util.Optional;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.Set;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 @Entity
 @Getter
@@ -41,7 +40,8 @@ public class Person extends User {
         super(username, password);
     }
 
-    public Person(@NonNull String username, @NonNull String password, String firstName, String lastName, String email) {
+    public Person(@NonNull String username, @NonNull String password, String firstName,
+        String lastName, String email) {
         super(username, password);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -68,9 +68,9 @@ public class Person extends User {
 
     public Optional<String> fullName() {
         String fullName;
-        if (getFirstName() == null)
+        if (getFirstName() == null) {
             fullName = getLastName();
-        else if (getLastName() == null) {
+        } else if (getLastName() == null) {
             fullName = getFirstName();
         } else {
             fullName = String.join(" ", firstName, lastName);

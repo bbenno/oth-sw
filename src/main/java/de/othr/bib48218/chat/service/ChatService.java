@@ -1,22 +1,28 @@
 package de.othr.bib48218.chat.service;
 
-import de.othr.bib48218.chat.entity.*;
+import de.othr.bib48218.chat.entity.Chat;
+import de.othr.bib48218.chat.entity.ChatMemberStatus;
+import de.othr.bib48218.chat.entity.ChatMembership;
+import de.othr.bib48218.chat.entity.GroupChat;
+import de.othr.bib48218.chat.entity.GroupVisibility;
+import de.othr.bib48218.chat.entity.PeerChat;
+import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.repository.ChatMembershipRepository;
 import de.othr.bib48218.chat.repository.GroupChatRepository;
 import de.othr.bib48218.chat.repository.PeerChatRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Service;
-
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ChatService implements IFChatService {
+
     @Autowired
     private GroupChatRepository groupRepository;
 
@@ -29,10 +35,11 @@ public class ChatService implements IFChatService {
     @Override
     public Optional<? extends Chat> getChatById(Long id) {
         var groupChat = getGroupChatById(id);
-        if (groupChat.isPresent())
+        if (groupChat.isPresent()) {
             return groupChat;
-        else
+        } else {
             return getPeerChatById(id);
+        }
     }
 
     @Override
@@ -56,14 +63,18 @@ public class ChatService implements IFChatService {
 
     @Override
     public Collection<Chat> getAllChats() {
-        Stream<Chat> groupChatStream = StreamSupport.stream(groupRepository.findAll().spliterator(), false).map((chat) -> chat);
-        Stream<Chat> peerChatStream = StreamSupport.stream(peerRepository.findAll().spliterator(), false).map((chat) -> chat);
-        return Stream.concat(groupChatStream, peerChatStream).collect(Collectors.toUnmodifiableList());
+        Stream<Chat> groupChatStream = StreamSupport
+            .stream(groupRepository.findAll().spliterator(), false).map((chat) -> chat);
+        Stream<Chat> peerChatStream = StreamSupport
+            .stream(peerRepository.findAll().spliterator(), false).map((chat) -> chat);
+        return Stream.concat(groupChatStream, peerChatStream)
+            .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
     public Collection<GroupChat> getAllGroupChats() {
-        Stream<GroupChat> groupChatStream = StreamSupport.stream(groupRepository.findAll().spliterator(), false);
+        Stream<GroupChat> groupChatStream = StreamSupport
+            .stream(groupRepository.findAll().spliterator(), false);
 
         return groupChatStream.collect(Collectors.toUnmodifiableList());
     }
@@ -75,7 +86,8 @@ public class ChatService implements IFChatService {
 
     @Override
     public Collection<PeerChat> getAllPeerChats() {
-        Stream<PeerChat> peerChatStream = StreamSupport.stream(peerRepository.findAll().spliterator(), false);
+        Stream<PeerChat> peerChatStream = StreamSupport
+            .stream(peerRepository.findAll().spliterator(), false);
 
         return peerChatStream.collect(Collectors.toUnmodifiableList());
     }
@@ -116,7 +128,8 @@ public class ChatService implements IFChatService {
         Collection<PeerChat> chatsOfUser = peerRepository.findByMembershipsUser(user);
         Collection<PeerChat> chatsOfOtherUser = peerRepository.findByMembershipsUser(otherUser);
 
-        Optional<PeerChat> chat = chatsOfUser.stream().distinct().filter(chatsOfOtherUser::contains).findAny();
+        Optional<PeerChat> chat = chatsOfUser.stream().distinct().filter(chatsOfOtherUser::contains)
+            .findAny();
 
         if (chat.isPresent()) {
             return chat.get();
@@ -148,7 +161,8 @@ public class ChatService implements IFChatService {
     @Override
     public Optional<ChatMemberStatus> getChatMembership(Chat chat, User user) {
         var memberships_chat = chatMembershipRepository.findByChat(chat);
-        return memberships_chat.stream().filter(m -> m.getUser().equals(user)).map(ChatMembership::getStatus).findFirst();
+        return memberships_chat.stream().filter(m -> m.getUser().equals(user))
+            .map(ChatMembership::getStatus).findFirst();
     }
 
     @Override

@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(UserController.class)
 @Import(WebSecurityTestConfig.class)
 public class UserControllerTest {
+
     @Autowired
     private MockMvc mvc;
 

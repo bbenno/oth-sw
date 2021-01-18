@@ -5,15 +5,15 @@ import de.othr.bib48218.chat.entity.Message;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.repository.MessageRepository;
 import de.othr.bib48218.chat.repository.PersonRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class MessageService implements IFMessageService {
+
     @Autowired
     private MessageRepository repository;
 
@@ -36,8 +36,10 @@ public class MessageService implements IFMessageService {
     }
 
     @Override
-    public Collection<Message> getMessagesByChatSinceFrom(Chat chat, LocalDateTime localDateTime, String username) {
-        return repository.findByChatAndTimestampBeforeAndAuthor_Username(chat, localDateTime, username);
+    public Collection<Message> getMessagesByChatSinceFrom(Chat chat, LocalDateTime localDateTime,
+        String username) {
+        return repository
+            .findByChatAndTimestampBeforeAndAuthor_Username(chat, localDateTime, username);
     }
 
     @Override

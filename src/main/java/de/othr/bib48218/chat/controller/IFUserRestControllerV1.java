@@ -3,9 +3,8 @@ package de.othr.bib48218.chat.controller;
 import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
-import org.springframework.http.ResponseEntity;
-
 import java.util.Collection;
+import org.springframework.http.ResponseEntity;
 
 public interface IFUserRestControllerV1 {
     /*
@@ -22,6 +21,7 @@ public interface IFUserRestControllerV1 {
 
     /**
      * Creates Bot
+     *
      * @param bot bot to create
      * @return created bot
      */
@@ -33,24 +33,28 @@ public interface IFUserRestControllerV1 {
 
     /**
      * Gets all users
+     *
      * @return all users
      */
     ResponseEntity<Collection<User>> getUsers();
 
     /**
      * Gets all persons
+     *
      * @return all persons
      */
     ResponseEntity<Collection<Person>> getPersons();
 
     /**
      * Gets all bots
+     *
      * @return bots
      */
     ResponseEntity<Collection<Bot>> getBots();
 
     /**
      * Gets user by username
+     *
      * @param username username, identifying user
      * @return identified user
      */
@@ -58,6 +62,7 @@ public interface IFUserRestControllerV1 {
 
     /**
      * Gets person by username
+     *
      * @param username username, identifying person
      * @return identified person
      */
@@ -65,6 +70,7 @@ public interface IFUserRestControllerV1 {
 
     /**
      * Gets bot by username
+     *
      * @param username username, identifying bot
      * @return identified bot
      */
@@ -80,6 +86,7 @@ public interface IFUserRestControllerV1 {
 
     /**
      * Deletes user by username
+     *
      * @param username username, identifying user
      * @return identified user
      */
@@ -87,6 +94,7 @@ public interface IFUserRestControllerV1 {
 
     /**
      * Deletes person by username
+     *
      * @param username username, identifying person
      * @return identified person
      */
@@ -94,6 +102,7 @@ public interface IFUserRestControllerV1 {
 
     /**
      * Deletes bot by username
+     *
      * @param username username, identifying bot
      * @return identified bot
      */

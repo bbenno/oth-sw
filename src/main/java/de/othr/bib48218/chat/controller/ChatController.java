@@ -6,6 +6,11 @@ import de.othr.bib48218.chat.entity.GroupChat;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
+import java.security.Principal;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
@@ -18,15 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.security.Principal;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-
 @Controller
 @RequestMapping("/chat")
 public class ChatController {
+
     @Autowired
     private IFChatService chatService;
 
@@ -34,13 +34,15 @@ public class ChatController {
     private IFUserService userService;
 
     @RequestMapping("/{identifier}")
-    public ModelAndView showChat(@PathVariable String identifier, Principal principal, Model model) {
+    public ModelAndView showChat(@PathVariable String identifier, Principal principal,
+        Model model) {
         Chat chat;
         try {
             Long id = Long.parseLong(identifier);
             Optional<User> principal_user = userService.getUserByUsername(principal.getName());
             Optional<? extends Chat> chat_opt = chatService.getChatById(id);
-            if (chat_opt.isEmpty() || chat_opt.get().getMemberships().stream().noneMatch(m -> m.getUser().equals(principal_user.get()))) {
+            if (chat_opt.isEmpty() || chat_opt.get().getMemberships().stream()
+                .noneMatch(m -> m.getUser().equals(principal_user.get()))) {
                 return new ModelAndView("redirect:/");
             } else {
                 chat = chat_opt.get();
@@ -57,8 +59,10 @@ public class ChatController {
         model.addAttribute("chat", chat);
         boolean isAdmin = chat.getClass().equals(GroupChat.class);
         model.addAttribute("isGroupChat", isAdmin);
-        if (isAdmin)
-            model.addAttribute("isAdmin", hasUserMemberStatus(userOfPrincipal(principal), chat, ChatMemberStatus.ADMINISTRATOR));
+        if (isAdmin) {
+            model.addAttribute("isAdmin", hasUserMemberStatus(userOfPrincipal(principal), chat,
+                ChatMemberStatus.ADMINISTRATOR));
+        }
 
         return new ModelAndView("chat/show", model.asMap());
     }
@@ -67,13 +71,15 @@ public class ChatController {
     public ModelAndView addChatMember(@PathVariable long id, Principal principal) {
         Chat chat = chatService.getChatById(id).get();
 
-        if (!userIsAllowedToAddMember(userOfPrincipal(principal), chat))
+        if (!userIsAllowedToAddMember(userOfPrincipal(principal), chat)) {
             return new ModelAndView("redirect:/");
+        }
         return new ModelAndView("chat/add_member", "chat", chat);
     }
 
     @PostMapping("/{id}/add")
-    public ModelAndView addChatMember(@PathVariable Long id, @RequestParam String username, Principal principal) {
+    public ModelAndView addChatMember(@PathVariable Long id, @RequestParam String username,
+        Principal principal) {
         Optional<? extends Chat> chat = chatService.getChatById(id);
         if (chat.isEmpty()) {
             return new ModelAndView("redirect:/", "notification", "Chat not found");
@@ -134,7 +140,8 @@ public class ChatController {
     }
 
     @PostMapping("/new")
-    public ModelAndView createGroupChat(@Validated GroupChat chat, BindingResult bindingResult, Principal principal) {
+    public ModelAndView createGroupChat(@Validated GroupChat chat, BindingResult bindingResult,
+        Principal principal) {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("chat/form_groupChat", "chat", chat);
         } else {
@@ -162,10 +169,12 @@ public class ChatController {
     }
 
     private boolean hasUserMemberStatus(User user, Chat chat, List<ChatMemberStatus> status) {
-        return chat.getMemberships().stream().filter(m -> m.getUser() == user).anyMatch(m -> status.contains(m.getStatus()));
+        return chat.getMemberships().stream().filter(m -> m.getUser() == user)
+            .anyMatch(m -> status.contains(m.getStatus()));
     }
 
     private boolean hasUserMemberStatus(User user, Chat chat, ChatMemberStatus status) {
-        return chat.getMemberships().stream().filter(m -> m.getUser() == user).anyMatch(m -> m.getStatus() == status);
+        return chat.getMemberships().stream().filter(m -> m.getUser() == user)
+            .anyMatch(m -> m.getStatus() == status);
     }
 }

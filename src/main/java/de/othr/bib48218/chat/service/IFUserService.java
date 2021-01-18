@@ -4,11 +4,11 @@ import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.util.UserAlreadyExistsException;
-
 import java.util.Collection;
 import java.util.Optional;
 
 public interface IFUserService {
+
     /**
      * Returns User with given username.
      *
