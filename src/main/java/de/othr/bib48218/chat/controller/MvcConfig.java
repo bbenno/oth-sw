@@ -1,5 +1,7 @@
 package de.othr.bib48218.chat.controller;
 
+import java.util.Locale;
+import java.util.Properties;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.context.MessageSource;
@@ -14,11 +16,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import java.util.Locale;
-import java.util.Properties;
-
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
+
     //@Bean
     public Properties yamlProperties() {
         YamlPropertiesFactoryBean bean = new YamlPropertiesFactoryBean();

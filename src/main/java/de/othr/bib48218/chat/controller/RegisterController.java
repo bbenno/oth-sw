@@ -1,8 +1,8 @@
 package de.othr.bib48218.chat.controller;
 
-import de.othr.bib48218.chat.util.UserAlreadyExistsException;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.service.UserService;
+import de.othr.bib48218.chat.util.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
+
     @Autowired
     private UserService userService;
 
@@ -28,15 +29,17 @@ public class RegisterController {
     }
 
     @PostMapping
-    public ModelAndView createPerson(@Validated Person person, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors())
+    public ModelAndView createPerson(@Validated Person person, BindingResult bindingResult,
+        Model model) {
+        if (bindingResult.hasErrors()) {
             return new ModelAndView("register", "person", person);
-        else {
+        } else {
             try {
                 userService.createPerson(person);
                 return new ModelAndView("redirect:/user/" + person.getUsername());
             } catch (UserAlreadyExistsException userAlreadyExistsException) {
-                var notUniqueError = new FieldError(bindingResult.getObjectName(), "username", "Username exists already");
+                var notUniqueError = new FieldError(bindingResult.getObjectName(), "username",
+                    "Username exists already");
                 bindingResult.addError(notUniqueError);
                 return new ModelAndView("register", "person", person);
             }

@@ -1,11 +1,11 @@
 package de.othr.bib48218.chat.controller;
 
 import de.othr.bib48218.chat.entity.Message;
+import java.util.Collection;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Collection;
-
 public interface IFMessageRestControllerV1 {
+
     /**
      * Returns messages
      *

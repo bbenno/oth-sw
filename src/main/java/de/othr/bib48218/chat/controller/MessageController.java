@@ -6,20 +6,20 @@ import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFMessageService;
 import de.othr.bib48218.chat.service.IFUserService;
+import java.security.Principal;
+import java.time.LocalDateTime;
+import java.util.Optional;
+import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.ConstraintViolationException;
-import java.security.Principal;
-import java.time.LocalDateTime;
-import java.util.Optional;
-
 @Controller
 @RequestMapping("/message")
 public class MessageController {
+
     @Autowired
     private IFMessageService messageService;
 
@@ -30,11 +30,13 @@ public class MessageController {
     private IFUserService userService;
 
     @RequestMapping("/new")
-    private ModelAndView createMessage(@RequestParam("message") String text, @RequestParam("chat") Long chat_id, Principal principal) {
+    private ModelAndView createMessage(@RequestParam("message") String text,
+        @RequestParam("chat") Long chat_id, Principal principal) {
         Optional<User> author = userService.getUserByUsername(principal.getName());
         Optional<? extends Chat> chat_opt = chatService.getChatById(chat_id);
-        if (chat_opt.isEmpty() || !chatService.isUserMember(author.get(), chat_opt.get()))
+        if (chat_opt.isEmpty() || !chatService.isUserMember(author.get(), chat_opt.get())) {
             return new ModelAndView("redirect:/", "notification", "chat not found");
+        }
 
         Chat chat = chat_opt.get();
         try {

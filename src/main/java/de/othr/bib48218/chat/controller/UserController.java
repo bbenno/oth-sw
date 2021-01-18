@@ -4,6 +4,8 @@ import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFUserService;
+import java.security.Principal;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,12 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.security.Principal;
-import java.util.Optional;
-
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
     @Autowired
     private IFUserService userService;
 
@@ -37,7 +37,8 @@ public class UserController {
     }
 
     @RequestMapping("/{username}/delete")
-    public ModelAndView deleteUser(@PathVariable String username, Model model, Principal principal) {
+    public ModelAndView deleteUser(@PathVariable String username, Model model,
+        Principal principal) {
         Optional<User> user_opt = userService.getUserByUsername(username);
         if (user_opt.isPresent()) {
             User user = user_opt.get();
