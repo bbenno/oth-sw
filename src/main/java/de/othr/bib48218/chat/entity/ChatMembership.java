@@ -1,14 +1,13 @@
 package de.othr.bib48218.chat.entity;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.NonNull;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 
 @Entity
 @Getter
@@ -16,6 +15,7 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChatMembership extends IdEntity {
+
     @ManyToOne(
         cascade = CascadeType.REFRESH,
         optional = false)
