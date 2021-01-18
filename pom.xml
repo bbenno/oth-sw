@@ -28,7 +28,7 @@
                     <groupId>mysql</groupId>
                     <artifactId>mysql-connector-java</artifactId>
                     <scope>runtime</scope>
-                    <version>8.0.22</version>
+                    <version>8.0.23</version>
                 </dependency>
             </dependencies>
         </profile>
@@ -55,7 +55,7 @@
                     <groupId>mysql</groupId>
                     <artifactId>mysql-connector-java</artifactId>
                     <scope>runtime</scope>
-                    <version>8.0.22</version>
+                    <version>8.0.23</version>
                 </dependency>
             </dependencies>
         </profile>
