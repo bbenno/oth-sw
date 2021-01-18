@@ -2,11 +2,11 @@ package de.othr.bib48218.chat.service;
 
 import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.entity.Message;
-
 import java.time.LocalDateTime;
 import java.util.Collection;
 
 public interface IFMessageService extends IFSendMessage {
+
     /**
      * Returns all messages of a given chat.
      *
@@ -41,7 +41,8 @@ public interface IFMessageService extends IFSendMessage {
      * @param username      the name of the author
      * @return messages
      */
-    Collection<Message> getMessagesByChatSinceFrom(Chat chat, LocalDateTime localDateTime, String username);
+    Collection<Message> getMessagesByChatSinceFrom(Chat chat, LocalDateTime localDateTime,
+        String username);
 
     /**
      * Saves given message.
