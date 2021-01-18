@@ -1,14 +1,14 @@
 package de.othr.bib48218.chat;
 
+import java.security.SecureRandom;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.security.SecureRandom;
-
 @Configuration
 class WebSecurityUtilities {
+
     private static final int STRENGTH = 15;
 
     @Value("${user-password-salt}")

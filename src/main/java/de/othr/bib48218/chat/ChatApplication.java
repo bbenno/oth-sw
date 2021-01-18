@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class ChatApplication {
+
     private static final Logger logger = LoggerFactory.getLogger(ChatApplication.class);
 
     public static void main(String[] args) {
