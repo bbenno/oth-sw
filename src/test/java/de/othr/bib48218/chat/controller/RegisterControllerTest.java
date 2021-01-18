@@ -1,5 +1,12 @@
 package de.othr.bib48218.chat.controller;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
 import de.othr.bib48218.chat.WebSecurityTestConfig;
 import de.othr.bib48218.chat.factory.UserFactory;
 import de.othr.bib48218.chat.service.UserService;
@@ -11,15 +18,10 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 @WebMvcTest(RegisterController.class)
 @Import(WebSecurityTestConfig.class)
 public class RegisterControllerTest {
+
     @Autowired
     private MockMvc mvc;
 

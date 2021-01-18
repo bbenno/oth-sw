@@ -4,5 +4,6 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 
 public abstract class ValidationTest {
+
     protected final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 }

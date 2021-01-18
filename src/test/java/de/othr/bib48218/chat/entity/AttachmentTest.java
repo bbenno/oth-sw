@@ -1,19 +1,21 @@
 package de.othr.bib48218.chat.entity;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.ThrowingSupplier;
-
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.ThrowingSupplier;
+
 public class AttachmentTest {
+
     @SuppressWarnings("ConstantConditions")
     @Test
     void nameShouldNotBeNull() {
         var attachment = new Attachment();
 
         assertThrows(NullPointerException.class, () -> attachment.setName(null));
-        assertThrows(NullPointerException.class, () -> new Attachment(null, "application/image", "path"));
+        assertThrows(NullPointerException.class,
+            () -> new Attachment(null, "application/image", "path"));
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -31,7 +33,8 @@ public class AttachmentTest {
         var attachment = new Attachment();
 
         assertThrows(NullPointerException.class, () -> attachment.setPath(null));
-        assertThrows(NullPointerException.class, () -> new Attachment("image", "application/image", null));
+        assertThrows(NullPointerException.class,
+            () -> new Attachment("image", "application/image", null));
     }
 
     @Test

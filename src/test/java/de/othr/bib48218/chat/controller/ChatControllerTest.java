@@ -1,5 +1,10 @@
 package de.othr.bib48218.chat.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.github.javafaker.Faker;
 import de.othr.bib48218.chat.HeaderSearchElementFactory;
 import de.othr.bib48218.chat.WebSecurityTestConfig;
@@ -15,16 +20,13 @@ import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @WebMvcTest(ChatController.class)
 @Import(WebSecurityTestConfig.class)
 public class ChatControllerTest {
+
     @Spy
-    HeaderSearchElementFactory headerSearchElementFactory = HeaderSearchElementFactory.getInstance();
+    HeaderSearchElementFactory headerSearchElementFactory = HeaderSearchElementFactory
+        .getInstance();
     @Autowired
     private MockMvc mvc;
     @MockBean

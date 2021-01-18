@@ -1,12 +1,20 @@
 package de.othr.bib48218.chat.service;
 
-import de.othr.bib48218.chat.util.UserAlreadyExistsException;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
+
 import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.factory.UserFactory;
 import de.othr.bib48218.chat.repository.BotRepository;
 import de.othr.bib48218.chat.repository.PersonRepository;
+import de.othr.bib48218.chat.util.UserAlreadyExistsException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,17 +23,9 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
-
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
+
     @InjectMocks
     private UserService userService;
 
@@ -36,7 +36,7 @@ class UserServiceTest {
     private BotRepository botRepository;
 
     @Spy
-    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Test
     void shouldGetPersonByFirstNameIfExisting() {

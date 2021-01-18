@@ -1,12 +1,13 @@
 package de.othr.bib48218.chat.entity;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.ThrowingSupplier;
-
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.ThrowingSupplier;
+
 public class ChatProfileTest {
+
     @SuppressWarnings("ConstantConditions")
     @Test
     void shouldHaveDescription() {

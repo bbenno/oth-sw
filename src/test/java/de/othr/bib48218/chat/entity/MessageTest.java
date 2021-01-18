@@ -1,14 +1,14 @@
 package de.othr.bib48218.chat.entity;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.ThrowingSupplier;
-
-import java.time.LocalDateTime;
-
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.time.LocalDateTime;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.ThrowingSupplier;
+
 public class MessageTest {
+
     @SuppressWarnings("ConstantConditions")
     @Test
     void shouldHaveAuthor() {
@@ -21,7 +21,7 @@ public class MessageTest {
             },
             null,
             LocalDateTime.now()
-            ));
+        ));
     }
 
     @SuppressWarnings("ConstantConditions")

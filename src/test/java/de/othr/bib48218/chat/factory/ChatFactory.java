@@ -6,6 +6,7 @@ import de.othr.bib48218.chat.entity.GroupVisibility;
 import de.othr.bib48218.chat.entity.PeerChat;
 
 public class ChatFactory {
+
     private static final Faker faker = new Faker();
 
     public static GroupChat newValidGroupChat() {
