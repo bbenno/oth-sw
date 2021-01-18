@@ -159,6 +159,9 @@ chat:
     caption: Benutzer zu Chat hinzufügen
     add_user: Add User
     delete_chat: Delete Chat
+  edit:
+    title: Edit Group Chat
+    submit: Save
   join_public:
     title: Join Public Chat
     join: Join
@@ -167,6 +170,10 @@ chat:
     title: Neuen Gruppenchat anlegen
     submit: Anlegen
     description_help: Short description of the chats purpose.
+  show:
+    edit_chat: Edit Chat
+    sidebar:
+      leave: Leave Chat
 header:
   search: Suche
   logout: Abmelden
