@@ -155,14 +155,14 @@ public class ChatController {
     @RequestMapping("/new")
     public ModelAndView showGroupChatForm() {
         var chat = new GroupChat();
-        return new ModelAndView("chat/form_groupChat", "chat", chat);
+        return new ModelAndView("chat/new_group_chat", "chat", chat);
     }
 
     @PostMapping("/new")
     public ModelAndView createGroupChat(@Validated GroupChat chat, BindingResult bindingResult,
         Principal principal) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("chat/form_groupChat", "chat", chat);
+            return new ModelAndView("chat/new_group_chat", "chat", chat);
         } else {
             Optional<User> creator = userService.getUserByUsername(principal.getName());
             chat = chatService.saveChat(creator.get(), chat);
