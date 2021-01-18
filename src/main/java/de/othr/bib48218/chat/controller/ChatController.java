@@ -118,13 +118,13 @@ public class ChatController {
             .orElseGet(() -> new ModelAndView("redirect:/", "notification", "Chat not found"));
     }
 
-    @PostMapping("/edited")
-    public ModelAndView saveEditedChat(@Validated GroupChat chat, BindingResult bindingResult, Principal principal) {
+    @PostMapping("/{id}/edit")
+    public ModelAndView saveEditedChat(@Validated GroupChat chat, @PathVariable Long id, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors())
             return new ModelAndView("chat/" + chat.getId() + "/edit", "chat", chat);
         else {
-            chatService.editGroupChat(chat);
-            return new ModelAndView("redirect:/chat/" + chat.getId());
+            chatService.editGroupChat(id, chat);
+            return new ModelAndView("redirect:/chat/" + id);
         }
     }
 

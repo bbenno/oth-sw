@@ -181,8 +181,8 @@ public class ChatService implements IFChatService {
 
     @Override
     @Transactional
-    public void editGroupChat(GroupChat chat) {
-        Optional<GroupChat> chat_opt = groupRepository.findById(chat.getId());
+    public void editGroupChat(Long id, GroupChat chat) {
+        Optional<GroupChat> chat_opt = groupRepository.findById(id);
         if (chat_opt.isPresent()) {
             GroupChat c = chat_opt.get();
             c.setVisibility(chat.getVisibility());

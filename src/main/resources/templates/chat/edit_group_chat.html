@@ -19,7 +19,7 @@
 
 <body>
 
-<form action="#" class="container" th:action="@{/chat/edited}" layout:fragment="content"
+<form action="#" class="container" th:action="@{/chat/{id}/edit(id=${chat.id})}" layout:fragment="content"
       method="post" th:object="${chat}">
 
   <h1 th:text="#{chat.group.edit.title}">Edit Group Chat</h1>

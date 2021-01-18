@@ -173,5 +173,5 @@ public interface IFChatService {
      *
      * @param chat the group chat to save
      */
-    void editGroupChat(GroupChat chat);
+    void editGroupChat(Long id, GroupChat chat);
 }
