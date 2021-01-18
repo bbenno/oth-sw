@@ -119,9 +119,13 @@ public class ChatController {
     }
 
     @PostMapping("/edited")
-    public ModelAndView saveEditedChat(@Validated GroupChat chat, Principal principal) {
-        chatService.editGroupChat(chat);
-        return new ModelAndView("redirect:/chat/" + chat.getId());
+    public ModelAndView saveEditedChat(@Validated GroupChat chat, BindingResult bindingResult, Principal principal) {
+        if (bindingResult.hasErrors())
+            return new ModelAndView("chat/" + chat.getId() + "/edit", "chat", chat);
+        else {
+            chatService.editGroupChat(chat);
+            return new ModelAndView("redirect:/chat/" + chat.getId());
+        }
     }
 
     @RequestMapping("/{id}/delete")
