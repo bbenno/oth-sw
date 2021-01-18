@@ -159,4 +159,12 @@ public interface IFChatService {
      * @return <code>true</code> if user is member of chat; otherwise <code>false</code>
      */
     boolean isUserMember(User user, Chat chat);
+
+    /**
+     * Deletes chat membership of user in chat.
+     *
+     * @param user   the user to leave chat
+     * @param chatId the id of the chat
+     */
+    void deleteChatMembership(User user, Long chatId);
 }

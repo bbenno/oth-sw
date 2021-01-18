@@ -152,6 +152,9 @@ chat:
     title: Create Group Chat
     submit: Create
     description_help: Short description of the chats purpose.
+  show:
+    sidebar:
+      leave: Leave Chat
 header:
   search: Search
   logout: Sign out

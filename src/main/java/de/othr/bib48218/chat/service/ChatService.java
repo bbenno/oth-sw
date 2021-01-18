@@ -19,6 +19,7 @@ import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ChatService implements IFChatService {
@@ -168,5 +169,13 @@ public class ChatService implements IFChatService {
     @Override
     public boolean isUserMember(User user, Chat chat) {
         return chat.getMemberships().stream().anyMatch(m -> m.getUser() == user);
+    }
+
+    @Override
+    @Transactional
+    public void deleteChatMembership(User user, Long chatId) {
+        getChatById(chatId)
+            .ifPresent(chat -> chat.getMemberships().stream().filter(m -> m.getUser() == user)
+                .forEach(m -> chatMembershipRepository.delete(m)));
     }
 }

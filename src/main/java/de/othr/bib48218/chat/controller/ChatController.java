@@ -105,6 +105,13 @@ public class ChatController {
         return redirectToChat(chat.get());
     }
 
+    @RequestMapping("/{id}/leave")
+    public ModelAndView leaveChat(@PathVariable Long id, Principal principal) {
+        chatService.deleteChatMembership(userOfPrincipal(principal), id);
+
+        return new ModelAndView("redirect:/");
+    }
+
     @RequestMapping("/{id}/delete")
     public ModelAndView deleteChat(@PathVariable Long id, Principal principal) {
         String message;
