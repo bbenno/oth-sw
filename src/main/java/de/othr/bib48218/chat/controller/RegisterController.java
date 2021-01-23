@@ -1,8 +1,8 @@
 package de.othr.bib48218.chat.controller;
 
-import de.othr.bib48218.chat.UserAlreadyExists;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.service.UserService;
+import de.othr.bib48218.chat.util.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -14,32 +14,43 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
+
     @Autowired
     private UserService userService;
 
     @RequestMapping
-    public ModelAndView showPersonForm() {
-        return new ModelAndView("register", "person", new Person());
+    public String showPersonForm(Model model) {
+        model.addAttribute("person", new Person());
+        return "register";
     }
 
     @PostMapping
-    public ModelAndView createPerson(@Validated Person person, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors())
-            return new ModelAndView("register", "person", person);
-        else {
-            try {
-                userService.createPerson(person);
-                return new ModelAndView("redirect:/user/" + person.getUsername());
-            } catch (UserAlreadyExists userAlreadyExists) {
-                var notUniqueError = new FieldError(bindingResult.getObjectName(), "username", "Username exists already");
-                bindingResult.addError(notUniqueError);
-                return new ModelAndView("register", "person", person);
-            }
+    public String createPerson(
+        @Validated Person person,
+        BindingResult bindingResult,
+        Model model
+    ) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("person", person);
+            return "register";
+        }
+
+        try {
+            person = userService.createPerson(person);
+            return "redirect:/user/" + person.getUsername();
+        } catch (UserAlreadyExistsException userAlreadyExistsException) {
+            bindingResult.addError(new FieldError(
+                bindingResult.getObjectName(),
+                "username",
+                "Username exists already"
+            ));
+
+            model.addAttribute("person", person);
+            return "register";
         }
     }
 

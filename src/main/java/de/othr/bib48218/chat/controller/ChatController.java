@@ -1,13 +1,24 @@
 package de.othr.bib48218.chat.controller;
 
 import de.othr.bib48218.chat.entity.Chat;
+import de.othr.bib48218.chat.entity.ChatMemberStatus;
+import de.othr.bib48218.chat.entity.ChatMembership;
 import de.othr.bib48218.chat.entity.GroupChat;
 import de.othr.bib48218.chat.entity.PeerChat;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
+import java.security.Principal;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Optional;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +27,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.security.Principal;
-import java.util.Optional;
-
 @Controller
 @RequestMapping("/chat")
 public class ChatController {
+
+    private static final Pattern pattern = Pattern.compile("\\d+");
+
+    private static final String chatNotFound = "Chat not found";
+
     @Autowired
     private IFChatService chatService;
 
@@ -29,55 +42,254 @@ public class ChatController {
     private IFUserService userService;
 
     @RequestMapping("/{identifier}")
-    public ModelAndView showChat(@PathVariable String identifier, Principal principal) {
-        try {
-            Long id = Long.parseLong(identifier);
-            User principal_user = userService.getUserByUsername(principal.getName());
-            Optional<? extends Chat> chat = chatService.getChatById(id);
-            if (chat.isPresent() && chat.get().getMemberships().stream().anyMatch(m -> m.getUser().equals(principal_user))) {
-                return new ModelAndView("chat/show", "chat", chat.get());
-            } else
-                return new ModelAndView("redirect:/");
-        } catch (NumberFormatException e) {
-            // Interpret id as username
-            User user = userService.getUserByUsername(principal.getName());
-            User other = userService.getUserByUsername(identifier);
-            PeerChat chat = chatService.getOrCreatePeerChatOf(user, other);
+    public String showChat(
+        @PathVariable String identifier,
+        Principal principal,
+        Model model
+    ) {
+        User user = userOfPrincipal(principal);
 
-            return new ModelAndView("chat/show", "chat", chat);
-        } catch (Exception e) {
-            return new ModelAndView("redirect:/");
+        boolean isId = pattern.matcher(identifier).matches();
+
+        if (isId) {
+            // Interpret identifier as chat id
+            Optional<Chat> chat = chatService.getChatById(Long.parseLong(identifier));
+            if (chat.isPresent() && chat.get().getStatusOfMember(user).isPresent()) {
+                model.addAllAttributes(Map.of(
+                    "chat",
+                    chat.get(),
+
+                    "isAdmin",
+                    chat.get().getStatusOfMember(user)
+                        .map(s -> s == ChatMemberStatus.ADMINISTRATOR)
+                        .orElse(false)
+                ));
+                return "chat/show";
+            } else {
+                model.addAttribute("notification", chatNotFound);
+                return "redirect:/";
+            }
+        } else {
+            // Interpret identifier as username
+            Optional<PeerChat> chat = userService.getUserByUsername(identifier)
+                .map(u -> chatService.getOrCreatePeerChatOf(user, u));
+
+            if (chat.isPresent()) {
+                model.addAttribute("chat", chat.get());
+                return "chat/show";
+            } else {
+                model.addAttribute("notification", chatNotFound);
+                return "redirect:/";
+            }
         }
     }
 
     @RequestMapping("/{id}/add")
-    public ModelAndView addChatMember(@PathVariable long id, Principal principal) {
-        Chat chat = chatService.getChatById(id).get();
-        return new ModelAndView("chat/add_member", "chat", chat);
+    public String addChatMember(@PathVariable long id, Principal principal, Model model) {
+        Optional<Chat> chat = chatService.getChatById(id);
+
+        if (chat.isPresent()) {
+            if (isAllowedToAddMemberToChat(principal, chat.get())) {
+                model.addAttribute("chat", chat.get());
+                return "chat/add_member";
+            } else {
+                return "redirect:/";
+            }
+        } else {
+            return "redirect:/";
+        }
     }
 
     @PostMapping("/{id}/add")
-    public ModelAndView addChatMember(@PathVariable Long id, @RequestParam String username) {
-        Chat chat = chatService.getChatById(id).get();
-        User user = userService.getUserByUsername(username);
-        chatService.addUserToChat(user, chat);
-        return new ModelAndView("redirect:/chat/" + chat.getId());
+    @Transactional
+    public ModelAndView addChatMember(
+        @PathVariable Long id,
+        @RequestParam String username,
+        Principal principal,
+        Model model
+    ) {
+        Optional<User> newMember = userService.getUserByUsername(username);
+        Optional<Chat> chat = chatService.getChatById(id);
+
+        chat.ifPresentOrElse(
+            c -> model.addAttribute("chat", c),
+            () -> model.addAttribute("notification", "Chat not found")
+        );
+
+        boolean isUserAdded = newMember.isPresent()
+            && chat.map(c -> isAllowedToAddMemberToChat(principal, c)).orElse(false);
+
+        if (isUserAdded) {
+            addUserToChat(newMember.get(), chat.get());
+        }
+
+        String view =
+            (newMember.isEmpty())
+                ? "chat/add_member"
+                : (isUserAdded)
+                    ? "redirect:"
+                    : "redirect:/";
+
+        return new ModelAndView(view, model.asMap());
+    }
+
+    @RequestMapping("/{id}/join")
+    @Transactional
+    public String joinChat(@PathVariable Long id, Principal principal, Model model) {
+        Optional<Chat> chat = chatService.getChatById(id);
+
+        if (chat.isPresent()) {
+            addUserToChat(userOfPrincipal(principal), chat.get());
+            return "redirect:";
+        } else {
+            model.addAttribute("notification", chatNotFound);
+            return "redirect:/";
+        }
+    }
+
+    @RequestMapping("/{id}/leave")
+    @Transactional
+    public String leaveChat(@PathVariable Long id, Principal principal) {
+        chatService.getChatById(id).ifPresent(
+            chat -> chat.getMemberships()
+                .removeIf(m -> m.getUser().equals(userOfPrincipal(principal)))
+        );
+
+        return "redirect:/";
+    }
+
+    @RequestMapping("/{id}/edit")
+    public String editChat(@PathVariable Long id, Principal principal, Model model) {
+        Optional<GroupChat> chat = chatService.getGroupChatById(id);
+        if (chat.isPresent()) {
+            if (isAllowedToEditChat(principal, chat.get())) {
+                model.addAttribute("chat", chat.get());
+                return "chat/edit_group_chat";
+            } else {
+                return "redirect:";
+            }
+        } else {
+            model.addAttribute("notification", chatNotFound);
+            return "redirect:/";
+        }
+    }
+
+    @PostMapping("/{id}/edit")
+    @Transactional
+    public String saveEditedChat(
+        @Validated GroupChat chat,
+        @PathVariable Long id,
+        BindingResult bindingResult,
+        Principal principal,
+        Model model
+    ) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("chat", chat);
+            return "redirect:edit";
+        }
+
+        chatService.getGroupChatById(id).ifPresent(c -> {
+            if (isAllowedToEditChat(principal, c)) {
+                c.setVisibility(chat.getVisibility());
+                c.getProfile().setDescription(chat.getProfile().getDescription());
+                c.getProfile().setName(chat.getProfile().getName());
+                c.getProfile().setImagePath(chat.getProfile().getImagePath());
+            }
+        });
+
+        return "redirect:";
+
+    }
+
+    @RequestMapping("/{id}/delete")
+    @Transactional
+    public String deleteChat(@PathVariable Long id, Principal principal, Model model) {
+        String notification = chatService.getChatById(id)
+            .map(c -> {
+                if (c instanceof GroupChat && isAllowedToDeleteChat(principal, c)
+                ) {
+                    chatService.deleteChat(c);
+                    return "Deleted chat successully";
+                } else {
+                    return "No permission to delete chat";
+                }
+            })
+            .orElse("Error deleting chat");
+
+        model.addAttribute("notification", notification);
+        return "redirect:/";
+    }
+
+    @RequestMapping("/public")
+    public String publicChats(Principal principal, Model model) {
+        Collection<GroupChat> chats = chatService.getAllPublicGroupChats().stream()
+            // Filter all public chats in which the current user is already member in.
+            .filter(
+                c -> c.getMemberships().stream()
+                    .noneMatch(m -> m.getUser().equals(userOfPrincipal(principal)))
+            ).collect(Collectors.toUnmodifiableList());
+
+        model.addAttribute("chats", chats);
+        return "chat/join_public";
     }
 
     @RequestMapping("/new")
-    public ModelAndView showGroupChatForm() {
-        var chat = new GroupChat();
-        return new ModelAndView("chat/form_groupChat", "chat", chat);
+    public String showGroupChatForm(Model model) {
+        model.addAttribute("chat", new GroupChat());
+        return "chat/new_group_chat";
     }
 
     @PostMapping("/new")
-    public ModelAndView createGroupChat(@Validated GroupChat chat, BindingResult bindingResult, Principal principal) {
+    public String createGroupChat(
+        @Validated GroupChat chat,
+        BindingResult bindingResult,
+        Principal principal,
+        Model model
+    ) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("chat/form_groupChat", "chat", chat);
-        } else {
-            User creator = userService.getUserByUsername(principal.getName());
-            chat = chatService.saveChat(creator, chat);
-            return new ModelAndView("redirect:/chat/" + chat.getId());
+            model.addAttribute("chat", chat);
+            return "chat/new_group_chat";
         }
+
+        chat = chatService.saveChat(userOfPrincipal(principal), chat);
+        return "redirect:" + chat.getId();
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    protected void addUserToChat(User user, Chat chat) {
+        addOrUpdateChatMembership(user, chat, ChatMemberStatus.MEMBER);
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    protected void addOrUpdateChatMembership(User user, Chat chat, ChatMemberStatus status) {
+        chat.getMemberships().stream()
+            .filter(m -> m.getUser().equals(user) && m.getChat().equals(chat))
+            .findAny()
+            .ifPresentOrElse(
+                m -> m.setStatus(status),
+                () -> chat.getMemberships().add(new ChatMembership(chat, status, user))
+            );
+    }
+
+    private User userOfPrincipal(Principal principal) {
+        return userService.getUserByUsername(principal.getName()).orElseThrow();
+    }
+
+    private boolean isAllowedToDeleteChat(Principal principal, Chat chat) {
+        return chat.getStatusOfMember(userOfPrincipal(principal))
+            .map(ChatMemberStatus::isAllowedToDeleteChat)
+            .orElse(false);
+    }
+
+    private boolean isAllowedToEditChat(Principal principal, Chat chat) {
+        return chat.getStatusOfMember(userOfPrincipal(principal))
+            .map(ChatMemberStatus::isAllowedToEditChat)
+            .orElse(false);
+    }
+
+    private boolean isAllowedToAddMemberToChat(Principal principal, Chat chat) {
+        return chat.getStatusOfMember(userOfPrincipal(principal))
+            .map(ChatMemberStatus::isAllowedToAddMembersToChat)
+            .orElse(false);
     }
 }

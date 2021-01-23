@@ -157,6 +157,10 @@ chat:
     submit: Benutzer hinzufügen
     title: Benutzer zu Chat hinzufügen
     caption: Benutzer zu Chat hinzufügen
+  join_public:
+    title: Tritt öffentlicher Chatgruppe bei
+    join: Beitreten
+    no_public_chats: Keine öffentlichen Chatgruppen
   new_group:
     title: Neuen Gruppenchat anlegen
     submit: Anlegen
@@ -170,6 +174,7 @@ login:
   error: Falscher Benutzername oder Passwort
   remember_me: Angemeldet bleiben
   submit: Anmelden
+  sign_up: Noch keinen Account? Registriere dich!
   title: Anmelden
 logout:
   loading: Lädt...
@@ -182,5 +187,11 @@ person:
   show:
     title: Person
 register:
-  title: Registrieren
+  title: Benutzer Registrieren
   submit: Registrieren
+sidebar:
+  create_group_chat: Chat erstellen
+  join_public_group_chat: Öffentlichen Chat beitreten
+user:
+  show_person:
+    messaging: Nachricht schreiben

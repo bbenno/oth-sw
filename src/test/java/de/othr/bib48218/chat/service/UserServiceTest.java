@@ -1,12 +1,20 @@
 package de.othr.bib48218.chat.service;
 
-import de.othr.bib48218.chat.UserAlreadyExists;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
+
 import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.factory.UserFactory;
 import de.othr.bib48218.chat.repository.BotRepository;
 import de.othr.bib48218.chat.repository.PersonRepository;
+import de.othr.bib48218.chat.util.UserAlreadyExistsException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,17 +23,9 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
-
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
+
     @InjectMocks
     private UserService userService;
 
@@ -36,7 +36,7 @@ class UserServiceTest {
     private BotRepository botRepository;
 
     @Spy
-    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Test
     void shouldGetPersonByFirstNameIfExisting() {
@@ -44,7 +44,7 @@ class UserServiceTest {
         String firstName = person.getFirstName();
         var persons = new ArrayList<Person>();
         persons.add(person);
-        when(personRepository.findByFirstName(firstName)).thenReturn(persons);
+        when(personRepository.findByFirstNameOrderByFirstName(firstName)).thenReturn(persons);
 
         Collection<Person> found = userService.getPersonByFirstName(firstName);
 
@@ -59,11 +59,11 @@ class UserServiceTest {
         String username = bot.getUsername();
         when(botRepository.findByUsername(username)).thenReturn(Optional.of(bot));
 
-        Bot found = userService.getBotByUsername(username);
+        Optional<Bot> found = userService.getBotByUsername(username);
 
-        assertThat(found).isNotNull();
-        assertThat(found.getUsername()).isEqualTo(username);
-        assertThat(found).isEqualTo(bot);
+        assertThat(found).isPresent();
+        assertThat(found.get().getUsername()).isEqualTo(username);
+        assertThat(found.get()).isEqualTo(bot);
     }
 
     @Test
@@ -72,25 +72,24 @@ class UserServiceTest {
         String username = person.getUsername();
         when(personRepository.findByUsername(username)).thenReturn(Optional.of(person));
 
-        Person found = userService.getPersonByUsername(username);
+        Optional<Person> found = userService.getPersonByUsername(username);
 
-        assertThat(found).isNotNull();
-        assertThat(found.getUsername()).isEqualTo(username);
-        assertThat(found).isEqualTo(person);
+        assertThat(found).isPresent();
+        assertThat(found.get().getUsername()).isEqualTo(username);
+        assertThat(found.get()).isEqualTo(person);
     }
 
     @Test
     void shouldGetUserByUsernameIfPersonExisting() {
         Person user = UserFactory.newValidPerson();
         String username = user.getUsername();
-        when(botRepository.findByUsername(username)).thenReturn(Optional.empty());
         when(personRepository.findByUsername(username)).thenReturn(Optional.of(user));
 
-        User found = userService.getUserByUsername(username);
+        Optional<User> found = userService.getUserByUsername(username);
 
-        assertThat(found).isNotNull();
-        assertThat(found.getUsername()).isEqualTo(username);
-        assertThat(found).isEqualTo(user);
+        assertThat(found).isPresent();
+        assertThat(found.get().getUsername()).isEqualTo(username);
+        assertThat(found.get()).isEqualTo(user);
     }
 
     @Test
@@ -100,11 +99,11 @@ class UserServiceTest {
         when(botRepository.findByUsername(username)).thenReturn(Optional.of(user));
         when(personRepository.findByUsername(username)).thenReturn(Optional.empty());
 
-        User found = userService.getUserByUsername(username);
+        Optional<User> found = userService.getUserByUsername(username);
 
-        assertThat(found).isNotNull();
-        assertThat(found.getUsername()).isEqualTo(username);
-        assertThat(found).isEqualTo(user);
+        assertThat(found).isPresent();
+        assertThat(found.get().getUsername()).isEqualTo(username);
+        assertThat(found.get()).isEqualTo(user);
     }
 
     @Test
@@ -121,7 +120,7 @@ class UserServiceTest {
         Person person = UserFactory.newValidPerson();
         when(personRepository.existsById(person.getUsername())).thenReturn(true);
 
-        assertThrows(UserAlreadyExists.class, () -> userService.createPerson(person));
+        assertThrows(UserAlreadyExistsException.class, () -> userService.createPerson(person));
     }
 
     @Test
@@ -138,7 +137,7 @@ class UserServiceTest {
         Bot bot = UserFactory.newValidBot();
         when(botRepository.existsById(bot.getUsername())).thenReturn(true);
 
-        assertThrows(UserAlreadyExists.class, () -> userService.createBot(bot));
+        assertThrows(UserAlreadyExistsException.class, () -> userService.createBot(bot));
     }
 
 }

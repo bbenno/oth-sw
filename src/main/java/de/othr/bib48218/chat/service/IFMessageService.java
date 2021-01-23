@@ -2,11 +2,13 @@ package de.othr.bib48218.chat.service;
 
 import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.entity.Message;
-
 import java.time.LocalDateTime;
 import java.util.Collection;
 
 public interface IFMessageService extends IFSendMessage {
+
+    /* GET Messages  ******************************************************************************/
+
     /**
      * Returns all messages of a given chat.
      *
@@ -16,13 +18,35 @@ public interface IFMessageService extends IFSendMessage {
     Collection<Message> getAllMessagesByChat(Chat chat);
 
     /**
-     * Returns all messages of a given chat starting from a given time.
+     * Returns all messages of a given chat since a given time.
      *
      * @param chat the chat whose messages to receive
      * @param time the point in time since when the messages should be returned
      * @return messages
      */
-    Collection<Message> getMessagesByChatFrom(Chat chat, LocalDateTime time);
+    Collection<Message> getMessagesByChatSince(Chat chat, LocalDateTime time);
+
+    /**
+     * Returns all messages of given chat from given author.
+     *
+     * @param chat     the chat whose messages to receive
+     * @param username the name of the author
+     * @return messages
+     */
+    Collection<Message> getAllMessagesByChatFrom(Chat chat, String username);
+
+    /**
+     * Returns all messages of a given chat since a given time by a given author.
+     *
+     * @param chat          the chat whose messages to receive
+     * @param localDateTime the point in time since when the messages should be returned
+     * @param username      the name of the author
+     * @return messages
+     */
+    Collection<Message> getMessagesByChatSinceFrom(Chat chat, LocalDateTime localDateTime,
+        String username);
+
+    /* ADD Message * ******************************************************************************/
 
     /**
      * Saves given message.
@@ -31,6 +55,8 @@ public interface IFMessageService extends IFSendMessage {
      * @return saved message
      */
     Message saveMessage(Message message);
+
+    /* DELETE Messages  ***************************************************************************/
 
     /**
      * Deletes message with the given id.
@@ -45,4 +71,8 @@ public interface IFMessageService extends IFSendMessage {
      * @param message the message to delete
      */
     void deleteMessage(Message message);
+
+    /* EDIT Messages  *****************************************************************************/
+
+    // Messages are not allowed to be edited.
 }

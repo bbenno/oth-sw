@@ -1,18 +1,20 @@
 package de.othr.bib48218.chat.controller;
 
+import de.othr.bib48218.chat.entity.Chat;
+import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
+import java.security.Principal;
+import java.util.Collection;
+import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.security.Principal;
-
-@SuppressWarnings("SameReturnValue")
 @Controller
 public class HomeController {
+
     @Autowired
     IFChatService chatService;
 
@@ -30,20 +32,29 @@ public class HomeController {
     }
 
     @RequestMapping("/")
-    public String showHome(Principal principal, Model model) {
-        var user = userService.getUserByUsername(principal.getName());
-        var chats = chatService.getChatsByUser(user);
+    public String showHome(
+        @PathParam("notification") String notification,
+        Principal principal,
+        Model model
+    ) {
+        Collection<Chat> chats = chatService.getChatsByUser(userOfPrincipal(principal));
+
+        model.addAttribute("notification", notification);
         model.addAttribute("chats", chats);
         return "home";
     }
 
     @RequestMapping("/home")
-    public ModelAndView showHomeAlias(Model model) {
-        return new ModelAndView("redirect:/", model.asMap());
+    public String showHomeAlias() {
+        return "redirect:/";
     }
 
     @RequestMapping("/me")
-    public ModelAndView showMe(Principal principal) {
-        return new ModelAndView("redirect:/user/" + principal.getName());
+    public String showMe(Principal principal) {
+        return "redirect:/user/" + principal.getName();
+    }
+
+    private User userOfPrincipal(Principal principal) {
+        return userService.getUserByUsername(principal.getName()).orElseThrow();
     }
 }

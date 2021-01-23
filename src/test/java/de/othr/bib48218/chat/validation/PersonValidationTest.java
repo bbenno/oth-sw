@@ -1,12 +1,13 @@
 package de.othr.bib48218.chat.validation;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.factory.UserFactory;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 public class PersonValidationTest extends ValidationTest {
+
     @Test
     void usernameShouldBeNotBlank() {
         Person person = UserFactory.newValidPerson();

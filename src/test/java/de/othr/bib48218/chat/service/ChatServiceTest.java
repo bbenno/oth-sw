@@ -1,28 +1,33 @@
 package de.othr.bib48218.chat.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 import com.github.javafaker.Faker;
-import de.othr.bib48218.chat.entity.*;
+import de.othr.bib48218.chat.entity.Chat;
+import de.othr.bib48218.chat.entity.ChatMemberStatus;
+import de.othr.bib48218.chat.entity.ChatMembership;
+import de.othr.bib48218.chat.entity.GroupChat;
+import de.othr.bib48218.chat.entity.GroupVisibility;
+import de.othr.bib48218.chat.entity.PeerChat;
+import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.factory.ChatFactory;
 import de.othr.bib48218.chat.factory.UserFactory;
-import de.othr.bib48218.chat.repository.ChatMembershipRepository;
 import de.othr.bib48218.chat.repository.GroupChatRepository;
 import de.othr.bib48218.chat.repository.PeerChatRepository;
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.Set;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
 @ExtendWith(MockitoExtension.class)
 public class ChatServiceTest {
+
     @InjectMocks
     private ChatService chatService;
 
@@ -32,8 +37,17 @@ public class ChatServiceTest {
     @Mock
     private PeerChatRepository peerChatRepository;
 
-    @Mock
-    private ChatMembershipRepository chatMembershipRepository;
+    private static long id() {
+        return Faker.instance().number().randomNumber();
+    }
+
+    private static User anyUser() {
+        return UserFactory.newValidPerson();
+    }
+
+    private static Chat anyChat() {
+        return ChatFactory.newValidGroupChat();
+    }
 
     @Test
     void getChatByIdShouldReturnChat() {
@@ -120,57 +134,15 @@ public class ChatServiceTest {
     }
 
     @Test
-    void shouldReturnChatMembershipWhenAddingUserToChat() {
-        User user = anyUser();
-        Chat chat = anyChat();
-
-        when(chatMembershipRepository.save(any(ChatMembership.class))).then(i -> i.getArgument(0, ChatMembership.class));
-
-        var chatMembership = chatService.addUserToChat(user, chat);
-
-        assertThat(chatMembership).isNotNull();
-        assertThat(chatMembership.getChat()).isEqualTo(chat);
-        assertThat(chatMembership.getUser()).isEqualTo(user);
-    }
-
-
-    @Test
-    void shouldReturnChatMembershipWhenAddingUserToChatWithStatus() {
-        User user = anyUser();
-        Chat chat = anyChat();
-        ChatMemberStatus status = ChatMemberStatus.MEMBER;
-
-        when(chatMembershipRepository.save(any(ChatMembership.class))).then(i -> i.getArgument(0, ChatMembership.class));
-
-        var chatMembership = chatService.addUserToChat(user, chat, status);
-
-        assertThat(chatMembership).isNotNull();
-        assertThat(chatMembership.getChat()).isEqualTo(chat);
-        assertThat(chatMembership.getUser()).isEqualTo(user);
-        assertThat(chatMembership.getStatus()).isEqualTo(status);
-    }
-
-    @Test
     void shouldReturnGroupChatWhenCreateGroupChat() {
         User user = anyUser();
         GroupVisibility visibility = GroupVisibility.PRIVATE;
-        when(groupChatRepository.save(any(GroupChat.class))).thenAnswer(i -> i.getArgument(0, GroupChat.class));
+        when(groupChatRepository.save(any(GroupChat.class)))
+            .thenAnswer(i -> i.getArgument(0, GroupChat.class));
 
         var groupChat = chatService.createGroupChat(user, visibility);
 
         assertThat(groupChat).isNotNull();
         assertThat(groupChat.getVisibility()).isEqualTo(visibility);
-    }
-
-    private static long id() {
-        return Faker.instance().number().randomNumber();
-    }
-
-    private static User anyUser() {
-        return UserFactory.newValidPerson();
-    }
-
-    private static Chat anyChat() {
-        return ChatFactory.newValidGroupChat();
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 @org.springframework.web.bind.annotation.ControllerAdvice
 public class ControllerAdvice {
+
     @Value("${spring.application.name}")
     private String applicationName;
 

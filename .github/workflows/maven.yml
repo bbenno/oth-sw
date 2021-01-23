@@ -13,16 +13,23 @@ jobs:
       SPRING_USER_PASSWORD_SALT: ${{ secrets.PASSWORD_SALT }}
     steps:
     - uses: actions/checkout@v2
-    - name: Set up JDK 13
+    - name: Set up JDK 14
       uses: actions/setup-java@v1
       with:
-        java-version: 13
-    - name: Build with Maven
-      run: mvn -B package spring-boot:repackage -P production
-    - name: Copy JAR
-      run: mkdir package && cp target/*.jar package
-    - name: Upload JAR
+        java-version: 14
+    - name: Build deployable JAR
+      run: mvn -B clean package spring-boot:repackage -P production
+    - name: Build integration JAR for partner services
+      run: |
+        VERSION="$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
+        TARGET_PATH="target/classes/de/othr/bib48218/chat"
+        jar cf "target/chat-integration-${VERSION}.jar" "${TARGET_PATH}/entity/"
+    - name: Copy deployable JAR
+      run: |
+        mkdir packages
+        mv target/*.jar packages/
+    - name: Upload JARs
       uses: actions/upload-artifact@v2
       with:
-        name: Package
-        path: package/
+        name: Packages
+        path: packages/

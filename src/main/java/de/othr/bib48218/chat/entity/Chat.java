@@ -1,26 +1,75 @@
 package de.othr.bib48218.chat.entity;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import java.util.Collection;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @EqualsAndHashCode
 public abstract class Chat implements HeaderSearchElement {
+
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
-    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
-    private Collection<Message> messages;
+    @OneToMany(
+        mappedBy = "chat",
+        cascade = {CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.DETACH},
+        orphanRemoval = true)
+    private List<Message> messages = Collections.emptyList();
 
-    @OneToMany(mappedBy = "chat")
-    private Collection<ChatMembership> memberships;
+    @OneToMany(
+        mappedBy = "chat",
+        fetch = FetchType.EAGER,
+        cascade = CascadeType.ALL,
+        orphanRemoval = true)
+    private Set<ChatMembership> memberships = Collections.emptySet();
+
+    public Optional<ChatMemberStatus> getStatusOfMember(User user) {
+        return memberships.stream()
+            .filter(m -> m.getUser() == user)
+            .map(ChatMembership::getStatus)
+            .findAny();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Chat)) {
+            return false;
+        }
+        return equals((Chat) o);
+    }
+
+    public boolean equals(Chat other) {
+        if (other == null) {
+            return false;
+        }
+        if (other == this) {
+            return true;
+        }
+        return id.equals(other.id);
+    }
 
     @Override
     public String toString() {

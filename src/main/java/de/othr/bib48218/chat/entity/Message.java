@@ -6,20 +6,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.NonNull;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDateTime;
 
-import static lombok.AccessLevel.PACKAGE;
-
 @Entity
 @Getter
-@Setter(PACKAGE)
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Message extends IdEntity {
@@ -29,13 +24,18 @@ public class Message extends IdEntity {
     @NotBlank
     private String text;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(
+        cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE},
+        optional = false)
     @NonNull
     @lombok.NonNull
     @NotNull
     private Chat chat;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(
+        fetch = FetchType.EAGER,
+        cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE},
+        optional = true)
     @NonNull
     @lombok.NonNull
     @NotNull
@@ -47,10 +47,10 @@ public class Message extends IdEntity {
     @PastOrPresent
     private LocalDateTime timestamp;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Attachment attachment;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE})
     private Message replyOf;
 
     public Message(@lombok.NonNull @NonNull String text,

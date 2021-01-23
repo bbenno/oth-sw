@@ -1,13 +1,13 @@
 package de.othr.bib48218.chat.entity;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import com.github.javafaker.Faker;
 import de.othr.bib48218.chat.factory.UserFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.ThrowingSupplier;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PersonTest {
 
@@ -39,6 +39,7 @@ public class PersonTest {
         Person person = UserFactory.newValidPerson();
         String firstName = Faker.instance().name().firstName();
         person.setFirstName(firstName);
+        person.getProfile().setName("");
 
         String person_string = person.toString();
 
@@ -50,6 +51,7 @@ public class PersonTest {
         Person person = UserFactory.newValidPerson();
         String lastName = Faker.instance().name().lastName();
         person.setLastName(lastName);
+        person.getProfile().setName("");
 
         String person_string = person.toString();
 
@@ -62,6 +64,7 @@ public class PersonTest {
         Person person = UserFactory.newValidPersonWithUsername(username);
         person.setLastName(null);
         person.setFirstName(null);
+        person.getProfile().setName("");
 
         String person_string = person.toString();
 
@@ -74,6 +77,7 @@ public class PersonTest {
         String firstName = Faker.instance().name().firstName();
         Person person = UserFactory.newValidPersonWithUsername(username);
         person.setFirstName(firstName);
+        person.getProfile().setName("");
 
         String person_string = person.toString();
 
@@ -86,6 +90,7 @@ public class PersonTest {
         String lastName = Faker.instance().name().firstName();
         Person person = UserFactory.newValidPersonWithUsername(username);
         person.setLastName(lastName);
+        person.getProfile().setName("");
 
         String person_string = person.toString();
 

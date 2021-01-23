@@ -6,18 +6,20 @@ import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFMessageService;
 import de.othr.bib48218.chat.service.IFUserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Optional;
+import javax.validation.ConstraintViolationException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/message")
 public class MessageController {
+
     @Autowired
     private IFMessageService messageService;
 
@@ -28,11 +30,29 @@ public class MessageController {
     private IFUserService userService;
 
     @RequestMapping("/new")
-    private ModelAndView createMessage(@RequestParam("message") String text, @RequestParam("chat") Long chat_id, Principal principal) {
-        User author = userService.getUserByUsername(principal.getName());
-        Chat chat = chatService.getChatById(chat_id).get();
-        Message message = new Message(text, chat, author, LocalDateTime.now());
-        messageService.saveMessage(message);
-        return new ModelAndView("redirect:/chat/" + chat.getId());
+    private String createMessage(
+        @RequestParam("message") String text,
+        @RequestParam("chat") Long chat_id,
+        Principal principal,
+        Model model
+    ) {
+        Optional<Chat> chat = chatService.getChatById(chat_id);
+        User author = userOfPrincipal(principal);
+
+        if (chat.isPresent() && chat.get().getStatusOfMember(author).isPresent()) {
+            try {
+                Message message = new Message(text, chat.get(), author, LocalDateTime.now());
+                messageService.saveMessage(message);
+            } catch (ConstraintViolationException ignored) {
+            }
+            return "redirect:/chat/" + chat.get().getId();
+        } else {
+            model.addAttribute("notification", "Chat not found");
+            return "redirect:/";
+        }
+    }
+
+    private User userOfPrincipal(Principal principal) {
+        return userService.getUserByUsername(principal.getName()).orElseThrow();
     }
 }

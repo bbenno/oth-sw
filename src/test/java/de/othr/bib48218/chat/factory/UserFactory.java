@@ -5,6 +5,7 @@ import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.Person;
 
 public class UserFactory {
+
     private static final Faker faker = new Faker();
 
     public static Person newValidPerson() {
@@ -33,6 +34,10 @@ public class UserFactory {
     }
 
     protected static String username() {
-        return faker.name().username();
+        String username = faker.name().username();
+        if (username.length() > 20) {
+            username = username.substring(0, 19);
+        }
+        return username;
     }
 }

@@ -6,10 +6,12 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title th:text="${person}">Show Person</title>
+  <title th:text="${user}">Show User</title>
 
+  <!--/*-->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <!--*/-->
   <style>
     dt::after {
       content: ": ";
@@ -20,11 +22,12 @@
 <body>
 
 <main class="container" layout:fragment="content">
-  <h1 th:text="${person}">Michael Sky</h1>
-  <dl th:object="${person}">
-    <dt th:text="#{attribute.person.username}">Username</dt>
+  <h1 th:text="${user}">Michael Sky</h1>
+  <dl th:object="${user}">
+    <dt th:text="#{attribute.user.username}">Username</dt>
     <dd th:text="*{username}">milky</dd>
 
+    <th:block th:if="${isPerson}">
     <dt th:text="#{attribute.person.first_name}">First Name</dt>
     <dd th:text="*{firstName}">Michael</dd>
 
@@ -33,18 +36,29 @@
 
     <dt th:text="#{attribute.person.email}">Email</dt>
     <dd th:text="*{email}">milky@mail.com</dd>
+    </th:block>
   </dl>
   <div class="btn-group">
-    <a class="btn btn-primary" href="#" th:href="@{/chat/{username}(username=${person.username})}"
-       th:text="#{user.show_person.messaging}">
-      Write Message
-    </a>
+    <th:block th:if="${user.username != #authentication.name && user.enabled}">
+      <a class="btn btn-primary" href="#" th:href="@{/chat/{username}(username=*{username})}"
+         th:text="#{user.show.messaging}">
+        Write Message
+      </a>
+    </th:block>
+    <th:block th:if="${user.username == #authentication.name}">
+      <a class="btn btn-primary" href="#" th:href="@{/user/{username}/delete(username=*{username})}"
+         th:text="#{user.show.delete}">Delete</a>
+      <a class="btn btn-primary" href="#" th:href="@{/user/{username}/edit(username=*{username})}"
+         th:text="#{user.show.edit}">Edit</a>
+    </th:block>
   </div>
 </main>
 
+<!--/*-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
 </script>
+<!--*/-->
 
 </body>
 

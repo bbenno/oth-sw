@@ -1,18 +1,18 @@
 package de.othr.bib48218.chat.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
-
+import java.util.Collections;
+import java.util.Optional;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
-import java.util.Collection;
-import java.util.Optional;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 @Entity
 @Getter
@@ -33,14 +33,15 @@ public class Person extends User {
     @Nullable
     private String email;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private Collection<ServiceCredential> credentials;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ServiceCredential> credentials = Collections.emptySet();
 
     public Person(@NonNull String username, @NonNull String password) {
         super(username, password);
     }
 
-    public Person(@NonNull String username, @NonNull String password, String firstName, String lastName, String email) {
+    public Person(@NonNull String username, @NonNull String password, String firstName,
+        String lastName, String email) {
         super(username, password);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -48,15 +49,23 @@ public class Person extends User {
     }
 
     @Override
-    public String toString() {
-        return fullName().orElse(super.toString());
+    public String asString() {
+            return fullName().orElse("");
+    }
+
+    public void addCredential(ServiceCredential credential) {
+        this.credentials.add(credential);
+    }
+
+    public void removeCredential(ServiceCredential credential) {
+        this.credentials.remove(credential);
     }
 
     public Optional<String> fullName() {
         String fullName;
-        if (getFirstName() == null)
+        if (getFirstName() == null) {
             fullName = getLastName();
-        else if (getLastName() == null) {
+        } else if (getLastName() == null) {
             fullName = getFirstName();
         } else {
             fullName = String.join(" ", firstName, lastName);

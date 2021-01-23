@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class HeaderSearchConfig {
+
     @Bean
     public HeaderSearchElementFactory getHeaderSearchElementFactory() {
         return HeaderSearchElementFactory.getInstance();

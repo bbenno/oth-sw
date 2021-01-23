@@ -1,47 +1,91 @@
 <!DOCTYPE HTML>
-<html lang="${#locale}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="en" th:lang="${#locale}" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/base}">
 
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title th:text="${chat}">Chat</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+  <!--/*-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+        crossorigin="anonymous">
+  <!--*/-->
+  <link href="../../static/css/sidebar.css" rel="stylesheet">
 </head>
 
 <body>
 
-<div class="container" th:object="${chat}" layout:fragment="content">
+<div class="d-flex"
+     th:class="${chat instanceof T(de.othr.bib48218.chat.entity.GroupChat) ? 'd-flex' : ''}"
+     layout:fragment="content">
+  <aside id="sidebar-wrapper" class="border-end mr-4"
+         th:if="${chat instanceof T(de.othr.bib48218.chat.entity.GroupChat)}">
+    <nav class="mt-5" aria-label="Chat navigation">
+      <div class="sidebar-heading" th:text="#{attribute.chat.memberships}">Members</div>
+      <div class="btn-group">
+        <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/leave(id=${chat.id})}"
+           th:text="#{chat.show.sidebar.leave}">Leave Chat</a>
+        <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/add(id=${chat.id})}"
+           th:text="#{chat.add_user.add_user}" th:if="${isAdmin}">Add Member</a>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" th:each="membership : ${chat.memberships}">
+          <th:block th:object="${membership}">
+            <a href="#" th:href="@{/user/{username}(username=*{user.username})}" th:text="*{user}">
+              Example User</a>
+          </th:block>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+  <main class="container" th:object="${chat}">
 
-  <h1 th:text="${chat}">Chat Title</h1>
+    <h1 th:text="${chat}">Chat Title</h1>
 
-  <div class="btn-group">
-    <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/add(id=${chat.id})}" th:text="#{chat.add_user.add_user}">Add Member</a>
-    <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/delete}" th:text="#{chat.add_user.delete_chat}">Delete Chat</a>
-  </div>
+    <p
+      th:if="${chat instanceof T(de.othr.bib48218.chat.entity.GroupChat) && !#strings.isEmpty(chat.profile.description)}"
+      th:text="${chat.profile.description}">Chat description</p>
 
-  <div th:each="message : *{messages}" th:unless="${#lists.isEmpty(chat.messages)}">
-    <div th:object="${message}">
-      <span th:text="${#temporals.format(message.timestamp)}">2020-10-10T23:54:39</span>
-      <span th:include="~{fragment/user :: name (*{author})}">Author</span>
-      <span th:text="*{text}">Message</span>
+    <div class="btn-group my-4"
+         th:if="${chat instanceof T(de.othr.bib48218.chat.entity.GroupChat) && isAdmin}">
+      <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/delete(id=${chat.id})}"
+         th:text="#{chat.add_user.delete_chat}">Delete Chat</a>
+      <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/edit(id=${chat.id})}"
+         th:text="#{chat.show.edit_chat}">Edit Chat</a>
     </div>
-  </div>
 
-  <form action="#" class="d-flex my-3" th:action="@{/message/new}" method="post">
+    <div th:each="message : *{messages}" th:unless="${#lists.isEmpty(chat.messages)}">
+      <div class="mx-1 row" th:object="${message}">
+        <p class="col-2" th:text="${#temporals.format(message.timestamp)}">2020-10-10T23:54:39</p>
+        <p class="col-1" th:include="~{fragment/user :: name (*{author})}">Author</p>
+        <p class="col-6" th:text="*{text}">Message</p>
+      </div>
+    </div>
+
+    <form action="#" class="d-flex my-3" th:action="@{/message/new}" method="post"
+    th:if="${!(chat instanceof T(de.othr.bib48218.chat.entity.PeerChat)) || chat.isEnabled()}">
     <textarea class="form-control me-2" name="message" placeholder="Write a message"
               th:placeholder="#{message.new.placeholder}" autofocus></textarea>
-    <input type="hidden" name="chat" th:value="*{id}">
-    <button class="btn btn-primary align-self-center" type="submit" th:text="#{message.new.submit}" value="submit">Send
-    </button>
-  </form>
+      <input type="hidden" name="chat" th:value="*{id}">
+      <button class="btn btn-primary align-self-center" type="submit"
+              th:text="#{message.new.submit}" value="submit">
+        Send
+      </button>
+    </form>
 
+  </main>
 </div>
 
+<!--/*-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous">
 </script>
+<!--*/-->
 
 </body>
 

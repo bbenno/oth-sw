@@ -8,11 +8,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private static final String[] ALLOW_ACCESS_WITHOUT_AUTHENTICATION = {"/css/**", "/img/**", "/fonts/**", "/js/**", "/login", "/register", "/favicon*", "/apple-*.png", "/android-*.png", "/site.webmanifest"};
+
+    private static final String[] ALLOW_ACCESS_WITHOUT_AUTHENTICATION = {"/css/**", "/img/**",
+        "/fonts/**", "/js/**", "/login", "/register", "/favicon*", "/apple-*.png", "/android-*.png",
+        "/site.webmanifest", "/webjars/**"};
 
     @Autowired
     private UserDetailsService userSecurityService;
@@ -37,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .failureUrl("/login?error=true")
             .permitAll();
         http.logout()
-            .logoutUrl("/logout")
+            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
             .logoutSuccessUrl("/login?logout=true")
             .deleteCookies("remember-me", "JSESSIONID")
             .clearAuthentication(true)

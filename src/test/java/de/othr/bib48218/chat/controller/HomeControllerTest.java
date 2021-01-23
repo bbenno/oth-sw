@@ -1,5 +1,14 @@
 package de.othr.bib48218.chat.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import de.othr.bib48218.chat.HeaderSearchElementFactory;
 import de.othr.bib48218.chat.WebSecurityTestConfig;
 import de.othr.bib48218.chat.entity.Person;
@@ -7,6 +16,7 @@ import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.factory.UserFactory;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Spy;
@@ -19,18 +29,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @WebMvcTest(HomeController.class)
 @Import(WebSecurityTestConfig.class)
 public class HomeControllerTest {
+
     @Spy
-    HeaderSearchElementFactory headerSearchElementFactory = HeaderSearchElementFactory.getInstance();
+    HeaderSearchElementFactory headerSearchElementFactory = HeaderSearchElementFactory
+        .getInstance();
     @Autowired
     private MockMvc mvc;
     @MockBean
@@ -42,7 +47,7 @@ public class HomeControllerTest {
     @BeforeEach
     void createTestUser() throws Exception {
         Person person = UserFactory.newValidPerson();
-        userService.createPerson(person);
+        when(userService.getUserByUsername(any())).thenReturn(Optional.of(person));
         registeredUser = person;
     }
 

@@ -4,10 +4,10 @@ import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.entity.ChatMemberStatus;
 import de.othr.bib48218.chat.entity.ChatMembership;
 import de.othr.bib48218.chat.entity.User;
-
 import java.util.Random;
 
 public class ChatMembershipFactory {
+
     private static final Random random = new Random();
 
     public static ChatMembership newChatMembership() {
@@ -22,7 +22,8 @@ public class ChatMembershipFactory {
         return new ChatMembership(anyChat(), randomStatus(), user);
     }
 
-    public static ChatMembership newChatMembershipWithUserAndChatAndStatus(User user, Chat chat, ChatMemberStatus status) {
+    public static ChatMembership newChatMembershipWithUserAndChatAndStatus(User user, Chat chat,
+        ChatMemberStatus status) {
         return new ChatMembership(chat, status, user);
     }
 

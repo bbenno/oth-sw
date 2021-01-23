@@ -10,6 +10,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @TestConfiguration
 @Import(WebSecurityUtilities.class)
 public class WebSecurityTestConfig {
+
     @Bean
     @Primary
     public UserDetailsService userDetailsService() {
