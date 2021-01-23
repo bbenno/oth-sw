@@ -6,6 +6,11 @@ import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.repository.BotRepository;
 import de.othr.bib48218.chat.repository.PersonRepository;
 import de.othr.bib48218.chat.util.UserAlreadyExistsException;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,12 +19,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Collection;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 @Service
 public class UserService implements IFUserService, UserDetailsService {
@@ -34,16 +33,19 @@ public class UserService implements IFUserService, UserDetailsService {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public Collection<Person> getPersonByFirstName(String firstName) {
         return personRepository.findByFirstNameOrderByFirstName(firstName);
     }
 
     @Override
+    @Transactional
     public Collection<Person> getPersonByLastName(String lastName) {
         return personRepository.findByLastNameOrderByLastName(lastName);
     }
 
     @Override
+    @Transactional
     public Optional<User> getUserByUsername(String username) {
         Optional<User> found = personRepository.findByUsername(username).map((person) -> person);
         if (found.isEmpty()) {
@@ -53,11 +55,13 @@ public class UserService implements IFUserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public Optional<Person> getPersonByUsername(String username) {
         return personRepository.findByUsername(username);
     }
 
     @Override
+    @Transactional
     public Optional<Bot> getBotByUsername(String username) {
         return botRepository.findByUsername(username);
     }
@@ -83,51 +87,50 @@ public class UserService implements IFUserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Person> user = personRepository.findByUsername(username);
-
-        return user.orElseThrow(() -> new UsernameNotFoundException("No User with username '" + username + "'"));
+        return personRepository.findByUsername(username).orElseThrow(
+            () -> new UsernameNotFoundException("No User with username '" + username + "'"));
     }
 
     @Override
+    @Transactional
     public Collection<User> getAllUsers() {
-        Stream<User> personStream = StreamSupport.stream(personRepository.findAll().spliterator(), false).map((person) -> person);
-        Stream<User> botStream = StreamSupport.stream(botRepository.findAll().spliterator(), false).map((bot) -> bot);
+        Stream<User> personStream = StreamSupport
+            .stream(personRepository.findAll().spliterator(), false).map((person) -> person);
+        Stream<User> botStream = StreamSupport.stream(botRepository.findAll().spliterator(), false)
+            .map((bot) -> bot);
 
         return Stream.concat(personStream, botStream).collect(Collectors.toUnmodifiableList());
     }
 
     @Override
+    @Transactional
     public Collection<Person> getAllPersons() {
-        Stream<Person> personStream = StreamSupport.stream(personRepository.findAll().spliterator(), false);
-
-        return personStream.collect(Collectors.toUnmodifiableList());
+        return StreamSupport
+            .stream(personRepository.findAll().spliterator(), false)
+            .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
+    @Transactional
     public Collection<Bot> getAllBots() {
-        Stream<Bot> botStream = StreamSupport.stream(botRepository.findAll().spliterator(), false);
-
-        return botStream.collect(Collectors.toUnmodifiableList());
+        return StreamSupport.stream(botRepository.findAll().spliterator(), false)
+            .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
+    @Transactional
     public void deleteUserByUsername(String username) {
-        var deleted = botRepository.findById("deleted").get();
-        if (personRepository.existsById(username)) {
-            var person = personRepository.findByUsername(username);
-            person.get().getMessages().forEach(m -> m.setAuthor(deleted));
+        var person = personRepository.findByUsername(username);
+        person.ifPresent(p -> p.setEnabled(false));
 
-            personRepository.deleteById(username);
-        } else if (botRepository.existsById(username)) {
-            var bot = botRepository.findByUsername(username);
-            bot.get().getMessages().forEach(m -> m.setAuthor(deleted));
-
-            botRepository.deleteById(username);
-        }
+        var bot = botRepository.findByUsername(username);
+        bot.ifPresent(b -> b.setEnabled(false));
     }
 
     @Override
+    @Transactional
     public void updateUser(@NonNull User user) {
         if (user.getClass().equals(Person.class)) {
             updateUser((Person) user);
@@ -136,29 +139,22 @@ public class UserService implements IFUserService, UserDetailsService {
         }
     }
 
+    @Transactional
     public void updateUser(@NonNull Person person) {
-        Optional<Person> found = personRepository.findByUsername(person.getUsername());
-
-        if (found.isPresent()) {
-            Person p = found.get();
-
+        personRepository.findByUsername(person.getUsername()).ifPresent(p -> {
             p.setEmail(person.getEmail());
             p.setFirstName(person.getFirstName());
             p.setLastName(person.getLastName());
             p.setPassword(person.getPassword());
             p = withEncryptedPassword(p);
-        }
+        });
     }
 
     public void updateUser(@NonNull Bot bot) {
-        Optional<Bot> found = botRepository.findByUsername(bot.getUsername());
-
-        if (found.isPresent()) {
-            Bot b = found.get();
-
+        botRepository.findByUsername(bot.getUsername()).ifPresent(b -> {
             b.setPassword(bot.getPassword());
             b = withEncryptedPassword(b);
-        }
+        });
     }
 
     private <T extends User> T withEncryptedPassword(T user) {
