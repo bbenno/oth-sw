@@ -11,7 +11,9 @@ import java.security.Principal;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
@@ -30,43 +32,37 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/chat")
 public class ChatController {
 
+    private final Pattern pattern = Pattern.compile("\\d+");
     @Autowired
     private IFChatService chatService;
-
     @Autowired
     private IFUserService userService;
 
     @RequestMapping("/{identifier}")
-    public ModelAndView showChat(@PathVariable String identifier, Principal principal,
-        Model model) {
-        Chat chat;
-        try {
-            Long id = Long.parseLong(identifier);
-            Optional<User> principal_user = userService.getUserByUsername(principal.getName());
-            Optional<Chat> chat_opt = chatService.getChatById(id);
-            if (chat_opt.isEmpty() || chat_opt.get().getMemberships().stream()
-                .noneMatch(m -> m.getUser().equals(principal_user.get()))) {
-                return new ModelAndView("redirect:/");
-            } else {
-                chat = chat_opt.get();
-            }
-        } catch (NumberFormatException e) {
-            // Interpret id as username
-            Optional<User> user = userService.getUserByUsername(principal.getName());
-            Optional<User> other = userService.getUserByUsername(identifier);
-            chat = chatService.getOrCreatePeerChatOf(user.get(), other.get());
-        } catch (Exception e) {
-            return new ModelAndView("redirect:/", "notification", "Chat not found");
-        }
+    public ModelAndView showChat(
+        @PathVariable String identifier,
+        Principal principal,
+        Model model
+    ) {
+        User user = userOfPrincipal(principal);
+        Optional<Chat> chat = (pattern.matcher(identifier).matches())
+            // Interpret identifier as chat id
+            ? chatService.getChatById(Long.parseLong(identifier))
+            // Interpret identifier as username
+            : userService.getUserByUsername(identifier)
+                .map(u -> chatService.getOrCreatePeerChatOf(user, u));
 
-        model.addAttribute("chat", chat);
-        boolean isGroupChat = chat.getClass().equals(GroupChat.class);
-        if (isGroupChat) {
-            model.addAttribute("isAdmin", hasUserMemberStatus(userOfPrincipal(principal), chat,
-                ChatMemberStatus.ADMINISTRATOR));
-        }
+        chat.ifPresentOrElse(
+            c -> model.addAllAttributes(Map.of(
+                "chat", c,
+                "isAdmin", hasUserMemberStatus(user, c, ChatMemberStatus.ADMINISTRATOR)
+            )),
+            () -> model.addAttribute("notification", "Chat not found")
+        );
 
-        return new ModelAndView("chat/show", model.asMap());
+        String view = (chat.isPresent() && isMember(user, chat.get())) ? "chat/show" : "redirect:/";
+
+        return new ModelAndView(view, model.asMap());
     }
 
     @RequestMapping("/{id}/add")
@@ -213,6 +209,10 @@ public class ChatController {
 
     private User userOfPrincipal(Principal principal) {
         return userService.getUserByUsername(principal.getName()).orElseThrow();
+    }
+
+    private boolean isMember(User user, Chat chat) {
+        return chat.getMemberships().stream().anyMatch(m -> m.getUser().equals(user));
     }
 
     private boolean userIsAllowedToDeleteChat(User user, Chat chat) {
