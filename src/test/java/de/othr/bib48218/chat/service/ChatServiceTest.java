@@ -161,7 +161,7 @@ public class ChatServiceTest {
         when(chatMembershipRepository.save(any(ChatMembership.class)))
             .then(i -> i.getArgument(0, ChatMembership.class));
 
-        var chatMembership = chatService.addUserToChat(user, chat, status);
+        var chatMembership = chatService.addOrUpdateChatMembership(user, chat, status);
 
         assertThat(chatMembership).isNotNull();
         assertThat(chatMembership.getChat()).isEqualTo(chat);

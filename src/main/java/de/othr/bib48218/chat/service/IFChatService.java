@@ -183,7 +183,7 @@ public interface IFChatService {
      * @param status the membership status of the user in the chat
      * @return created {@link ChatMembership} is not yet present; otherwise present one
      */
-    ChatMembership addUserToChat(User user, Chat chat, ChatMemberStatus status);
+    ChatMembership addOrUpdateChatMembership(User user, Chat chat, ChatMemberStatus status);
 
     /* DELETE Member  *****************************************************************************/
 

@@ -91,12 +91,12 @@ public class ChatService implements IFChatService {
     @Override
     @Transactional
     public ChatMembership addUserToChat(User user, Chat chat) {
-        return addUserToChat(user, chat, ChatMemberStatus.MEMBER);
+        return addOrUpdateChatMembership(user, chat, ChatMemberStatus.MEMBER);
     }
 
     @Override
     @Transactional
-    public ChatMembership addUserToChat(User user, Chat chat, ChatMemberStatus status) {
+    public ChatMembership addOrUpdateChatMembership(User user, Chat chat, ChatMemberStatus status) {
         ChatMembership chatMembership = new ChatMembership(chat, status, user);
         chatMembership = chatMembershipRepository.save(chatMembership);
         return chatMembership;
@@ -112,7 +112,7 @@ public class ChatService implements IFChatService {
     @Transactional
     public GroupChat saveChat(User creator, GroupChat chat) {
         chat = groupRepository.save(chat);
-        addUserToChat(creator, chat, ChatMemberStatus.ADMINISTRATOR);
+        addOrUpdateChatMembership(creator, chat, ChatMemberStatus.ADMINISTRATOR);
         return chat;
     }
 
@@ -120,7 +120,7 @@ public class ChatService implements IFChatService {
     @Transactional
     public PeerChat saveChat(User creator, PeerChat chat) {
         chat = peerRepository.save(chat);
-        addUserToChat(creator, chat, ChatMemberStatus.ADMINISTRATOR);
+        addOrUpdateChatMembership(creator, chat, ChatMemberStatus.ADMINISTRATOR);
         return chat;
     }
 
