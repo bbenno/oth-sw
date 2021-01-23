@@ -125,35 +125,7 @@ public class UserService implements IFUserService, UserDetailsService {
         botRepository.findByUsername(username).ifPresent(b -> b.setEnabled(false));
     }
 
-    @Override
-    @Transactional
-    public void updateUser(@NonNull User user) {
-        if (user.getClass().equals(Person.class)) {
-            updateUser((Person) user);
-        } else if (user.getClass().equals(Bot.class)) {
-            updateUser((Bot) user);
-        }
-    }
-
-    @Transactional
-    public void updateUser(@NonNull Person person) {
-        personRepository.findByUsername(person.getUsername()).ifPresent(p -> {
-            p.setEmail(person.getEmail());
-            p.setFirstName(person.getFirstName());
-            p.setLastName(person.getLastName());
-            p.setPassword(person.getPassword());
-            p = withEncryptedPassword(p);
-        });
-    }
-
-    public void updateUser(@NonNull Bot bot) {
-        botRepository.findByUsername(bot.getUsername()).ifPresent(b -> {
-            b.setPassword(bot.getPassword());
-            b = withEncryptedPassword(b);
-        });
-    }
-
-    private <T extends User> T withEncryptedPassword(T user) {
+    <T extends User> T withEncryptedPassword(T user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return user;
     }

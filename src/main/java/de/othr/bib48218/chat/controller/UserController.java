@@ -7,6 +7,7 @@ import de.othr.bib48218.chat.service.IFUserService;
 import java.security.Principal;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -22,6 +23,9 @@ public class UserController {
 
     @Autowired
     private IFUserService userService;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @RequestMapping("{username}")
     public String showUser(@PathVariable String username, Model model) {
@@ -80,26 +84,33 @@ public class UserController {
 
     @PostMapping("/{username}/edit-bot")
     @Transactional
-    public String saveEditedBot(@Validated Bot user, BindingResult bindingResult, Model model) {
+    public String saveEditedBot(@Validated Bot bot, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("user", user);
+            model.addAttribute("user", bot);
             return "redirect:edit";
         }
 
-        userService.updateUser(user);
+        userService.getBotByUsername(bot.getUsername()).ifPresent(b -> {
+            b.setPassword(passwordEncoder.encode(bot.getPassword()));
+        });
         return "redirect:";
     }
 
     @PostMapping("/{username}/edit-person")
     @Transactional
-    public String saveEditedPerson(@Validated Person user, BindingResult bindingResult,
+    public String saveEditedPerson(@Validated Person person, BindingResult bindingResult,
         Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("user", user);
+            model.addAttribute("user", person);
             return "redirect:edit";
         }
 
-        userService.updateUser(user);
+        userService.getPersonByUsername(person.getUsername()).ifPresent(p -> {
+            p.setEmail(person.getEmail());
+            p.setFirstName(person.getFirstName());
+            p.setLastName(person.getLastName());
+            p.setPassword(passwordEncoder.encode(person.getPassword()));
+        });
         return "redirect:";
     }
 }

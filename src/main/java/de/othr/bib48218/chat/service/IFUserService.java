@@ -102,13 +102,4 @@ public interface IFUserService {
      * @param username sting identifying user
      */
     void deleteUserByUsername(String username);
-
-    /* Edit User  *********************************************************************************/
-
-    /**
-     * Updates user by username
-     *
-     * @param user the user to be updated
-     */
-    void updateUser(User user);
 }
