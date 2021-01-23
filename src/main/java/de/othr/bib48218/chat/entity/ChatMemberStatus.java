@@ -16,4 +16,16 @@ public enum ChatMemberStatus {
     public String toString() {
         return resourceBundle.getString("enum.chat_member_status." + this.name());
     }
+
+    public static boolean isAllowedToEditChat(ChatMemberStatus status) {
+        return status == ADMINISTRATOR;
+    }
+
+    public static boolean isAllowedToDeleteChat(ChatMemberStatus status) {
+        return status == ADMINISTRATOR;
+    }
+
+    public static boolean isAllowedToAddMembersToChat(ChatMemberStatus status) {
+        return status == ADMINISTRATOR;
+    }
 }
