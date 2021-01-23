@@ -9,6 +9,8 @@ import java.util.Optional;
 
 public interface IFUserService {
 
+    /* GET User  **********************************************************************************/
+
     /**
      * Returns User with given username.
      *
@@ -49,23 +51,7 @@ public interface IFUserService {
      */
     Collection<Person> getPersonByLastName(String lastName);
 
-    /**
-     * Saves given person
-     *
-     * @param person person to save
-     * @return saved person
-     * @throws UserAlreadyExistsException if person already is present
-     */
-    Person createPerson(Person person) throws UserAlreadyExistsException;
-
-    /**
-     * Saves given bot
-     *
-     * @param bot bot to save
-     * @return saved bot
-     * @throws UserAlreadyExistsException if bot already is present
-     */
-    Bot createBot(Bot bot) throws UserAlreadyExistsException;
+    /* GET Users  *********************************************************************************/
 
     /**
      * Returns all person and bot users
@@ -88,12 +74,36 @@ public interface IFUserService {
      */
     Collection<Bot> getAllBots();
 
+    /* ADD User  **********************************************************************************/
+
+    /**
+     * Saves given person
+     *
+     * @param person person to save
+     * @return saved person
+     * @throws UserAlreadyExistsException if person already is present
+     */
+    Person createPerson(Person person) throws UserAlreadyExistsException;
+
+    /**
+     * Saves given bot
+     *
+     * @param bot bot to save
+     * @return saved bot
+     * @throws UserAlreadyExistsException if bot already is present
+     */
+    Bot createBot(Bot bot) throws UserAlreadyExistsException;
+
+    /* DELETE User  *******************************************************************************/
+
     /**
      * Deletes user with given username.
      *
      * @param username sting identifying user
      */
     void deleteUserByUsername(String username);
+
+    /* Edit User  *********************************************************************************/
 
     /**
      * Updates user by username
