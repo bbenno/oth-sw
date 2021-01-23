@@ -6,16 +6,12 @@ import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
 import java.security.Principal;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Optional;
 import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
-@SuppressWarnings("SameReturnValue")
 @Controller
 public class HomeController {
 
@@ -36,33 +32,29 @@ public class HomeController {
     }
 
     @RequestMapping("/")
-    public ModelAndView showHome(@PathParam("notification") String notification,
-        Principal principal, Model model) {
-        Optional<User> user = userService.getUserByUsername(principal.getName());
-        if (user.isPresent()) {
-            Collection<Chat> chats = chatService.getChatsByUser(user.get());
-            model.addAttribute("notification", notification);
-            model.addAttribute("chats", new HashSet<>(chats));
-            return new ModelAndView("home", model.asMap());
-        } else {
-            return new ModelAndView("redirect:/login");
-        }
+    public String showHome(
+        @PathParam("notification") String notification,
+        Principal principal,
+        Model model
+    ) {
+        Collection<Chat> chats = chatService.getChatsByUser(userOfPrincipal(principal));
+
+        model.addAttribute("notification", notification);
+        model.addAttribute("chats", chats);
+        return "home";
     }
 
     @RequestMapping("/home")
-    public ModelAndView showHomeAlias(Model model) {
-        return new ModelAndView("redirect:/", model.asMap());
+    public String showHomeAlias() {
+        return "redirect:/";
     }
 
     @RequestMapping("/me")
-    public ModelAndView showMe(Principal principal) {
-        return new ModelAndView("redirect:/user/" + principal.getName());
+    public String showMe(Principal principal) {
+        return "redirect:/user/" + principal.getName();
     }
 
-    static ModelAndView redirectToHome() {
-        return new ModelAndView("redirect:/");
-    }
-    static ModelAndView redirectToHome(String notification) {
-        return redirectToHome().addObject("notification", notification);
+    private User userOfPrincipal(Principal principal) {
+        return userService.getUserByUsername(principal.getName()).orElseThrow();
     }
 }
