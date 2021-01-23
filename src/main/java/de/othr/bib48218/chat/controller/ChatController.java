@@ -8,9 +8,7 @@ import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
 import java.security.Principal;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -58,13 +56,20 @@ public class ChatController {
 
         chat.ifPresentOrElse(
             c -> model.addAllAttributes(Map.of(
-                "chat", c,
-                "isAdmin", hasUserMemberStatus(user, c, ChatMemberStatus.ADMINISTRATOR)
+                "chat",
+                c,
+
+                "isAdmin",
+                c.getStatusOfMember(user)
+                    .map(s -> s == ChatMemberStatus.ADMINISTRATOR)
+                    .orElse(false)
             )),
             () -> model.addAttribute("notification", "Chat not found")
         );
 
-        String view = (chat.isPresent() && isMember(user, chat.get())) ? "chat/show" : "redirect:/";
+        String view = chat.map(c -> c.getStatusOfMember(user).isPresent()).orElse(false)
+            ? "chat/show"
+            : "redirect:/";
 
         return new ModelAndView(view, model.asMap());
     }
@@ -76,7 +81,7 @@ public class ChatController {
         chat.ifPresent(c -> model.addAttribute("chat", c));
 
         String view =
-            (chat.isPresent() && userIsAllowedToAddMember(userOfPrincipal(principal), chat.get()))
+            (chat.map(c -> isAllowedToAddMemberToChat(principal, c)).orElse(false))
                 ? "chat/add_member"
                 : "redirect:/";
 
@@ -100,8 +105,7 @@ public class ChatController {
         );
 
         boolean isUserAdded = newMember.isPresent()
-            && chat.isPresent()
-            && userIsAllowedToAddMember(userOfPrincipal(principal), chat.get());
+            && chat.map(c -> isAllowedToAddMemberToChat(principal, c)).orElse(false);
 
         if (isUserAdded) {
             addUserToChat(newMember.get(), chat.get());
@@ -173,8 +177,7 @@ public class ChatController {
         return redirectToHome(
             chatService.getChatById(id)
                 .map(c -> {
-                    if (c instanceof GroupChat
-                        && userIsAllowedToDeleteChat(userOfPrincipal(principal), c)
+                    if (c instanceof GroupChat && isAllowedToDeleteChat(principal, c)
                     ) {
                         chatService.deleteChat(c);
                         return "Deleted chat successully";
@@ -251,25 +254,21 @@ public class ChatController {
         return userService.getUserByUsername(principal.getName()).orElseThrow();
     }
 
-    private boolean isMember(User user, Chat chat) {
-        return chat.getMemberships().stream().anyMatch(m -> m.getUser().equals(user));
+    private boolean isAllowedToDeleteChat(Principal principal, Chat chat) {
+        return chat.getStatusOfMember(userOfPrincipal(principal))
+            .map(ChatMemberStatus::isAllowedToDeleteChat)
+            .orElse(false);
     }
 
-    private boolean userIsAllowedToDeleteChat(User user, Chat chat) {
-        return hasUserMemberStatus(user, chat, Arrays.asList(ChatMemberStatus.ADMINISTRATOR));
+    private boolean isAllowedToEditChat(Principal principal, Chat chat) {
+        return chat.getStatusOfMember(userOfPrincipal(principal))
+            .map(ChatMemberStatus::isAllowedToEditChat)
+            .orElse(false);
     }
 
-    private boolean userIsAllowedToAddMember(User user, Chat chat) {
-        return hasUserMemberStatus(user, chat, Arrays.asList(ChatMemberStatus.ADMINISTRATOR));
-    }
-
-    private boolean hasUserMemberStatus(User user, Chat chat, List<ChatMemberStatus> status) {
-        return chat.getMemberships().stream().filter(m -> m.getUser() == user)
-            .anyMatch(m -> status.contains(m.getStatus()));
-    }
-
-    private boolean hasUserMemberStatus(User user, Chat chat, ChatMemberStatus status) {
-        return chat.getMemberships().stream().filter(m -> m.getUser() == user)
-            .anyMatch(m -> m.getStatus() == status);
+    private boolean isAllowedToAddMemberToChat(Principal principal, Chat chat) {
+        return chat.getStatusOfMember(userOfPrincipal(principal))
+            .map(ChatMemberStatus::isAllowedToAddMembersToChat)
+            .orElse(false);
     }
 }
