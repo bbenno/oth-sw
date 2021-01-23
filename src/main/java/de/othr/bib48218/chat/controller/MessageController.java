@@ -12,9 +12,9 @@ import java.util.Optional;
 import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/message")
@@ -30,25 +30,29 @@ public class MessageController {
     private IFUserService userService;
 
     @RequestMapping("/new")
-    private ModelAndView createMessage(@RequestParam("message") String text,
-        @RequestParam("chat") Long chat_id, Principal principal) {
-        Optional<User> author = userService.getUserByUsername(principal.getName());
-        Optional<Chat> chat_opt = chatService.getChatById(chat_id);
-        if (chat_opt.isEmpty() || !isUserMemberOfChat(author.get(), chat_opt.get())) {
-            return new ModelAndView("redirect:/", "notification", "chat not found");
-        }
+    private String createMessage(
+        @RequestParam("message") String text,
+        @RequestParam("chat") Long chat_id,
+        Principal principal,
+        Model model
+    ) {
+        Optional<Chat> chat = chatService.getChatById(chat_id);
+        User author = userOfPrincipal(principal);
 
-        Chat chat = chat_opt.get();
-        try {
-            Message message = new Message(text, chat, author.get(), LocalDateTime.now());
-            messageService.saveMessage(message);
-        } catch (ConstraintViolationException ignored) {
+        if (chat.isPresent() && chat.get().getStatusOfMember(author).isPresent()) {
+            try {
+                Message message = new Message(text, chat.get(), author, LocalDateTime.now());
+                messageService.saveMessage(message);
+            } catch (ConstraintViolationException ignored) {
+            }
+            return "redirect:/chat/" + chat.get().getId();
+        } else {
+            model.addAttribute("notification", "Chat not found");
+            return "redirect:/";
         }
-        return new ModelAndView("redirect:/chat/" + chat.getId());
     }
 
-    private boolean isUserMemberOfChat(User user, Chat chat) {
-        return chat.getMemberships().stream()
-            .anyMatch(m -> m.getUser() == user);
+    private User userOfPrincipal(Principal principal) {
+        return userService.getUserByUsername(principal.getName()).orElseThrow();
     }
 }
