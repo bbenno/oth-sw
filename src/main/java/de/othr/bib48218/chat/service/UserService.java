@@ -89,26 +89,25 @@ public class UserService implements IFUserService, UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return personRepository.findByUsername(username).orElseThrow(
-            () -> new UsernameNotFoundException("No User with username '" + username + "'"));
+        return personRepository.findByUsername(username)
+            .orElseThrow(
+                () -> new UsernameNotFoundException("No User with username '" + username + "'")
+            );
     }
 
     @Override
     @Transactional
     public Collection<User> getAllUsers() {
-        Stream<User> personStream = StreamSupport
-            .stream(personRepository.findAll().spliterator(), false).map((person) -> person);
-        Stream<User> botStream = StreamSupport.stream(botRepository.findAll().spliterator(), false)
-            .map((bot) -> bot);
-
-        return Stream.concat(personStream, botStream).collect(Collectors.toUnmodifiableList());
+        return Stream.concat(
+            StreamSupport.stream(personRepository.findAll().spliterator(), false),
+            StreamSupport.stream(botRepository.findAll().spliterator(), false)
+        ).collect(Collectors.toUnmodifiableList());
     }
 
     @Override
     @Transactional
     public Collection<Person> getAllPersons() {
-        return StreamSupport
-            .stream(personRepository.findAll().spliterator(), false)
+        return StreamSupport.stream(personRepository.findAll().spliterator(), false)
             .collect(Collectors.toUnmodifiableList());
     }
 
@@ -122,11 +121,8 @@ public class UserService implements IFUserService, UserDetailsService {
     @Override
     @Transactional
     public void deleteUserByUsername(String username) {
-        var person = personRepository.findByUsername(username);
-        person.ifPresent(p -> p.setEnabled(false));
-
-        var bot = botRepository.findByUsername(username);
-        bot.ifPresent(b -> b.setEnabled(false));
+        personRepository.findByUsername(username).ifPresent(p -> p.setEnabled(false));
+        botRepository.findByUsername(username).ifPresent(b -> b.setEnabled(false));
     }
 
     @Override
