@@ -39,7 +39,7 @@
     </th:block>
   </dl>
   <div class="btn-group">
-    <th:block th:if="${user.username != #authentication.name}">
+    <th:block th:if="${user.username != #authentication.name && user.enabled}">
       <a class="btn btn-primary" href="#" th:href="@{/chat/{username}(username=*{username})}"
          th:text="#{user.show.messaging}">
         Write Message
