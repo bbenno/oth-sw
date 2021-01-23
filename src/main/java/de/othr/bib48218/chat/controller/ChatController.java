@@ -2,6 +2,7 @@ package de.othr.bib48218.chat.controller;
 
 import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.entity.ChatMemberStatus;
+import de.othr.bib48218.chat.entity.ChatMembership;
 import de.othr.bib48218.chat.entity.GroupChat;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFChatService;
@@ -14,6 +15,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -92,7 +94,7 @@ public class ChatController {
         }
 
         if (userIsAllowedToAddMember(userOfPrincipal(principal), chat.get())) {
-            chatService.addUserToChat(user.get(), chat.get());
+            addUserToChat(user.get(), chat.get());
         }
         return redirectToChat(chat.get());
     }
@@ -102,14 +104,18 @@ public class ChatController {
     public ModelAndView joinChat(@PathVariable Long id, Principal principal) {
         Optional<User> user = userService.getUserByUsername(principal.getName());
         Optional<Chat> chat = chatService.getChatById(id);
-        chatService.addUserToChat(user.get(), chat.get());
+        addUserToChat(user.get(), chat.get());
 
         return redirectToChat(chat.get());
     }
 
     @RequestMapping("/{id}/leave")
+    @Transactional
     public ModelAndView leaveChat(@PathVariable Long id, Principal principal) {
-        chatService.deleteChatMembership(userOfPrincipal(principal), id);
+        chatService.getChatById(id)
+            .ifPresent(chat -> chat.getMemberships()
+                .removeIf(m -> m.getUser().equals(userOfPrincipal(principal)))
+            );
 
         return new ModelAndView("redirect:/");
     }
@@ -180,6 +186,22 @@ public class ChatController {
 
     private ModelAndView redirectToChat(@Nullable Chat chat) {
         return new ModelAndView("redirect:/chat/" + ((chat == null) ? "" : chat.getId()));
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    protected void addUserToChat(User user, Chat chat) {
+        addOrUpdateChatMembership(user, chat, ChatMemberStatus.MEMBER);
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    protected void addOrUpdateChatMembership(User user, Chat chat, ChatMemberStatus status) {
+        chat.getMemberships().stream()
+            .filter(m -> m.getUser().equals(user) && m.getChat().equals(chat))
+            .findAny()
+            .ifPresentOrElse(
+                m -> m.setStatus(status),
+                () -> chat.getMemberships().add(new ChatMembership(chat, status, user))
+            );
     }
 
     private User userOfPrincipal(Principal principal) {

@@ -34,7 +34,7 @@ public class MessageController {
         @RequestParam("chat") Long chat_id, Principal principal) {
         Optional<User> author = userService.getUserByUsername(principal.getName());
         Optional<Chat> chat_opt = chatService.getChatById(chat_id);
-        if (chat_opt.isEmpty() || !chatService.isUserMember(author.get(), chat_opt.get())) {
+        if (chat_opt.isEmpty() || !isUserMemberOfChat(author.get(), chat_opt.get())) {
             return new ModelAndView("redirect:/", "notification", "chat not found");
         }
 
@@ -45,5 +45,10 @@ public class MessageController {
         } catch (ConstraintViolationException ignored) {
         }
         return new ModelAndView("redirect:/chat/" + chat.getId());
+    }
+
+    private boolean isUserMemberOfChat(User user, Chat chat) {
+        return chat.getMemberships().stream()
+            .anyMatch(m -> m.getUser() == user);
     }
 }
