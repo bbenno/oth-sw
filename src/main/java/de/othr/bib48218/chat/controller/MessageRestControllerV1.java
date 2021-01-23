@@ -38,7 +38,7 @@ public class MessageRestControllerV1 implements IFMessageRestControllerV1 {
         @PathParam("from") String username
     ) {
         Optional<LocalDateTime> timestamp = Optional.empty();
-        Optional<? extends Chat> chat = Optional.empty();
+        Optional<Chat> chat = Optional.empty();
         Optional<String> author_name = Optional.ofNullable(username);
 
         // Parse DateTime if present

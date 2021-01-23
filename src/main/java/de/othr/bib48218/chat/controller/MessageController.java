@@ -33,7 +33,7 @@ public class MessageController {
     private ModelAndView createMessage(@RequestParam("message") String text,
         @RequestParam("chat") Long chat_id, Principal principal) {
         Optional<User> author = userService.getUserByUsername(principal.getName());
-        Optional<? extends Chat> chat_opt = chatService.getChatById(chat_id);
+        Optional<Chat> chat_opt = chatService.getChatById(chat_id);
         if (chat_opt.isEmpty() || !chatService.isUserMember(author.get(), chat_opt.get())) {
             return new ModelAndView("redirect:/", "notification", "chat not found");
         }

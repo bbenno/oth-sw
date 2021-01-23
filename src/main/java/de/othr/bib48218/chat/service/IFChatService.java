@@ -20,7 +20,7 @@ public interface IFChatService {
      * @param id the unique chat id
      * @return the chat if present
      */
-    Optional<? extends Chat> getChatById(Long id);
+    Optional<Chat> getChatById(Long id);
 
     /**
      * Returns group chat with the given id.

@@ -32,7 +32,7 @@ public class ChatService implements IFChatService {
 
     @Override
     @Transactional
-    public Optional<? extends Chat> getChatById(Long id) {
+    public Optional<Chat> getChatById(Long id) {
         return getGroupChatById(id).map(gc -> (Chat) gc).or(() -> getPeerChatById(id));
     }
 

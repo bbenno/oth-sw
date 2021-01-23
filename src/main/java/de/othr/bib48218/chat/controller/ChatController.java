@@ -41,7 +41,7 @@ public class ChatController {
         try {
             Long id = Long.parseLong(identifier);
             Optional<User> principal_user = userService.getUserByUsername(principal.getName());
-            Optional<? extends Chat> chat_opt = chatService.getChatById(id);
+            Optional<Chat> chat_opt = chatService.getChatById(id);
             if (chat_opt.isEmpty() || chat_opt.get().getMemberships().stream()
                 .noneMatch(m -> m.getUser().equals(principal_user.get()))) {
                 return new ModelAndView("redirect:/");
@@ -81,7 +81,7 @@ public class ChatController {
     @Transactional
     public ModelAndView addChatMember(@PathVariable Long id, @RequestParam String username,
         Principal principal) {
-        Optional<? extends Chat> chat = chatService.getChatById(id);
+        Optional<Chat> chat = chatService.getChatById(id);
         if (chat.isEmpty()) {
             return new ModelAndView("redirect:/", "notification", "Chat not found");
         }
@@ -101,7 +101,7 @@ public class ChatController {
     @Transactional
     public ModelAndView joinChat(@PathVariable Long id, Principal principal) {
         Optional<User> user = userService.getUserByUsername(principal.getName());
-        Optional<? extends Chat> chat = chatService.getChatById(id);
+        Optional<Chat> chat = chatService.getChatById(id);
         chatService.addUserToChat(user.get(), chat.get());
 
         return redirectToChat(chat.get());
@@ -134,7 +134,7 @@ public class ChatController {
     @RequestMapping("/{id}/delete")
     public ModelAndView deleteChat(@PathVariable Long id, Principal principal) {
         String message;
-        Optional<? extends Chat> chat_opt = chatService.getChatById(id);
+        Optional<Chat> chat_opt = chatService.getChatById(id);
 
         if (chat_opt.isPresent()) {
             Chat chat = chat_opt.get();
