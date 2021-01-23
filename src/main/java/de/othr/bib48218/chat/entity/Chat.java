@@ -13,9 +13,11 @@ import javax.persistence.OneToMany;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @EqualsAndHashCode
 public abstract class Chat implements HeaderSearchElement {
@@ -28,14 +30,14 @@ public abstract class Chat implements HeaderSearchElement {
         mappedBy = "chat",
         cascade = {CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.DETACH},
         orphanRemoval = true)
-    private final List<Message> messages = Collections.emptyList();
+    private List<Message> messages = Collections.emptyList();
 
     @OneToMany(
         mappedBy = "chat",
         fetch = FetchType.EAGER,
-        cascade = {CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.DETACH},
+        cascade = CascadeType.ALL,
         orphanRemoval = true)
-    private final Set<ChatMembership> memberships = Collections.emptySet();
+    private Set<ChatMembership> memberships = Collections.emptySet();
 
     @Override
     public boolean equals(Object o) {

@@ -7,17 +7,18 @@ import de.othr.bib48218.chat.entity.GroupChat;
 import de.othr.bib48218.chat.entity.GroupVisibility;
 import de.othr.bib48218.chat.entity.PeerChat;
 import de.othr.bib48218.chat.entity.User;
-import de.othr.bib48218.chat.repository.ChatMembershipRepository;
 import de.othr.bib48218.chat.repository.GroupChatRepository;
 import de.othr.bib48218.chat.repository.PeerChatRepository;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -28,9 +29,6 @@ public class ChatService implements IFChatService {
 
     @Autowired
     private PeerChatRepository peerRepository;
-
-    @Autowired
-    private ChatMembershipRepository chatMembershipRepository;
 
     @Override
     @Transactional
@@ -89,17 +87,21 @@ public class ChatService implements IFChatService {
     }
 
     @Override
-    @Transactional
-    public ChatMembership addUserToChat(User user, Chat chat) {
-        return addOrUpdateChatMembership(user, chat, ChatMemberStatus.MEMBER);
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void addUserToChat(User user, Chat chat) {
+        addOrUpdateChatMembership(user, chat, ChatMemberStatus.MEMBER);
     }
 
     @Override
-    @Transactional
-    public ChatMembership addOrUpdateChatMembership(User user, Chat chat, ChatMemberStatus status) {
-        ChatMembership chatMembership = new ChatMembership(chat, status, user);
-        chatMembership = chatMembershipRepository.save(chatMembership);
-        return chatMembership;
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void addOrUpdateChatMembership(User user, Chat chat, ChatMemberStatus status) {
+        chat.getMemberships().stream()
+            .filter(m -> m.getUser().equals(user) && m.getChat().equals(chat))
+            .findAny()
+            .ifPresentOrElse(
+                m -> m.setStatus(status),
+                () -> chat.getMemberships().add(new ChatMembership(chat, status, user))
+            );
     }
 
     @Override
@@ -111,17 +113,19 @@ public class ChatService implements IFChatService {
     @Override
     @Transactional
     public GroupChat saveChat(User creator, GroupChat chat) {
-        chat = groupRepository.save(chat);
-        addOrUpdateChatMembership(creator, chat, ChatMemberStatus.ADMINISTRATOR);
-        return chat;
+        chat.setMemberships(
+            Set.of(new ChatMembership(chat, ChatMemberStatus.ADMINISTRATOR, creator))
+        );
+        return groupRepository.save(chat);
     }
 
     @Override
     @Transactional
     public PeerChat saveChat(User creator, PeerChat chat) {
-        chat = peerRepository.save(chat);
-        addOrUpdateChatMembership(creator, chat, ChatMemberStatus.ADMINISTRATOR);
-        return chat;
+        chat.setMemberships(
+            Set.of(new ChatMembership(chat, ChatMemberStatus.ADMINISTRATOR, creator))
+        );
+        return peerRepository.save(chat);
     }
 
     @Override
@@ -155,13 +159,17 @@ public class ChatService implements IFChatService {
     @Override
     @Transactional
     public void deleteChat(@NonNull Chat chat) {
-        deleteChat(chat.getId());
+        if (chat instanceof PeerChat) {
+            peerRepository.delete((PeerChat) chat);
+        } else if (chat instanceof GroupChat) {
+            groupRepository.delete((GroupChat) chat);
+        }
     }
 
     @Override
     @Transactional
     public Optional<ChatMemberStatus> getChatMembership(Chat chat, User user) {
-        return chatMembershipRepository.findByChat(chat).stream()
+        return chat.getMemberships().stream()
             .filter(m -> m.getUser().equals(user))
             .map(ChatMembership::getStatus)
             .findFirst();
@@ -178,9 +186,7 @@ public class ChatService implements IFChatService {
     @Transactional
     public void deleteChatMembership(User user, Long chatId) {
         getChatById(chatId)
-            .ifPresent(chat -> chat.getMemberships().stream()
-                .filter(m -> m.getUser() == user)
-                .forEach(m -> chatMembershipRepository.delete(m)));
+            .ifPresent(chat -> chat.getMemberships().removeIf(m -> m.getUser().equals(user)));
     }
 
     @Override

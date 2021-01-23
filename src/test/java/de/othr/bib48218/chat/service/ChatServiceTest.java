@@ -14,7 +14,6 @@ import de.othr.bib48218.chat.entity.PeerChat;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.factory.ChatFactory;
 import de.othr.bib48218.chat.factory.UserFactory;
-import de.othr.bib48218.chat.repository.ChatMembershipRepository;
 import de.othr.bib48218.chat.repository.GroupChatRepository;
 import de.othr.bib48218.chat.repository.PeerChatRepository;
 import java.util.ArrayList;
@@ -37,9 +36,6 @@ public class ChatServiceTest {
 
     @Mock
     private PeerChatRepository peerChatRepository;
-
-    @Mock
-    private ChatMembershipRepository chatMembershipRepository;
 
     private static long id() {
         return Faker.instance().number().randomNumber();
@@ -135,38 +131,6 @@ public class ChatServiceTest {
         var allChats = chatService.getAllChats();
 
         assertThat(allChats).contains(chat);
-    }
-
-    @Test
-    void shouldReturnChatMembershipWhenAddingUserToChat() {
-        User user = anyUser();
-        Chat chat = anyChat();
-
-        when(chatMembershipRepository.save(any(ChatMembership.class)))
-            .then(i -> i.getArgument(0, ChatMembership.class));
-
-        var chatMembership = chatService.addUserToChat(user, chat);
-
-        assertThat(chatMembership).isNotNull();
-        assertThat(chatMembership.getChat()).isEqualTo(chat);
-        assertThat(chatMembership.getUser()).isEqualTo(user);
-    }
-
-    @Test
-    void shouldReturnChatMembershipWhenAddingUserToChatWithStatus() {
-        User user = anyUser();
-        Chat chat = anyChat();
-        ChatMemberStatus status = ChatMemberStatus.MEMBER;
-
-        when(chatMembershipRepository.save(any(ChatMembership.class)))
-            .then(i -> i.getArgument(0, ChatMembership.class));
-
-        var chatMembership = chatService.addOrUpdateChatMembership(user, chat, status);
-
-        assertThat(chatMembership).isNotNull();
-        assertThat(chatMembership.getChat()).isEqualTo(chat);
-        assertThat(chatMembership.getUser()).isEqualTo(user);
-        assertThat(chatMembership.getStatus()).isEqualTo(status);
     }
 
     @Test

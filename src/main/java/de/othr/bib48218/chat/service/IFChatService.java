@@ -171,9 +171,8 @@ public interface IFChatService {
      *
      * @param user the user to add
      * @param chat the chat to add to
-     * @return created {@link ChatMembership} is not yet present; otherwise present one
      */
-    ChatMembership addUserToChat(User user, Chat chat);
+    void addUserToChat(User user, Chat chat);
 
     /**
      * Add {@link User} to {@link Chat} with given {@link ChatMemberStatus}.
@@ -181,9 +180,8 @@ public interface IFChatService {
      * @param user   the user to add
      * @param chat   the chat to add to
      * @param status the membership status of the user in the chat
-     * @return created {@link ChatMembership} is not yet present; otherwise present one
      */
-    ChatMembership addOrUpdateChatMembership(User user, Chat chat, ChatMemberStatus status);
+    void addOrUpdateChatMembership(User user, Chat chat, ChatMemberStatus status);
 
     /* DELETE Member  *****************************************************************************/
 

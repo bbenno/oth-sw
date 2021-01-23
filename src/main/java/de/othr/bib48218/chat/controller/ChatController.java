@@ -14,6 +14,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -77,6 +78,7 @@ public class ChatController {
     }
 
     @PostMapping("/{id}/add")
+    @Transactional
     public ModelAndView addChatMember(@PathVariable Long id, @RequestParam String username,
         Principal principal) {
         Optional<? extends Chat> chat = chatService.getChatById(id);
@@ -96,6 +98,7 @@ public class ChatController {
     }
 
     @RequestMapping("/{id}/join")
+    @Transactional
     public ModelAndView joinChat(@PathVariable Long id, Principal principal) {
         Optional<User> user = userService.getUserByUsername(principal.getName());
         Optional<? extends Chat> chat = chatService.getChatById(id);
