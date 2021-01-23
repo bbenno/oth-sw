@@ -14,7 +14,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/register")
@@ -24,25 +23,34 @@ public class RegisterController {
     private UserService userService;
 
     @RequestMapping
-    public ModelAndView showPersonForm() {
-        return new ModelAndView("register", "person", new Person());
+    public String showPersonForm(Model model) {
+        model.addAttribute("person", new Person());
+        return "register";
     }
 
     @PostMapping
-    public ModelAndView createPerson(@Validated Person person, BindingResult bindingResult,
-        Model model) {
+    public String createPerson(
+        @Validated Person person,
+        BindingResult bindingResult,
+        Model model
+    ) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("register", "person", person);
-        } else {
-            try {
-                userService.createPerson(person);
-                return new ModelAndView("redirect:/user/" + person.getUsername());
-            } catch (UserAlreadyExistsException userAlreadyExistsException) {
-                var notUniqueError = new FieldError(bindingResult.getObjectName(), "username",
-                    "Username exists already");
-                bindingResult.addError(notUniqueError);
-                return new ModelAndView("register", "person", person);
-            }
+            model.addAttribute("person", person);
+            return "register";
+        }
+
+        try {
+            person = userService.createPerson(person);
+            return "redirect:/user/" + person.getUsername();
+        } catch (UserAlreadyExistsException userAlreadyExistsException) {
+            bindingResult.addError(new FieldError(
+                bindingResult.getObjectName(),
+                "username",
+                "Username exists already"
+            ));
+
+            model.addAttribute("person", person);
+            return "register";
         }
     }
 
