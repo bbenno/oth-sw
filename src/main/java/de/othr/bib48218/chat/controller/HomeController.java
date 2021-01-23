@@ -58,4 +58,11 @@ public class HomeController {
     public ModelAndView showMe(Principal principal) {
         return new ModelAndView("redirect:/user/" + principal.getName());
     }
+
+    static ModelAndView redirectToHome() {
+        return new ModelAndView("redirect:/");
+    }
+    static ModelAndView redirectToHome(String notification) {
+        return redirectToHome().addObject("notification", notification);
+    }
 }

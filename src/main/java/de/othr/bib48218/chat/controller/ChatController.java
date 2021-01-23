@@ -31,7 +31,9 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/chat")
 public class ChatController {
 
-    private final Pattern pattern = Pattern.compile("\\d+");
+    private static final Pattern pattern = Pattern.compile("\\d+");
+
+    private static final String chatNotFound = "Chat not found";
 
     @Autowired
     private IFChatService chatService;
@@ -127,9 +129,9 @@ public class ChatController {
         return chatService.getChatById(id)
             .map(c -> {
                 addUserToChat(userOfPrincipal(principal), c);
-                return redirectToChat(c);
+                return new ModelAndView("redirect:");
             })
-            .orElseGet(this::redirectToHome);
+            .orElse(HomeController.redirectToHome(chatNotFound));
     }
 
     @RequestMapping("/{id}/leave")
@@ -147,18 +149,20 @@ public class ChatController {
     public ModelAndView editChat(@PathVariable Long id, Principal principal) {
         return chatService.getGroupChatById(id)
             .map(groupChat -> new ModelAndView("chat/edit_group_chat", "chat", groupChat))
-            .orElseGet(this::redirectChatNotFound);
+            .orElse(HomeController.redirectToHome(chatNotFound));
     }
 
     @PostMapping("/{id}/edit")
-    public ModelAndView saveEditedChat(
+    public String saveEditedChat(
         @Validated GroupChat chat,
         @PathVariable Long id,
         BindingResult bindingResult,
-        Principal principal
+        Principal principal,
+        Model model
     ) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("chat/" + id + "/edit", "chat", chat);
+            model.addAttribute("chat", chat);
+            return "redirect:edit";
         }
 
         chatService.getGroupChatById(id).ifPresent(c -> {
@@ -168,13 +172,13 @@ public class ChatController {
             c.getProfile().setImagePath(chat.getProfile().getImagePath());
         });
 
-        return new ModelAndView("redirect:/chat/" + id);
+        return "redirect:";
 
     }
 
     @RequestMapping("/{id}/delete")
     public ModelAndView deleteChat(@PathVariable Long id, Principal principal) {
-        return redirectToHome(
+        return HomeController.redirectToHome(
             chatService.getChatById(id)
                 .map(c -> {
                     if (c instanceof GroupChat && isAllowedToDeleteChat(principal, c)
@@ -215,23 +219,8 @@ public class ChatController {
             return new ModelAndView("chat/new_group_chat", "chat", chat);
         }
 
-        return redirectToChat(chatService.saveChat(userOfPrincipal(principal), chat));
-    }
-
-    private ModelAndView redirectToChat(@Nullable Chat chat) {
-        return new ModelAndView("redirect:/chat/" + ((chat == null) ? "" : chat.getId()));
-    }
-
-    private ModelAndView redirectChatNotFound() {
-        return new ModelAndView("redirect:/", "notification", "Chat not found");
-    }
-
-    private ModelAndView redirectToHome() {
-        return new ModelAndView("redirect:/");
-    }
-
-    private ModelAndView redirectToHome(String notification) {
-        return new ModelAndView("redirect:/", "notification", notification);
+        chat = chatService.saveChat(userOfPrincipal(principal), chat);
+        return new ModelAndView("redirect:" + chat.getId());
     }
 
     @Transactional(propagation = Propagation.MANDATORY)
