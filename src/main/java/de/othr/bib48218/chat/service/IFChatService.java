@@ -12,6 +12,8 @@ import java.util.Optional;
 
 public interface IFChatService {
 
+    /* GET Chat  **********************************************************************************/
+
     /**
      * Returns the chat with the given id.
      *
@@ -44,6 +46,8 @@ public interface IFChatService {
      */
     Collection<Chat> getChatsByUser(User user);
 
+    /* GET Chats  *********************************************************************************/
+
     /**
      * Returns all {@link GroupChat} and {@link PeerChat} objects that are stored.
      *
@@ -72,24 +76,7 @@ public interface IFChatService {
      */
     Collection<PeerChat> getAllPeerChats();
 
-    /**
-     * Add {@link User} to {@link Chat} as normal member.
-     *
-     * @param user the user to add
-     * @param chat the chat to add to
-     * @return created {@link ChatMembership} is not yet present; otherwise present one
-     */
-    ChatMembership addUserToChat(User user, Chat chat);
-
-    /**
-     * Add {@link User} to {@link Chat} with given {@link ChatMemberStatus}.
-     *
-     * @param user   the user to add
-     * @param chat   the chat to add to
-     * @param status the membership status of the user in the chat
-     * @return created {@link ChatMembership} is not yet present; otherwise present one
-     */
-    ChatMembership addUserToChat(User user, Chat chat, ChatMemberStatus status);
+    /* NEW Chat  **********************************************************************************/
 
     /**
      * Creates new {@link GroupChat} if not yet present. The creating user will be administrator by
@@ -128,6 +115,8 @@ public interface IFChatService {
      */
     PeerChat getOrCreatePeerChatOf(User user, User otherUser);
 
+    /* DELETE Chat  *******************************************************************************/
+
     /**
      * Deletes chat with the given id.
      *
@@ -141,6 +130,17 @@ public interface IFChatService {
      * @param chat the chat to delete
      */
     void deleteChat(Chat chat);
+
+    /* UPDATE Chat  *******************************************************************************/
+
+    /**
+     * Save edited group chat.
+     *
+     * @param chat the group chat to save
+     */
+    void editGroupChat(Long id, GroupChat chat);
+
+    /* GET Membership  ****************************************************************************/
 
     /**
      * Returns {@link ChatMemberStatus} of user in chat.
@@ -160,6 +160,29 @@ public interface IFChatService {
      */
     boolean isUserMember(User user, Chat chat);
 
+    /* ADD Member  ********************************************************************************/
+
+    /**
+     * Add {@link User} to {@link Chat} as normal member.
+     *
+     * @param user the user to add
+     * @param chat the chat to add to
+     * @return created {@link ChatMembership} is not yet present; otherwise present one
+     */
+    ChatMembership addUserToChat(User user, Chat chat);
+
+    /**
+     * Add {@link User} to {@link Chat} with given {@link ChatMemberStatus}.
+     *
+     * @param user   the user to add
+     * @param chat   the chat to add to
+     * @param status the membership status of the user in the chat
+     * @return created {@link ChatMembership} is not yet present; otherwise present one
+     */
+    ChatMembership addUserToChat(User user, Chat chat, ChatMemberStatus status);
+
+    /* DELETE Member  *****************************************************************************/
+
     /**
      * Deletes chat membership of user in chat.
      *
@@ -167,11 +190,4 @@ public interface IFChatService {
      * @param chatId the id of the chat
      */
     void deleteChatMembership(User user, Long chatId);
-
-    /**
-     * Save edited group chat.
-     *
-     * @param chat the group chat to save
-     */
-    void editGroupChat(Long id, GroupChat chat);
 }
