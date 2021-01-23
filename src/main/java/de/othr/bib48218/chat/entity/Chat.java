@@ -2,6 +2,7 @@ package de.othr.bib48218.chat.entity;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -38,6 +39,13 @@ public abstract class Chat implements HeaderSearchElement {
         cascade = CascadeType.ALL,
         orphanRemoval = true)
     private Set<ChatMembership> memberships = Collections.emptySet();
+
+    public Optional<ChatMemberStatus> getStatusOfMember(User user) {
+        return memberships.stream()
+            .filter(m -> m.getUser() == user)
+            .map(ChatMembership::getStatus)
+            .findAny();
+    }
 
     @Override
     public boolean equals(Object o) {
