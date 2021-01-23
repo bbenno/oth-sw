@@ -15,7 +15,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/user")
@@ -25,70 +24,82 @@ public class UserController {
     private IFUserService userService;
 
     @RequestMapping("{username}")
-    public ModelAndView showUser(@PathVariable String username, Model model) {
+    public String showUser(@PathVariable String username, Model model) {
         Optional<User> found = userService.getUserByUsername(username);
-        if (found.isPresent()) {
-            model.addAttribute("user", found.get());
-            model.addAttribute("isPerson", found.get().getClass().equals(Person.class));
-            return new ModelAndView("user/show", model.asMap());
-        } else {
-            return new ModelAndView("redirect:/");
+
+        if (found.isEmpty()) {
+            return "redirect:/";
         }
+
+        model.addAttribute("user", found.get());
+        model.addAttribute("isPerson", found.get().getClass().equals(Person.class));
+        return "user/show";
     }
 
     @RequestMapping("/{username}/delete")
-    public ModelAndView deleteUser(@PathVariable String username, Model model,
-        Principal principal) {
+    @Transactional
+    public String deleteUser(
+        @PathVariable String username,
+        Model model,
+        Principal principal
+    ) {
         Optional<User> user_opt = userService.getUserByUsername(username);
-        if (user_opt.isPresent()) {
-            User user = user_opt.get();
-            boolean isSelf = user.getUsername().equals(principal.getName());
-            if (isSelf) {
-                userService.deleteUserByUsername(username);
-            } else {
-                model.addAttribute("notification", "No Permission to delete user");
-            }
+
+        if (user_opt.isEmpty()) {
+            model.addAttribute("notification", "User not found");
+            return "redirect:/";
         }
-        return new ModelAndView("redirect:/", model.asMap());
+
+        boolean isSelf = user_opt.get().getUsername().equals(principal.getName());
+        if (isSelf) {
+            userService.deleteUserByUsername(username);
+            return "redirect:/logout";
+        } else {
+            model.addAttribute("notification", "No Permission to delete user");
+            return "redirect:/";
+        }
     }
 
     @RequestMapping("/{username}/edit")
-    public ModelAndView editUser(@PathVariable String username, Model model, Principal principal) {
+    public String editUser(@PathVariable String username, Model model, Principal principal) {
         Optional<User> user_opt = userService.getUserByUsername(username);
 
-        if (user_opt.isPresent()) {
-            User user = user_opt.get();
-            boolean isSelf = user.getUsername().equals(principal.getName());
-
-            if (isSelf) {
-                model.addAttribute("user", user);
-                model.addAttribute("isPerson", user.getClass().equals(Person.class));
-                return new ModelAndView("user/edit", model.asMap());
-            }
+        if (user_opt.isEmpty()) {
+            return "redirect:/";
         }
-        return new ModelAndView("redirect:/");
+
+        boolean isSelf = user_opt.get().getUsername().equals(principal.getName());
+
+        if (isSelf) {
+            model.addAttribute("user", user_opt.get());
+            return "user/edit";
+        } else {
+            return "redirect:/";
+        }
     }
 
     @PostMapping("/{username}/edit-bot")
-    public ModelAndView saveEditedBot(@Validated Bot user, BindingResult bindingResult) {
+    @Transactional
+    public String saveEditedBot(@Validated Bot user, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("redirect:/user/" + user.getUsername() + "/edit", "user", user);
+            model.addAttribute("user", user);
+            return "redirect:edit";
         }
 
         userService.updateUser(user);
-
-        return new ModelAndView("redirect:/user/" + user.getUsername());
+        return "redirect:";
     }
 
     @PostMapping("/{username}/edit-person")
     @Transactional
-    public ModelAndView saveEditedPerson(@Validated Person user, BindingResult bindingResult) {
+    public String saveEditedPerson(@Validated Person user, BindingResult bindingResult,
+        Model model) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("redirect:/user/" + user.getUsername() + "/edit", "user", user);
+            model.addAttribute("user", user);
+            return "redirect:edit";
         }
 
         userService.updateUser(user);
-
-        return new ModelAndView("redirect:/user/" + user.getUsername());
+        return "redirect:";
     }
 }
