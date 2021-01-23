@@ -121,11 +121,10 @@ public class ChatService implements IFChatService {
                 PeerChat peerChat = new PeerChat();
                 peerChat.setMemberships(Set.of(
                     new ChatMembership(peerChat, ChatMemberStatus.ADMINISTRATOR, user),
-                    new ChatMembership(peerChat, ChatMemberStatus.ADMINISTRATOR, user)
+                    new ChatMembership(peerChat, ChatMemberStatus.ADMINISTRATOR, otherUser)
                 ));
-                peerChat = peerRepository.save(peerChat);
 
-                return peerChat;
+                return peerRepository.save(peerChat);
             });
     }
 
