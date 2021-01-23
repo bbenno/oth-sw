@@ -10,6 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PeerChat extends Chat {
 
+    public boolean isEnabled() {
+        return getMemberships().stream().allMatch(m -> m.getUser().isEnabled());
+    }
+
     @Override
     public String toString() {
         StringJoiner joiner = new StringJoiner(" \uD83E\udC58 ");

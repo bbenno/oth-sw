@@ -66,7 +66,8 @@
       </div>
     </div>
 
-    <form action="#" class="d-flex my-3" th:action="@{/message/new}" method="post">
+    <form action="#" class="d-flex my-3" th:action="@{/message/new}" method="post"
+    th:if="${!(chat instanceof T(de.othr.bib48218.chat.entity.PeerChat)) || chat.isEnabled()}">
     <textarea class="form-control me-2" name="message" placeholder="Write a message"
               th:placeholder="#{message.new.placeholder}" autofocus></textarea>
       <input type="hidden" name="chat" th:value="*{id}">
