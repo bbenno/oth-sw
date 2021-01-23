@@ -18,10 +18,6 @@ public class Bot extends User {
 
     @Override
     public String toString() {
-        if (getUsername().equals("deleted")) {
-            return super.toString();
-        } else {
-            return super.toString() + " (Bot)";
-        }
+        return super.toString() + " (Bot)";
     }
 }

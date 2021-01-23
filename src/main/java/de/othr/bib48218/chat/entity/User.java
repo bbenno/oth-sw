@@ -94,6 +94,10 @@ public abstract class User implements UserDetails, HeaderSearchElement {
         return authorities;
     }
 
+    protected String asString() {
+        return "";
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (o == null) {
@@ -120,10 +124,16 @@ public abstract class User implements UserDetails, HeaderSearchElement {
 
     @Override
     public String toString() {
-        if (profile == null || profile.getName().isBlank()) {
-            return username;
-        } else {
-            return profile.getName();
+        String s = profile.getName();
+        if (s.isBlank()) {
+            s += asString();
         }
+        if (s.isBlank()) {
+            s += username;
+        }
+        if (!enabled) {
+            s += " (disabled)";
+        }
+        return s;
     }
 }
