@@ -100,6 +100,8 @@ public interface IFChatService {
     /**
      * Saves new {@link PeerChat} if not yet present.
      *
+     * This method should be avoided. Use {@link #getOrCreatePeerChatOf(User, User)} instead
+     *
      * @param creator the creating user
      * @param chat    the peer chat to save
      * @return saved peer chat
@@ -139,6 +141,8 @@ public interface IFChatService {
      * @param chat the group chat to save
      */
     void editGroupChat(Long id, GroupChat chat);
+
+    // There is nothing to update of a PeerChat
 
     /* GET Membership  ****************************************************************************/
 
