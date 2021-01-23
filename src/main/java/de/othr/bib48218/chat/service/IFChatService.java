@@ -130,15 +130,4 @@ public interface IFChatService {
      * @param chat the chat to delete
      */
     void deleteChat(Chat chat);
-
-    /* UPDATE Chat  *******************************************************************************/
-
-    /**
-     * Save edited group chat.
-     *
-     * @param chat the group chat to save
-     */
-    void editGroupChat(Long id, GroupChat chat);
-
-    // There is nothing to update of a PeerChat
 }

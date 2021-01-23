@@ -82,7 +82,8 @@ public class ChatController {
     @PostMapping("/{id}/add")
     @Transactional
     public ModelAndView addChatMember(@PathVariable Long id, @RequestParam String username,
-        Principal principal) {
+        Principal principal
+    ) {
         Optional<Chat> chat = chatService.getChatById(id);
         if (chat.isEmpty()) {
             return new ModelAndView("redirect:/", "notification", "Chat not found");
@@ -128,11 +129,17 @@ public class ChatController {
     }
 
     @PostMapping("/{id}/edit")
-    public ModelAndView saveEditedChat(@Validated GroupChat chat, @PathVariable Long id, BindingResult bindingResult, Principal principal) {
-        if (bindingResult.hasErrors())
+    public ModelAndView saveEditedChat(@Validated GroupChat chat, @PathVariable Long id,
+        BindingResult bindingResult, Principal principal) {
+        if (bindingResult.hasErrors()) {
             return new ModelAndView("chat/" + chat.getId() + "/edit", "chat", chat);
-        else {
-            chatService.editGroupChat(id, chat);
+        } else {
+            chatService.getGroupChatById(id).ifPresent(c -> {
+                c.setVisibility(chat.getVisibility());
+                c.getProfile().setDescription(chat.getProfile().getDescription());
+                c.getProfile().setName(chat.getProfile().getName());
+                c.getProfile().setImagePath(chat.getProfile().getImagePath());
+            });
             return new ModelAndView("redirect:/chat/" + id);
         }
     }

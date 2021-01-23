@@ -148,15 +148,4 @@ public class ChatService implements IFChatService {
             groupRepository.delete((GroupChat) chat);
         }
     }
-
-    @Override
-    @Transactional
-    public void editGroupChat(Long id, GroupChat chat) {
-        groupRepository.findById(id).ifPresent(c -> {
-            c.setVisibility(chat.getVisibility());
-            c.getProfile().setDescription(chat.getProfile().getDescription());
-            c.getProfile().setName(chat.getProfile().getName());
-            c.getProfile().setImagePath(chat.getProfile().getImagePath());
-        });
-    }
 }
