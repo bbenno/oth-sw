@@ -7,6 +7,8 @@ import java.util.Collection;
 
 public interface IFMessageService extends IFSendMessage {
 
+    /* GET Messages  ******************************************************************************/
+
     /**
      * Returns all messages of a given chat.
      *
@@ -44,6 +46,8 @@ public interface IFMessageService extends IFSendMessage {
     Collection<Message> getMessagesByChatSinceFrom(Chat chat, LocalDateTime localDateTime,
         String username);
 
+    /* ADD Message * ******************************************************************************/
+
     /**
      * Saves given message.
      *
@@ -51,6 +55,8 @@ public interface IFMessageService extends IFSendMessage {
      * @return saved message
      */
     Message saveMessage(Message message);
+
+    /* DELETE Messages  ***************************************************************************/
 
     /**
      * Deletes message with the given id.
@@ -65,4 +71,8 @@ public interface IFMessageService extends IFSendMessage {
      * @param message the message to delete
      */
     void deleteMessage(Message message);
+
+    /* EDIT Messages  *****************************************************************************/
+
+    // Messages are not allowed to be edited.
 }
