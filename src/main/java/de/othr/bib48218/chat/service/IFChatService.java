@@ -118,13 +118,6 @@ public interface IFChatService {
     /* DELETE Chat  *******************************************************************************/
 
     /**
-     * Deletes chat with the given id.
-     *
-     * @param id the unique chat id
-     */
-    void deleteChat(Long id);
-
-    /**
      * Delete given chat.
      *
      * @param chat the chat to delete

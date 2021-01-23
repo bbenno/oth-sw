@@ -130,16 +130,6 @@ public class ChatService implements IFChatService {
 
     @Override
     @Transactional
-    public void deleteChat(@NonNull Long id) {
-        if (groupRepository.existsById(id)) {
-            groupRepository.deleteById(id);
-        } else if (peerRepository.existsById(id)) {
-            peerRepository.deleteById(id);
-        }
-    }
-
-    @Override
-    @Transactional
     public void deleteChat(@NonNull Chat chat) {
         if (chat instanceof PeerChat) {
             peerRepository.delete((PeerChat) chat);
