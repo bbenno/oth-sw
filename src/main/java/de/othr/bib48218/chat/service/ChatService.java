@@ -87,6 +87,15 @@ public class ChatService implements IFChatService {
 
     @Override
     @Transactional
+    public Collection<GroupChat> getChatsByStringFragment(String searchFragment) {
+        return groupRepository.findByProfileNameContains(searchFragment).stream()
+            .distinct()
+            .filter(c -> c.getVisibility() == GroupVisibility.PUBLIC)
+            .collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    @Transactional
     public GroupChat createGroupChat(User creator, GroupVisibility visibility) {
         return saveChat(creator, new GroupChat(visibility));
     }
