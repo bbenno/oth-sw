@@ -10,12 +10,13 @@ import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/webapi/v1/")
+@RequestMapping("/webapi/v1/messages/")
 public class MessageRestControllerV1 implements IFMessageRestControllerV1 {
 
     @Autowired
@@ -27,7 +28,7 @@ public class MessageRestControllerV1 implements IFMessageRestControllerV1 {
     /* CREATE  ************************************************************************************/
 
     @Override
-    @PostMapping("messages")
+    @PostMapping()
     public ResponseEntity<Message> postMessage(Message message) {
         return ResponseEntity.of(Optional.ofNullable(messageService.saveMessage(message)));
     }
@@ -35,9 +36,9 @@ public class MessageRestControllerV1 implements IFMessageRestControllerV1 {
     /* READ  **************************************************************************************/
 
     @Override
-    @GetMapping("messages")
+    @GetMapping("{chatId}")
     public ResponseEntity<Collection<Message>> getMessages(
-        @PathParam("chat") Long chatId,
+        @PathVariable("chatId") Long chatId,
         @PathParam("since") String dateTime,
         @PathParam("from") String username
     ) {
