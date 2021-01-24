@@ -22,25 +22,25 @@ public class MessageService implements IFMessageService {
     private PersonRepository userRepository;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<Message> getAllMessagesByChat(Chat chat) {
         return repository.findByChat(chat);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<Message> getMessagesByChatSince(Chat chat, LocalDateTime time) {
         return repository.findByChatAndTimestampBefore(chat, time);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<Message> getAllMessagesByChatFrom(Chat chat, String username) {
         return repository.findByChatAndAuthor_Username(chat, username);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<Message> getMessagesByChatSinceFrom(
         Chat chat,
         LocalDateTime localDateTime,
@@ -69,7 +69,7 @@ public class MessageService implements IFMessageService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<User> findUserByUsername(String username, String serviceToken) {
         // TODO: Check serviceToken
         return userRepository.findById(username).map((person) -> person);
@@ -88,7 +88,7 @@ public class MessageService implements IFMessageService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<Message> pullMessages(String serviceToken) {
         // TODO: Check serviceToken
         User serviceUser = null;

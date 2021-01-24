@@ -7,8 +7,10 @@
 
   <title>Header Fragment</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+        crossorigin="anonymous">
 </head>
 
 <body>
@@ -16,21 +18,26 @@
 <header>
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" aria-label="Main navigation">
     <div class="container-fluid">
-      <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#" th:href="@{/}" th:text="${applicationName}">Chat</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+      <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#" th:href="@{/}"
+         th:text="${applicationName}">Chat</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarCollapse"
               aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
-        <input class="form-control form-control-dark w-100" type="text" placeholder="Search"
-               th:placeholder="#{header.search}" aria-label="Search">
+        <input class="form-control form-control-dark w-100" type="search" placeholder="Search"
+               th:placeholder="#{header.search}" aria-label="Search" id="searchbar"
+               list="search-list" oninput="onInput()">
+        <datalist id="search-list"></datalist>
         <ul class="navbar-nav px-3">
           <li class="nav-item text-nowrap navbar-text">
             <a href="#" th:text="${#authentication.name}" th:href="@{/me}">Username</a>
             👤
           </li>
           <li class="nav-item text-nowrap">
-            <a class="nav-link" href="#" th:href="@{/logout}" th:text="#{header.logout}">Sign out</a>
+            <a class="nav-link" href="#" th:href="@{/logout}" th:text="#{header.logout}">Sign
+              out</a>
           </li>
         </ul>
       </div>
@@ -39,7 +46,8 @@
 </header>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous">
 </script>
 
 </body>

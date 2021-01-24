@@ -1,5 +1,6 @@
 package de.othr.bib48218.chat.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class Message extends IdEntity {
     @NotBlank
     private String text;
 
+    @JsonIgnore
     @ManyToOne(
         cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE},
         optional = false)
@@ -35,7 +37,7 @@ public class Message extends IdEntity {
     @ManyToOne(
         fetch = FetchType.EAGER,
         cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE},
-        optional = true)
+        optional = false)
     @NonNull
     @lombok.NonNull
     @NotNull

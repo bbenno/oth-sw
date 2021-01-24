@@ -74,6 +74,14 @@ public interface IFChatService {
      */
     Collection<PeerChat> getAllPeerChats();
 
+    /**
+     * Returns all chats found by given searchFragment.
+     *
+     * @param searchFragment the searching term
+     * @return matching group chats
+     */
+    Collection<GroupChat> getChatsByStringFragment(String searchFragment);
+
     /* NEW Chat  **********************************************************************************/
 
     /**

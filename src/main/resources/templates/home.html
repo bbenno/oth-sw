@@ -33,7 +33,7 @@
           public Group Chat</a>
       </div>
       <ul class="list-group" th:each="chat : ${chats}">
-        <li class="list-group-item"><a href="#" th:href="@{/chat/{chat_id}(chat_id=${chat.id})}" th:text="${chat}">Example
+        <li class="list-group-item"><a class="text-break" href="#" th:href="@{/chat/{chat_id}(chat_id=${chat.id})}" th:text="${chat}">Example
           Chat</a></li>
       </ul>
     </nav>

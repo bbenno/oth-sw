@@ -1,35 +1,34 @@
----
 entity:
   attachment:
-    one: Anhang
+    one: &attachment Anhang
     other: Anhänge
   bot:
     one: Bot
     other: Bots
   chat:
-    one: Chat
+    one: &chat Chat
     other: Chats
   chat_membership:
     one: Chat Mitgliedschaft
-    other: Chat Mitgliederschaften
-  chat_member_status: Chat Mitgliedschaftsstatus
+    other: &chat_memberships Chat Mitgliedschaften
+  chat_member_status: &chat_member_status Chat Mitgliedschaftsstatus
   chat_profile:
-    one: Chat Profil
+    one: &group_profile Chat Profil
     other: Chat Profile
   group_chat:
-    one: Gruppen Chat
-    other: Gruppen Chat
+    one: &group_chat Gruppen Chat
+    other: Gruppen Chats
   group_chat_visibility:
     one: Gruppen Chat Sichtbarkeit
     other: Gruppen Chat Sichtbarkeiten
   message:
-    one: Nachricht
-    other: Nachrichten
+    one: &message Nachricht
+    other: &messages Nachrichten
   peer_chat:
     one: Einzelchat
-    other: Einzelchats
+    other: Einzelchat
   permission:
-    one: Berechtigung
+    one: &permission Berechtigung
     other: Berechtigungen
   person:
     one: Person
@@ -39,17 +38,18 @@ entity:
     other: Profile
   service_credentials: Service Zugänge
   service_type:
-    one: Service Art
+    one: &service_type Service Art
     other: Service Arten
   user:
-    one: Benutzer
+    one: &user Benutzer
     other: Benutzer
   user_permission:
     one: Benutzerberechtigung
-    other: Benutzerberechtigungen
+    other: &user_permissions Benutzerberechtigungen
   user_profile:
-    one: Benutzerprofil
-    other: Benutzerprofile
+    one: &user_profile Benutzerprofil
+    other: Benutzerprofil
+
 enum:
   chat_member_status:
     ADMINISTRATOR: Administrator
@@ -64,118 +64,113 @@ enum:
     WEBSHOP: Webshop
     BANK: Bank
     PAYMENT: Zahlungsdienst
+
 attribute:
-  id_entity:
+  id_entity: &id_entity_attributes
     id: ID
   attachment:
-    id: ID
+    <<: *id_entity_attributes
     name: Name
     mimeType: MIME Typ
-    message: Nachricht
-  chat:
-    id: ID
-    messages: Nachrichten
+    message: *message
+  chat: &chat_attributes
+    <<: *id_entity_attributes
+    messages: *messages
     memberships: Mitgliedschaften
   chat_membership:
-    id: ID
-    chat: Chat
-    status: Chat Mitgliedschaftsstatus
-    user: Benutzer
+    <<: *id_entity_attributes
+    chat: *chat
+    status: *chat_member_status
+    user: *user
   group_chat:
-    id: ID
-    messages: Nachrichten
-    memberships: Mitgliedschaften
+    <<: *chat_attributes
     visibility: Sichtbarkeit
-    profile: Chat Profil
+    profile: *group_profile
   message:
-    id: ID
-    text: Nachricht
-    chat: Chat
-    author: Autor
-    timestamp: Zeitpunkt
-    attachment: Anhang
+    <<: *id_entity_attributes
+    text: *message
+    chat: *chat
+    author: Author
+    timestamp: Zeitstempel
+    attachment: *attachment
     reply_of: Antwort zu
   peer_chat:
-    id: ID
-    messages: Nachrichten
-    memberships: Mitgliedschaften
+    <<: *chat_attributes
   permission:
-    id: ID
+    <<: *id_entity_attributes
     name: Name
-    user_permissions: Benutzerberechtigungen
-  profile:
-    id: ID
+    user_permissions: *user_permissions
+  profile: &profile_attributes
+    <<: *id_entity_attributes
     name: Name
-    image_path: Bild Dateipfad
+    image_path: Bildpfad
   chat_profile:
-    id: ID
-    name: Name
-    image_path: Bild Dateipfad
+    <<: *profile_attributes
     description: Beschreibung
-    chat: Gruppen Chat
+    chat: *group_chat
   user_profile:
-    id: ID
-    name: Name
-    image_path: Bild Dateipfad
-    bio: Bibliographie
+    <<: *profile_attributes
+    bio: Biographie
     country: Land
   service_credential:
-    id: ID
-    login_token: Anmelde Token
-    service_type: Service Art
-  user:
-    id: Benutzername
-    username: Benutzername
+    <<: *id_entity_attributes
+    login_token: Login Token
+    service_type: *service_type
+  user: &user_attributes
+    <<: *id_entity_attributes
+    username: &user_username Benutzername
+    id: *user_username
     password: Passwort
-    profile: Benutzerprofil
-    user_permissions: Benutzerberechtigungen
-    memberships: Chat Mitgliederschaften
+    profile: *user_profile
+    user_permissions: *user_permissions
+    memberships: *chat_memberships
   bot:
-    id: Benutzername
-    username: Benutzername
-    password: Passwort
-    profile: Benutzerprofil
-    user_permissions: Benutzerberechtigungen
-    memberships: Chat Mitgliederschaften
+    <<: *user_attributes
   person:
-    id: Benutzername
-    username: Benutzername
-    password: Passwort
-    profile: Benutzerprofil
-    user_permissions: Benutzerberechtigungen
-    memberships: Chat Mitgliederschaften
+    <<: *user_attributes
     first_name: Vorname
     last_name: Nachname
-    email: Email
+    email: E-Mail
     credentials: Zugänge
   user_permission:
-    id: ID
-    user: Benutzer
-    permission: Berechtigung
+    <<: *id_entity_attributes
+    user: *user
+    permission: *permission
+
 chat:
   add_user:
-    submit: Benutzer hinzufügen
+    submit: Hinzufügen
     title: Benutzer zu Chat hinzufügen
     caption: Benutzer zu Chat hinzufügen
+    add_user: Benutzer hinzufügen
+    delete_chat: Chat löschen
+  edit:
+    title: Gruppen Chat bearbeiten
+    submit: Speichern
   join_public:
-    title: Tritt öffentlicher Chatgruppe bei
+    title: Öffentlichen Chat beitreten
     join: Beitreten
-    no_public_chats: Keine öffentlichen Chatgruppen
+    no_public_chats: Keine weiteren öffentlichen Chats verfügbar
   new_group:
     title: Neuen Gruppenchat anlegen
     submit: Anlegen
+    description_help: Kurze Beschreibung des Chats.
+  show:
+    edit_chat: Chat ändern
+    sidebar:
+      leave: Chat verlassen
 header:
   search: Suche
   logout: Abmelden
 home:
-  title: Hauptseite
+  title: Startseite
 login:
   caption: Anmeldung
-  error: Falscher Benutzername oder Passwort
+  error: Falchser Benutzername oder Passwort
   remember_me: Angemeldet bleiben
-  submit: Anmelden
   sign_up: Noch keinen Account? Registriere dich!
-  title: Anmelden
+  submit: Anmelden
+  title: Anmeldung
 logout:
   loading: Lädt...
   title: Abmelden
@@ -187,11 +182,15 @@ person:
   show:
     title: Person
 register:
-  title: Benutzer Registrieren
+  title: Benutzer registrieren
   submit: Registrieren
 sidebar:
-  create_group_chat: Chat erstellen
-  join_public_group_chat: Öffentlichen Chat beitreten
+  create_group_chat: Chat anlegen
+  join_public_group_chat: Öffentlichem Chat beitreten
 user:
-  show_person:
+  edit:
+    submit: Speichern
+  show:
     messaging: Nachricht schreiben
+    delete: Lösche meinen Account
+    edit: Profil ändern

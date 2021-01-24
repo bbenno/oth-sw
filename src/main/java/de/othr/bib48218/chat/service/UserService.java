@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,19 +32,19 @@ public class UserService implements IFUserService, UserDetailsService {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<Person> getPersonByFirstName(String firstName) {
         return personRepository.findByFirstNameOrderByFirstName(firstName);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<Person> getPersonByLastName(String lastName) {
         return personRepository.findByLastNameOrderByLastName(lastName);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<User> getUserByUsername(String username) {
         Optional<User> found = personRepository.findByUsername(username).map((person) -> person);
         if (found.isEmpty()) {
@@ -55,13 +54,36 @@ public class UserService implements IFUserService, UserDetailsService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
+    public Collection<User> getUsersByStringFragment(String usernamePattern) {
+        return Stream.concat(
+            Stream.concat(
+                Stream.concat(
+                    personRepository.findByUsernameContains(usernamePattern).stream(),
+                    botRepository.findByUsernameContains(usernamePattern).stream()
+                ),
+                Stream.concat(
+                    personRepository.findByProfileNameContains(usernamePattern).stream(),
+                    botRepository.findByProfileNameContains(usernamePattern).stream()
+                )
+            ),
+            Stream.concat(
+                personRepository.findByFirstNameContains(usernamePattern).stream(),
+                personRepository.findByLastNameContains(usernamePattern).stream()
+            )
+        ).distinct()
+            .filter(User::isEnabled)
+            .collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Optional<Person> getPersonByUsername(String username) {
         return personRepository.findByUsername(username);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<Bot> getBotByUsername(String username) {
         return botRepository.findByUsername(username);
     }
@@ -87,7 +109,7 @@ public class UserService implements IFUserService, UserDetailsService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return personRepository.findByUsername(username)
             .orElseThrow(
@@ -96,23 +118,23 @@ public class UserService implements IFUserService, UserDetailsService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<User> getAllUsers() {
         return Stream.concat(
-            StreamSupport.stream(personRepository.findAll().spliterator(), false),
-            StreamSupport.stream(botRepository.findAll().spliterator(), false)
+            getAllPersons().stream(),
+            getAllBots().stream()
         ).collect(Collectors.toUnmodifiableList());
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<Person> getAllPersons() {
         return StreamSupport.stream(personRepository.findAll().spliterator(), false)
             .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<Bot> getAllBots() {
         return StreamSupport.stream(botRepository.findAll().spliterator(), false)
             .collect(Collectors.toUnmodifiableList());

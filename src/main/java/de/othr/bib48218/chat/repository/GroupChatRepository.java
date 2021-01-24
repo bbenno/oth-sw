@@ -7,4 +7,6 @@ import java.util.Collection;
 public interface GroupChatRepository extends ChatRepository<GroupChat> {
 
     Collection<GroupChat> findByVisibilityIs(GroupVisibility visibility);
+
+    Collection<GroupChat> findByProfileNameContains(String profileNameFragment);
 }

@@ -1,5 +1,6 @@
 package de.othr.bib48218.chat.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.othr.bib48218.chat.Authority;
 import java.util.Collection;
 import java.util.Collections;
@@ -42,6 +43,7 @@ public abstract class User implements UserDetails, HeaderSearchElement {
     @Size(min = 2, max = 20)
     private String username;
 
+    @JsonIgnore
     @NonNull
     @lombok.NonNull
     @NotNull
@@ -62,12 +64,14 @@ public abstract class User implements UserDetails, HeaderSearchElement {
         orphanRemoval = true)
     private Set<UserPermission> userPermissions = Collections.emptySet();
 
+    @JsonIgnore
     @OneToMany(
         mappedBy = "user",
         cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE},
         orphanRemoval = true)
     private Set<ChatMembership> memberships = Collections.emptySet();
 
+    @JsonIgnore
     @OneToMany(
         mappedBy = "author",
         cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
@@ -97,7 +101,7 @@ public abstract class User implements UserDetails, HeaderSearchElement {
     protected String asString() {
         return "";
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (o == null) {

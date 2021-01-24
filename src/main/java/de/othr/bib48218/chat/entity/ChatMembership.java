@@ -1,5 +1,6 @@
 package de.othr.bib48218.chat.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -15,9 +16,10 @@ import org.springframework.lang.NonNull;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class ChatMembership extends IdEntity {
 
+    @JsonIgnore
     @ManyToOne(
         cascade = CascadeType.REFRESH,
         optional = false)
