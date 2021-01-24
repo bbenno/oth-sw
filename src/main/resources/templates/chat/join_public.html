@@ -24,7 +24,7 @@
   <div>
     <div th:if="${chats.isEmpty()}" th:text="#{chat.join_public.no_public_chats}">No public chats</div>
     <ul>
-      <li class="row" th:each="chat : ${chats}">
+      <li class="row my-2" th:each="chat : ${chats}">
         <p class="col-6" th:text="${chat}">The only public Chat</p>
         <a class="btn btn-primary col-2" href="#" th:href="@{/chat/{chat_id}/join(chat_id=${chat.id})}"
            th:text="#{chat.join_public.join}">Join</a>
