@@ -97,7 +97,7 @@ public abstract class User implements UserDetails, HeaderSearchElement {
     protected String asString() {
         return "";
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (o == null) {
