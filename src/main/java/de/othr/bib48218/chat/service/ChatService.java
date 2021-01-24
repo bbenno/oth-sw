@@ -30,25 +30,25 @@ public class ChatService implements IFChatService {
     private PeerChatRepository peerRepository;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<Chat> getChatById(Long id) {
         return getGroupChatById(id).map(gc -> (Chat) gc).or(() -> getPeerChatById(id));
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<GroupChat> getGroupChatById(Long id) {
         return groupRepository.findById(id);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<PeerChat> getPeerChatById(Long id) {
         return peerRepository.findById(id);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<Chat> getChatsByUser(User user) {
         return Stream.concat(
             groupRepository.findByMembershipsUser(user).stream(),
@@ -57,7 +57,7 @@ public class ChatService implements IFChatService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<Chat> getAllChats() {
         return Stream.concat(
             getAllPeerChats().stream(),
@@ -66,27 +66,27 @@ public class ChatService implements IFChatService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<GroupChat> getAllGroupChats() {
         return StreamSupport.stream(groupRepository.findAll().spliterator(), false)
             .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<GroupChat> getAllPublicGroupChats() {
         return groupRepository.findByVisibilityIs(GroupVisibility.PUBLIC);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<PeerChat> getAllPeerChats() {
         return StreamSupport.stream(peerRepository.findAll().spliterator(), false)
             .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<GroupChat> getChatsByStringFragment(String searchFragment) {
         return groupRepository.findByProfileNameContains(searchFragment).stream()
             .distinct()

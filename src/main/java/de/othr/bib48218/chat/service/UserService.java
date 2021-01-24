@@ -32,19 +32,19 @@ public class UserService implements IFUserService, UserDetailsService {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<Person> getPersonByFirstName(String firstName) {
         return personRepository.findByFirstNameOrderByFirstName(firstName);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<Person> getPersonByLastName(String lastName) {
         return personRepository.findByLastNameOrderByLastName(lastName);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<User> getUserByUsername(String username) {
         Optional<User> found = personRepository.findByUsername(username).map((person) -> person);
         if (found.isEmpty()) {
@@ -54,7 +54,7 @@ public class UserService implements IFUserService, UserDetailsService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<User> getUsersByStringFragment(String usernamePattern) {
         return Stream.concat(
             Stream.concat(
@@ -77,13 +77,13 @@ public class UserService implements IFUserService, UserDetailsService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<Person> getPersonByUsername(String username) {
         return personRepository.findByUsername(username);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Optional<Bot> getBotByUsername(String username) {
         return botRepository.findByUsername(username);
     }
@@ -109,7 +109,7 @@ public class UserService implements IFUserService, UserDetailsService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return personRepository.findByUsername(username)
             .orElseThrow(
@@ -118,7 +118,7 @@ public class UserService implements IFUserService, UserDetailsService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<User> getAllUsers() {
         return Stream.concat(
             getAllPersons().stream(),
@@ -127,14 +127,14 @@ public class UserService implements IFUserService, UserDetailsService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<Person> getAllPersons() {
         return StreamSupport.stream(personRepository.findAll().spliterator(), false)
             .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Collection<Bot> getAllBots() {
         return StreamSupport.stream(botRepository.findAll().spliterator(), false)
             .collect(Collectors.toUnmodifiableList());
