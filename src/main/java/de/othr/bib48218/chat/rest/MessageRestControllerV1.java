@@ -4,7 +4,6 @@ import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.entity.Message;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFMessageService;
-import de.othr.bib48218.chat.service.IFUserService;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.Collection;
@@ -27,8 +26,15 @@ public class MessageRestControllerV1 implements IFMessageRestControllerV1 {
     @Autowired
     private IFChatService chatService;
 
-    @Autowired
-    private IFUserService userService;
+    /* CREATE  ************************************************************************************/
+
+    @Override
+    @PostMapping("messages")
+    public ResponseEntity<Message> postMessage(Message message) {
+        return ResponseEntity.of(Optional.ofNullable(messageService.saveMessage(message)));
+    }
+
+    /* READ  **************************************************************************************/
 
     @Override
     @GetMapping("messages")
@@ -82,9 +88,8 @@ public class MessageRestControllerV1 implements IFMessageRestControllerV1 {
         return ResponseEntity.noContent().build();
     }
 
-    @Override
-    @PostMapping("messages")
-    public ResponseEntity<Message> postMessage(Message message) {
-        return ResponseEntity.of(Optional.ofNullable(messageService.saveMessage(message)));
-    }
+    /* UPDATE  ************************************************************************************/
+
+    /* DELETE  ************************************************************************************/
+
 }

@@ -24,9 +24,7 @@ public class UserRestControllerV1 implements IFUserRestControllerV1 {
     @Autowired
     private IFUserService userService;
 
-    /*
-     * CREATE
-     */
+    /* CREATE  ************************************************************************************/
 
     @PostMapping("persons")
     public Person createPerson(@RequestBody Person person) {
@@ -46,14 +44,7 @@ public class UserRestControllerV1 implements IFUserRestControllerV1 {
         }
     }
 
-    /*
-     * UPDATE
-     */
-
-
-    /*
-     * READ
-     */
+    /* READ  **************************************************************************************/
 
     @GetMapping("users")
     public ResponseEntity<Collection<User>> getUsers() {
@@ -103,9 +94,9 @@ public class UserRestControllerV1 implements IFUserRestControllerV1 {
         return ResponseEntity.of(bot);
     }
 
-    /*
-     * DELETE
-     */
+    /* UPDATE  ************************************************************************************/
+
+    /* DELETE  ************************************************************************************/
 
     @DeleteMapping("users/{username}")
     public void deleteUser(@PathVariable("username") String username) {
@@ -121,4 +112,5 @@ public class UserRestControllerV1 implements IFUserRestControllerV1 {
     public void deleteBot(@PathVariable("username") String username) {
         userService.deleteUserByUsername(username);
     }
+
 }

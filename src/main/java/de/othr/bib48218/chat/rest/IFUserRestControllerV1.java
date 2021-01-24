@@ -7,9 +7,8 @@ import java.util.Collection;
 import org.springframework.http.ResponseEntity;
 
 public interface IFUserRestControllerV1 {
-    /*
-     * CREATE
-     */
+
+    /* CREATE  ************************************************************************************/
 
     /**
      * Creates Person
@@ -27,9 +26,7 @@ public interface IFUserRestControllerV1 {
      */
     Bot createBot(Bot bot);
 
-    /*
-     * READ
-     */
+    /* READ  **************************************************************************************/
 
     /**
      * Gets all users
@@ -76,13 +73,9 @@ public interface IFUserRestControllerV1 {
      */
     ResponseEntity<Bot> getBot(String username);
 
-    /*
-     * UPDATE
-     */
+    /* UPDATE  ************************************************************************************/
 
-    /*
-     * DELETE
-     */
+    /* DELETE  ************************************************************************************/
 
     /**
      * Deletes user by username
@@ -107,4 +100,5 @@ public interface IFUserRestControllerV1 {
      * @return identified bot
      */
     void deleteBot(String username);
+    
 }

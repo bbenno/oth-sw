@@ -6,15 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface IFMessageRestControllerV1 {
 
-    /**
-     * Returns messages
-     *
-     * @param chatId   the id of the chat whose messages to receive
-     * @param dateTime the optional date time since when messages to receive
-     * @param username the username of the authorg
-     * @return messages matching parameter constraint
-     */
-    ResponseEntity<Collection<Message>> getMessages(Long chatId, String dateTime, String username);
+    /* CREATE  ************************************************************************************/
 
     /**
      * Saves given message.
@@ -23,4 +15,21 @@ public interface IFMessageRestControllerV1 {
      * @return saved message
      */
     ResponseEntity<Message> postMessage(Message message);
+
+    /* READ  **************************************************************************************/
+
+    /**
+     * Returns messages
+     *
+     * @param chatId   the id of the chat whose messages to receive
+     * @param dateTime the optional date time since when messages to receive
+     * @param username the username of the author
+     * @return messages matching parameter constraint
+     */
+    ResponseEntity<Collection<Message>> getMessages(Long chatId, String dateTime, String username);
+
+    /* UPDATE  ************************************************************************************/
+
+    /* DELETE  ************************************************************************************/
+
 }
