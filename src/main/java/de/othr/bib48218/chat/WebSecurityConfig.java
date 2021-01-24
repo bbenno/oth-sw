@@ -16,7 +16,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] ALLOW_ACCESS_WITHOUT_AUTHENTICATION = {"/css/**", "/img/**",
         "/fonts/**", "/js/**", "/login", "/register", "/favicon*", "/apple-*.png", "/android-*.png",
-        "/site.webmanifest", "/webjars/**"};
+        "/site.webmanifest", "/webjars/**", "/webapi/**"};
 
     @Autowired
     private UserDetailsService userSecurityService;
