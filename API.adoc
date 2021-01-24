@@ -10,10 +10,14 @@ Update:: not allowed
 Delete:: not allowed
 
 .User
-Create:: on demand
-Read:: `GET {api-url}/users?username=<username>`
+Create::
+. `POST {api-url}/users`
+Read::
+. `GET {api-url}/users`
+. `GET {api-url}/users/<username>`
 Update:: ToDo
-Delete:: not allowed
+Delete::
+. `DELETE {api-url}/users/<username>`
 
 .Peer Chat
 Create:: on demand
