@@ -1,4 +1,4 @@
-package de.othr.bib48218.chat.controller;
+package de.othr.bib48218.chat.rest;
 
 import de.othr.bib48218.chat.entity.Message;
 import java.util.Collection;
