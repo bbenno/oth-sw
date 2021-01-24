@@ -15,8 +15,11 @@ Read:: `GET {api-url}/users?username=<username>`
 Update:: ToDo
 Delete:: not allowed
 
-.Chat
-Creat:: on demand
-Read:: `GET {api-url}/chats?user=<username>&with=<username>`
+.Peer Chat
+Create:: on demand
+Read::
+. `GET {api-url}/chats/<chat-id>`
+. `GET {api-url}/chats/?with=<username>`
+. `GET {api-url}/chats/<username>/<username>`
 Update:: not allowed
 Delete:: not allowed
