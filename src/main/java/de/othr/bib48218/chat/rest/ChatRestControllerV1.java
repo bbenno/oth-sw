@@ -29,8 +29,8 @@ public class ChatRestControllerV1 implements IFChatRestControllerV1 {
     @Override
     @GetMapping("chats")
     public ResponseEntity<PeerChat> getChat(
-        @PathParam("username1") String username1,
-        @PathParam("username1") String username2
+        @PathParam("of") String username1,
+        @PathParam("with") String username2
     ) {
         Optional<User> user1 = Optional.ofNullable(username1)
             .flatMap(n -> userService.getUserByUsername(n));
