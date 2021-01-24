@@ -1,5 +1,6 @@
 package de.othr.bib48218.chat.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +19,7 @@ import org.springframework.lang.NonNull;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Profile {
 
+    @JsonIgnore
     @Id
     @NonNull
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

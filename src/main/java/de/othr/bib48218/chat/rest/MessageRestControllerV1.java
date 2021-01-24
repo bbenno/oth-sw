@@ -1,12 +1,9 @@
 package de.othr.bib48218.chat.rest;
 
-import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.entity.Message;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFMessageService;
-import de.othr.bib48218.chat.service.IFUserService;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.Optional;
 import javax.websocket.server.PathParam;
@@ -27,8 +24,15 @@ public class MessageRestControllerV1 implements IFMessageRestControllerV1 {
     @Autowired
     private IFChatService chatService;
 
-    @Autowired
-    private IFUserService userService;
+    /* CREATE  ************************************************************************************/
+
+    @Override
+    @PostMapping("messages")
+    public ResponseEntity<Message> postMessage(Message message) {
+        return ResponseEntity.of(Optional.ofNullable(messageService.saveMessage(message)));
+    }
+
+    /* READ  **************************************************************************************/
 
     @Override
     @GetMapping("messages")
@@ -37,54 +41,45 @@ public class MessageRestControllerV1 implements IFMessageRestControllerV1 {
         @PathParam("since") String dateTime,
         @PathParam("from") String username
     ) {
-        Optional<LocalDateTime> timestamp = Optional.empty();
-        Optional<Chat> chat = Optional.empty();
-        Optional<String> author_name = Optional.ofNullable(username);
+        Optional<LocalDateTime> timestamp = Optional.ofNullable(dateTime)
+            .map(LocalDateTime::parse);
 
-        // Parse DateTime if present
-        if (dateTime != null && !dateTime.isBlank()) {
-            try {
-                timestamp = Optional.of(LocalDateTime.parse(dateTime));
-            } catch (DateTimeParseException e) {
-            }
-        }
-
-        // Fetch chat if present
-        if (chatId != null && chatId != 0) {
-            chat = chatService.getChatById(chatId);
-            if (chat.isEmpty()) {
-                return ResponseEntity.noContent().build();
-            }
-        }
-
-        // Return Response
-        if (chat.isPresent()) {
-            if (author_name.isPresent()) {
-                if (timestamp.isPresent()) {
-                    return ResponseEntity.ok(messageService
-                        .getMessagesByChatSinceFrom(chat.get(), timestamp.get(),
-                            author_name.get()));
-                } else {
-                    return ResponseEntity
-                        .ok(messageService.getAllMessagesByChatFrom(chat.get(), author_name.get()));
-                }
-            } else {
-                if (timestamp.isPresent()) {
-                    return ResponseEntity
-                        .ok(messageService.getMessagesByChatSince(chat.get(), timestamp.get()));
-                } else {
-                    return ResponseEntity.ok(messageService.getAllMessagesByChat(chat.get()));
-                }
-            }
-        }
-
-        // Default Return
-        return ResponseEntity.noContent().build();
+        return Optional.ofNullable(chatId)
+            .flatMap(id -> chatService.getChatById(id))
+            .map(
+                chat -> Optional.ofNullable(username).map(
+                    author_name -> timestamp.map(
+                        // Chat, Author and timestamp present
+                        localDateTime -> ResponseEntity
+                            .ok(messageService.getMessagesByChatSinceFrom(
+                                chat,
+                                localDateTime,
+                                author_name
+                                )
+                            )
+                    ).orElseGet(
+                        // Chat and Author present
+                        () -> ResponseEntity
+                            .ok(messageService.getAllMessagesByChatFrom(chat, author_name))
+                    )
+                ).orElseGet(
+                    () -> timestamp.map(
+                        // Chat and timestamp present
+                        localDateTime -> ResponseEntity
+                            .ok(messageService.getMessagesByChatSince(chat, localDateTime))
+                    ).orElseGet(
+                        // Only Chat present
+                        () -> ResponseEntity.ok(messageService.getAllMessagesByChat(chat))
+                    )
+                )
+            ).orElseGet(
+                // Chat not present
+                () -> ResponseEntity.notFound().build()
+            );
     }
 
-    @Override
-    @PostMapping("messages")
-    public ResponseEntity<Message> postMessage(Message message) {
-        return ResponseEntity.of(Optional.ofNullable(messageService.saveMessage(message)));
-    }
+    /* UPDATE  ************************************************************************************/
+
+    /* DELETE  ************************************************************************************/
+
 }

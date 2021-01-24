@@ -24,10 +24,9 @@ public class UserRestControllerV1 implements IFUserRestControllerV1 {
     @Autowired
     private IFUserService userService;
 
-    /*
-     * CREATE
-     */
+    /* CREATE  ************************************************************************************/
 
+    @Override
     @PostMapping("persons")
     public Person createPerson(@RequestBody Person person) {
         try {
@@ -37,6 +36,7 @@ public class UserRestControllerV1 implements IFUserRestControllerV1 {
         }
     }
 
+    @Override
     @PostMapping("bots")
     public Bot createBot(@RequestBody Bot bot) {
         try {
@@ -46,15 +46,9 @@ public class UserRestControllerV1 implements IFUserRestControllerV1 {
         }
     }
 
-    /*
-     * UPDATE
-     */
+    /* READ  **************************************************************************************/
 
-
-    /*
-     * READ
-     */
-
+    @Override
     @GetMapping("users")
     public ResponseEntity<Collection<User>> getUsers() {
         Collection<User> users = userService.getAllUsers();
@@ -65,12 +59,14 @@ public class UserRestControllerV1 implements IFUserRestControllerV1 {
         }
     }
 
+    @Override
     @GetMapping("users/{username}")
     public ResponseEntity<User> getUser(@PathVariable("username") String username) {
         Optional<User> user = userService.getUserByUsername(username);
         return ResponseEntity.of(user);
     }
 
+    @Override
     @GetMapping("persons")
     public ResponseEntity<Collection<Person>> getPersons() {
         Collection<Person> persons = userService.getAllPersons();
@@ -81,12 +77,14 @@ public class UserRestControllerV1 implements IFUserRestControllerV1 {
         }
     }
 
+    @Override
     @GetMapping("persons/{username}")
     public ResponseEntity<Person> getPerson(@PathVariable("username") String username) {
         Optional<Person> person = userService.getPersonByUsername(username);
         return ResponseEntity.of(person);
     }
 
+    @Override
     @GetMapping("bots")
     public ResponseEntity<Collection<Bot>> getBots() {
         Collection<Bot> bots = userService.getAllBots();
@@ -97,28 +95,33 @@ public class UserRestControllerV1 implements IFUserRestControllerV1 {
         }
     }
 
+    @Override
     @GetMapping("bots/{username}")
     public ResponseEntity<Bot> getBot(@PathVariable("username") String username) {
         Optional<Bot> bot = userService.getBotByUsername(username);
         return ResponseEntity.of(bot);
     }
 
-    /*
-     * DELETE
-     */
+    /* UPDATE  ************************************************************************************/
 
+    /* DELETE  ************************************************************************************/
+
+    @Override
     @DeleteMapping("users/{username}")
     public void deleteUser(@PathVariable("username") String username) {
         userService.deleteUserByUsername(username);
     }
 
+    @Override
     @DeleteMapping("persons/{username}")
     public void deletePerson(@PathVariable("username") String username) {
         userService.deleteUserByUsername(username);
     }
 
+    @Override
     @DeleteMapping("bots/{username}")
     public void deleteBot(@PathVariable("username") String username) {
         userService.deleteUserByUsername(username);
     }
+
 }
