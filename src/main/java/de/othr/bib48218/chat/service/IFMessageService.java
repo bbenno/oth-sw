@@ -71,8 +71,4 @@ public interface IFMessageService extends IFSendMessage {
      * @param message the message to delete
      */
     void deleteMessage(Message message);
-
-    /* EDIT Messages  *****************************************************************************/
-
-    // Messages are not allowed to be edited.
 }
