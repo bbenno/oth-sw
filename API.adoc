@@ -4,19 +4,19 @@
 CAUTION: This document is WIP.
 
 .Messages
-* Create message: `POST {api-url}/messages`
-* Read messages: `GET {api-url}/messages?chat=<chat-id>&since=<ISO-datetime>&from=<username>`
-* Update message: not allowed
-* Delete message: not allowed
+Create:: `POST {api-url}/messages`
+Read:: `GET {api-url}/messages?chat=<chat-id>&since=<ISO-datetime>&from=<username>`
+Update:: not allowed
+Delete:: not allowed
 
 .User
-* Create user: on demand
-* Read users: `GET {api-url}/users?username=<username>`
-* Update user: ToDo
-* Delete user: not allowed
+Create:: on demand
+Read:: `GET {api-url}/users?username=<username>`
+Update:: ToDo
+Delete:: not allowed
 
 .Chat
-* Creat chat: on demand
-* Read chats: `GET {api-url}/chats?user=<username>&with=<username>`
-* Update chat: not allowed
-* Delete chat: not allowed
+Creat:: on demand
+Read:: `GET {api-url}/chats?user=<username>&with=<username>`
+Update:: not allowed
+Delete:: not allowed
