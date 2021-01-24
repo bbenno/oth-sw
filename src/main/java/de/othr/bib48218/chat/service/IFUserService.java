@@ -19,6 +19,13 @@ public interface IFUserService {
      */
     Optional<User> getUserByUsername(String username);
 
+    /** Returns Users with username like given pattern.
+     *
+     * @param usernamePattern the pattern of a username
+     * @return users with matching username
+     */
+    Collection<User> getUsersByStringFragment(String usernamePattern);
+
     /**
      * Returns Person with given username.
      *
