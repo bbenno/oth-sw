@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -52,6 +51,29 @@ public class UserService implements IFUserService, UserDetailsService {
             found = botRepository.findByUsername(username).map((bot) -> bot);
         }
         return found;
+    }
+
+    @Override
+    @Transactional
+    public Collection<User> getUsersByStringFragment(String usernamePattern) {
+        return Stream.concat(
+            Stream.concat(
+                Stream.concat(
+                    personRepository.findByUsernameContains(usernamePattern).stream(),
+                    botRepository.findByUsernameContains(usernamePattern).stream()
+                ),
+                Stream.concat(
+                    personRepository.findByProfileNameContains(usernamePattern).stream(),
+                    botRepository.findByProfileNameContains(usernamePattern).stream()
+                )
+            ),
+            Stream.concat(
+                personRepository.findByFirstNameContains(usernamePattern).stream(),
+                personRepository.findByLastNameContains(usernamePattern).stream()
+            )
+        ).distinct()
+            .filter(User::isEnabled)
+            .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
@@ -99,8 +121,8 @@ public class UserService implements IFUserService, UserDetailsService {
     @Transactional
     public Collection<User> getAllUsers() {
         return Stream.concat(
-            StreamSupport.stream(personRepository.findAll().spliterator(), false),
-            StreamSupport.stream(botRepository.findAll().spliterator(), false)
+            getAllPersons().stream(),
+            getAllBots().stream()
         ).collect(Collectors.toUnmodifiableList());
     }
 
