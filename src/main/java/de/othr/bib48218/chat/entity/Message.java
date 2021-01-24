@@ -37,7 +37,7 @@ public class Message extends IdEntity {
     @ManyToOne(
         fetch = FetchType.EAGER,
         cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE},
-        optional = true)
+        optional = false)
     @NonNull
     @lombok.NonNull
     @NotNull
