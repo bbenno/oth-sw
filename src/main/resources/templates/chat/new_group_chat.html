@@ -33,7 +33,7 @@
       <input type="radio" th:field="*{visibility}" th:value="${visibility.name()}"
              class="form-check-input" th:checked="${visibility.ordinal()} == 0">
       <label class="custom-control-label" th:for="${#ids.prev('visibility')}"
-             th:text="${visibility}">model</label>
+             th:text="${#messages.msg('enum.group_chat_visibility.' + visibility)}">model</label>
     </div>
   </div>
 
