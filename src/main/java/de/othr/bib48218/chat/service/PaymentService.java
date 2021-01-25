@@ -2,13 +2,10 @@ package de.othr.bib48218.chat.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.WebApplicationContext;
 
 @Service
-@Scope(WebApplicationContext.SCOPE_REQUEST)
 public class PaymentService {
 
     @Value("${partner.service.payment.port}")
