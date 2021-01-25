@@ -37,6 +37,10 @@
           <th:block th:object="${membership}">
             <a href="#" th:href="@{/user/{username}(username=*{user.username})}" th:text="*{user}">
               Example User</a>
+            <span
+              th:if="${membership.status == T(de.othr.bib48218.chat.entity.ChatMemberStatus).ADMINISTRATOR}"
+              data-bs-toggle="tooltip" data-bs-placement="right" title="Administrator"
+              th:text="#{enum.chat_member_status.ADMINISTRATOR}">★</span>
           </th:block>
         </li>
       </ul>
@@ -67,7 +71,7 @@
     </div>
 
     <form action="#" class="d-flex my-3" th:action="@{/message/new}" method="post"
-    th:if="${!(chat instanceof T(de.othr.bib48218.chat.entity.PeerChat)) || chat.isEnabled()}">
+          th:if="${!(chat instanceof T(de.othr.bib48218.chat.entity.PeerChat)) || chat.isEnabled()}">
     <textarea class="form-control me-2" name="message" placeholder="Write a message"
               th:placeholder="#{message.new.placeholder}" autofocus></textarea>
       <input type="hidden" name="chat" th:value="*{id}">

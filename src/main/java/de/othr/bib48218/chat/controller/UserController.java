@@ -66,20 +66,15 @@ public class UserController {
 
     @RequestMapping("/{username}/edit")
     public String editUser(@PathVariable String username, Model model, Principal principal) {
-        Optional<User> user_opt = userService.getUserByUsername(username);
-
-        if (user_opt.isEmpty()) {
-            return "redirect:/";
-        }
-
-        boolean isSelf = user_opt.get().getUsername().equals(principal.getName());
-
-        if (isSelf) {
-            model.addAttribute("user", user_opt.get());
-            return "user/edit";
-        } else {
-            return "redirect:/";
-        }
+        return userService.getUserByUsername(username).map(user -> {
+            boolean isSelf = user.getUsername().equals(principal.getName());
+            if (isSelf) {
+                model.addAttribute("user", user);
+                return "user/edit";
+            } else {
+                return "redirect:/";
+            }
+        }).orElse("redirect:/");
     }
 
     @PostMapping("/{username}/edit-bot")
@@ -90,9 +85,13 @@ public class UserController {
             return "redirect:edit";
         }
 
-        userService.getBotByUsername(bot.getUsername()).ifPresent(b -> {
-            b.setPassword(passwordEncoder.encode(bot.getPassword()));
-        });
+        userService.getBotByUsername(bot.getUsername())
+            .ifPresent(b -> {
+                if (!passwordEncoder.matches(bot.getPassword(), b.getPassword())
+                    && !(bot.getPassword().equals(b.getPassword()))) {
+                    b.setPassword(passwordEncoder.encode(bot.getPassword()));
+                }
+            });
         return "redirect:";
     }
 
@@ -109,7 +108,10 @@ public class UserController {
             p.setEmail(person.getEmail());
             p.setFirstName(person.getFirstName());
             p.setLastName(person.getLastName());
-            p.setPassword(passwordEncoder.encode(person.getPassword()));
+            if (!passwordEncoder.matches(person.getPassword(), p.getPassword())
+                && !(person.getPassword().equals(p.getPassword()))) {
+                p.setPassword(passwordEncoder.encode(person.getPassword()));
+            }
         });
         return "redirect:";
     }

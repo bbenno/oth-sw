@@ -151,6 +151,7 @@ chat:
     title: Öffentlichen Chat beitreten
     join: Beitreten
     no_public_chats: Keine weiteren öffentlichen Chats verfügbar
+    page_description: Jeder Benutzer kann öffentlichen Chats beitreten.
   new_group:
     title: Neuen Gruppenchat anlegen
     submit: Anlegen

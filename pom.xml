@@ -3,70 +3,12 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.4.2</version>
-    <relativePath/> <!-- lookup parent from repository -->
-  </parent>
+
+  <!-- The Basics -->
   <groupId>de.othr.bib48218</groupId>
   <artifactId>chat</artifactId>
-  <version>0.3.0-SNAPSHOT</version>
-  <name>chat</name>
-  <description>Chat and communication platform</description>
-
-  <profiles>
-    <profile>
-      <id>development</id>
-      <properties>
-        <activatedProperties>development</activatedProperties>
-      </properties>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>mysql</groupId>
-          <artifactId>mysql-connector-java</artifactId>
-          <scope>runtime</scope>
-          <version>8.0.23</version>
-        </dependency>
-      </dependencies>
-    </profile>
-    <profile>
-      <id>production</id>
-      <properties>
-        <activatedProperties>production</activatedProperties>
-      </properties>
-      <dependencies>
-        <dependency>
-          <groupId>mysql</groupId>
-          <artifactId>mysql-connector-java</artifactId>
-          <version>5.1.48</version>
-        </dependency>
-      </dependencies>
-    </profile>
-    <profile>
-      <id>testing</id>
-      <properties>
-        <activatedProperties>testing</activatedProperties>
-      </properties>
-      <dependencies>
-        <dependency>
-          <groupId>mysql</groupId>
-          <artifactId>mysql-connector-java</artifactId>
-          <scope>runtime</scope>
-          <version>8.0.23</version>
-        </dependency>
-      </dependencies>
-    </profile>
-  </profiles>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.version>14</java.version>
-  </properties>
-
+  <version>0.3.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -169,9 +111,9 @@
 
     <!-- WEBJARS -->
     <dependency>
-        <groupId>org.webjars</groupId>
-        <artifactId>sockjs-client</artifactId>
-        <version>1.1.2</version>
+      <groupId>org.webjars</groupId>
+      <artifactId>sockjs-client</artifactId>
+      <version>1.1.2</version>
     </dependency>
     <dependency>
       <groupId>org.webjars</groupId>
@@ -189,16 +131,27 @@
     </dependency>
 
     <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-websocket</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-websocket</artifactId>
     </dependency>
     <dependency>
-        <groupId>org.webjars</groupId>
-        <artifactId>stomp-websocket</artifactId>
-        <version>2.3.3-1</version>
+      <groupId>org.webjars</groupId>
+      <artifactId>stomp-websocket</artifactId>
+      <version>2.3.3-1</version>
     </dependency>
   </dependencies>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.4.2</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>14</java.version>
+  </properties>
 
+  <!-- Build Settings -->
   <build>
     <plugins>
       <plugin>
@@ -221,7 +174,103 @@
         <artifactId>maven-release-plugin</artifactId>
         <version>3.0.0-M1</version>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>2.0.0</version>
+        <configuration>
+          <licenseName>eupl_v1_2</licenseName>
+          <copyrightOwners>Benno Bielmeier</copyrightOwners>
+          <emptyLineAfterHeader>true</emptyLineAfterHeader>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
+  <!-- More Project Information -->
+  <name>chat</name>
+  <description>Chat and communication platform</description>
+  <url>https://github.com/bbenno/oth-sw</url>
+  <inceptionYear>2020</inceptionYear>
+  <licenses>
+    <license>
+      <name>EUPL-1.2</name>
+      <url>
+        https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/2020-03/EUPL-1.2%20EN.txt
+      </url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <organization>
+    <name>OTH Regensburg</name>
+    <url>https://www.oth-regensburg.de</url>
+  </organization>
+  <developers>
+    <developer>
+      <id>bbenno</id>
+      <name>Benno Bielmeier</name>
+      <email>benno.bielmeier@st.oth-regensburg.de</email>
+      <organization>OTH Regensburg</organization>
+      <organizationUrl>https://www.oth-regensburg.de</organizationUrl>
+      <timezone>Europe/Berlin</timezone>
+    </developer>
+  </developers>
+
+  <!-- Environment Settings -->
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/bbenno/oth-sw/issues</url>
+  </issueManagement>
+  <scm>
+    <connection>scm:git:git://github.com/bbenno/oth-sw</connection>
+    <developerConnection>scm:git:git://github.com/bbenno/oth-sw</developerConnection>
+    <tag>HEAD</tag>
+    <url>https://github.com/bbenno/oth-sw</url>
+  </scm>
+  <profiles>
+    <profile>
+      <id>development</id>
+      <properties>
+        <activatedProperties>development</activatedProperties>
+      </properties>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+          <scope>runtime</scope>
+          <version>8.0.23</version>
+        </dependency>
+      </dependencies>
+    </profile>
+    <profile>
+      <id>production</id>
+      <properties>
+        <activatedProperties>production</activatedProperties>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+          <version>5.1.48</version>
+        </dependency>
+      </dependencies>
+    </profile>
+    <profile>
+      <id>testing</id>
+      <properties>
+        <activatedProperties>testing</activatedProperties>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+          <scope>runtime</scope>
+          <version>8.0.23</version>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
 </project>

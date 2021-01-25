@@ -19,7 +19,7 @@
 
   <h1 th:text="#{chat.join_public.title}">Join Public Chat</h1>
 
-  <p>Public group chats can be joined by any user.</p>
+  <p th:text="#{chat.join_public.page_description}">Public group chats can be joined by any user.</p>
 
   <div>
     <div th:if="${chats.isEmpty()}" th:text="#{chat.join_public.no_public_chats}">No public chats</div>
