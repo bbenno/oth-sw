@@ -46,11 +46,9 @@ public class UserService implements IFUserService, UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public Optional<User> getUserByUsername(String username) {
-        Optional<User> found = personRepository.findByUsername(username).map((person) -> person);
-        if (found.isEmpty()) {
-            found = botRepository.findByUsername(username).map((bot) -> bot);
-        }
-        return found;
+        return personRepository.findByUsername(username)
+            .map(person -> (User) person)
+            .or(() -> botRepository.findByUsername(username).map(bot -> (User) bot));
     }
 
     @Override
