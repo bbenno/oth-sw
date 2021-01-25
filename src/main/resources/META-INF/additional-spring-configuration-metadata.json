@@ -29,6 +29,11 @@
       "name": "partner.service.payment.bot_name",
       "type": "java.lang.String",
       "description": "Username of the bot being the interface to the partner service 'payment'."
+    },
+    {
+      "name": "partner.service.payment.access-token",
+      "type": "java.lang.String",
+      "description": "Access token for partner service 'payment'."
     }
   ]
 }
