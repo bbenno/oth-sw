@@ -90,9 +90,13 @@ public class UserController {
             return "redirect:edit";
         }
 
-        userService.getBotByUsername(bot.getUsername()).ifPresent(b -> {
-            b.setPassword(passwordEncoder.encode(bot.getPassword()));
-        });
+        userService.getBotByUsername(bot.getUsername())
+            .ifPresent(b -> {
+                if (!passwordEncoder.matches(bot.getPassword(), b.getPassword())
+                    && !(bot.getPassword().equals(b.getPassword()))) {
+                    b.setPassword(passwordEncoder.encode(bot.getPassword()));
+                }
+            });
         return "redirect:";
     }
 
@@ -109,7 +113,10 @@ public class UserController {
             p.setEmail(person.getEmail());
             p.setFirstName(person.getFirstName());
             p.setLastName(person.getLastName());
-            p.setPassword(passwordEncoder.encode(person.getPassword()));
+            if (!passwordEncoder.matches(person.getPassword(), p.getPassword())
+                && !(person.getPassword().equals(p.getPassword()))) {
+                p.setPassword(passwordEncoder.encode(person.getPassword()));
+            }
         });
         return "redirect:";
     }
