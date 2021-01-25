@@ -9,7 +9,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import de.othr.bib48218.chat.HeaderSearchElementFactory;
 import de.othr.bib48218.chat.WebSecurityTestConfig;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
@@ -19,7 +18,6 @@ import de.othr.bib48218.chat.service.IFUserService;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -34,9 +32,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 @Import(WebSecurityTestConfig.class)
 public class HomeControllerTest {
 
-    @Spy
-    HeaderSearchElementFactory headerSearchElementFactory = HeaderSearchElementFactory
-        .getInstance();
     @Autowired
     private MockMvc mvc;
 
@@ -102,7 +97,7 @@ public class HomeControllerTest {
         String target = mvc.perform(get("/me")).andReturn().getResponse().getRedirectedUrl();
 
         assertThat(target).isNotBlank();
-        assertThat(target.contains("/user/username"));
+        assertThat(target).contains("/user/username");
     }
 
     @Test
