@@ -11,6 +11,11 @@
   <packaging>jar</packaging>
   <dependencies>
     <dependency>
+      <groupId>com.othr</groupId>
+      <artifactId>swvigopay</artifactId>
+      <version>0.0.1SNAPSHOT</version>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <!-- Core starter, including auto-configuration support, logging and YAML -->
       <artifactId>spring-boot-starter</artifactId>
