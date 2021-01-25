@@ -1,7 +1,10 @@
 package de.othr.bib48218.chat.service;
 
+import de.othr.bib48218.chat.PartnerServiceEvent;
+import de.othr.bib48218.chat.PartnerServiceEventSource;
 import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.entity.Message;
+import de.othr.bib48218.chat.entity.ServiceType;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.repository.MessageRepository;
 import de.othr.bib48218.chat.repository.PersonRepository;
@@ -14,6 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MessageService implements IFMessageService {
+
+    @Autowired
+    private PartnerServiceEventSource partnerServiceEventSource;
 
     @Autowired
     private MessageRepository repository;
@@ -53,6 +59,11 @@ public class MessageService implements IFMessageService {
     @Override
     @Transactional
     public Message saveMessage(Message message) {
+        boolean isPartnerServiceReceiving = message.getChat().getMemberships().stream()
+            .anyMatch(m-> m.getUser().getUsername().equals("payment_service"));
+        if (isPartnerServiceReceiving) {
+            partnerServiceEventSource.triggerEvent(new PartnerServiceEvent(message, ServiceType.PAYMENT));
+        }
         return repository.save(message);
     }
 
