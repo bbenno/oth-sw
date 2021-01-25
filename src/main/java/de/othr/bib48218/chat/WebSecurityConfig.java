@@ -20,7 +20,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         "/site.webmanifest", "/webjars/**", "/webapi/**"};
 
     @Autowired
-    @Qualifier("userService")
     private UserDetailsService userSecurityService;
 
     @Autowired

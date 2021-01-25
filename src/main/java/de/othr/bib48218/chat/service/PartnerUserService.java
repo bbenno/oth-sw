@@ -13,15 +13,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class PartnerUserService implements IFUserService, UserDetailsService {
+public class PartnerUserService implements IFUserService {
 
     private final ServiceType serviceType = ServiceType.BANK;
 
@@ -115,16 +112,6 @@ public class PartnerUserService implements IFUserService, UserDetailsService {
             bot.setScope(serviceType);
             return botRepository.save(withEncryptedPassword(bot));
         }
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return personRepository.findByUsername(username)
-            .filter(this::isRightScope)
-            .orElseThrow(
-                () -> new UsernameNotFoundException("No User with username '" + username + "'")
-            );
     }
 
     @Override
