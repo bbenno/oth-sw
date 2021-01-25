@@ -12,6 +12,7 @@ import de.othr.bib48218.chat.factory.UserFactory;
 import de.othr.bib48218.chat.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -26,6 +27,7 @@ public class RegisterControllerTest {
     private MockMvc mvc;
 
     @MockBean
+    @Qualifier("userService")
     private UserService userService;
 
     @Test

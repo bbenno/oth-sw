@@ -21,6 +21,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -38,10 +39,14 @@ public class HomeControllerTest {
         .getInstance();
     @Autowired
     private MockMvc mvc;
+
     @MockBean
+    @Qualifier("userService")
     private IFUserService userService;
+
     @MockBean
     private IFChatService chatService;
+
     private User registeredUser;
 
     @BeforeEach
