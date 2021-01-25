@@ -2,10 +2,10 @@ package de.othr.bib48218.chat;
 
 import com.othr.swvigopay.entity.TransferDTO;
 import com.othr.swvigopay.exceptions.TransferServiceExternalException;
-import com.othr.swvigopay.service.TransferServiceExternalIF;
 import de.othr.bib48218.chat.entity.Message;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.ServiceType;
+import de.othr.bib48218.chat.service.IFPaymentService;
 import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,7 +21,7 @@ public class PaymentEventSubscriber implements ApplicationListener<PartnerServic
         Pattern.CASE_INSENSITIVE);
 
     @Autowired
-    private TransferServiceExternalIF paymentService;
+    private IFPaymentService paymentService;
 
     @Override
     public void onApplicationEvent(PartnerServiceEvent event) {
@@ -37,7 +37,7 @@ public class PaymentEventSubscriber implements ApplicationListener<PartnerServic
                 TransferDTO dto = new TransferDTO(payerEmail, receiverEmail, amount, description);
 
                 try {
-                    paymentService.requestTransferExternal(dto);
+                    paymentService.transfer(dto);
                 } catch (TransferServiceExternalException e) {
                 }
             }
