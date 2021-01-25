@@ -66,20 +66,15 @@ public class UserController {
 
     @RequestMapping("/{username}/edit")
     public String editUser(@PathVariable String username, Model model, Principal principal) {
-        Optional<User> user_opt = userService.getUserByUsername(username);
-
-        if (user_opt.isEmpty()) {
-            return "redirect:/";
-        }
-
-        boolean isSelf = user_opt.get().getUsername().equals(principal.getName());
-
-        if (isSelf) {
-            model.addAttribute("user", user_opt.get());
-            return "user/edit";
-        } else {
-            return "redirect:/";
-        }
+        return userService.getUserByUsername(username).map(user -> {
+            boolean isSelf = user.getUsername().equals(principal.getName());
+            if (isSelf) {
+                model.addAttribute("user", user);
+                return "user/edit";
+            } else {
+                return "redirect:/";
+            }
+        }).orElse("redirect:/");
     }
 
     @PostMapping("/{username}/edit-bot")
