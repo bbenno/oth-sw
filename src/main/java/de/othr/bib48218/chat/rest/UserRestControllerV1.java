@@ -7,6 +7,7 @@ import de.othr.bib48218.chat.service.IFUserService;
 import de.othr.bib48218.chat.util.UserAlreadyExistsException;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserRestControllerV1 implements IFUserRestControllerV1 {
 
     @Autowired
+    @Qualifier("partnerUserService")
     private IFUserService userService;
 
     /* CREATE  ************************************************************************************/

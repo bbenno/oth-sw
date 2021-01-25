@@ -89,6 +89,10 @@ public abstract class User implements UserDetails, HeaderSearchElement {
     @NonNull
     private boolean accountNonExpired = true;
 
+    @NonNull
+    @lombok.NonNull
+    private ServiceType scope = ServiceType.CHAT;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();

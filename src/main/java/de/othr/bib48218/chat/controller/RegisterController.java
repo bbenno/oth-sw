@@ -24,7 +24,7 @@ public class RegisterController {
 
     @RequestMapping
     public String showPersonForm(Model model) {
-        model.addAttribute("person", new Person());
+        model.addAttribute("user", new Person());
         return "register";
     }
 
@@ -35,7 +35,7 @@ public class RegisterController {
         Model model
     ) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("person", person);
+            model.addAttribute("user", person);
             return "register";
         }
 
@@ -49,7 +49,7 @@ public class RegisterController {
                 "Username exists already"
             ));
 
-            model.addAttribute("person", person);
+            model.addAttribute("user", person);
             return "register";
         }
     }

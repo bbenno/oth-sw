@@ -39,4 +39,28 @@ public class GroupChatRepositoryIntegrationTest {
         assertThat(chats).isNotNull();
         assertThat(chats).isNotEmpty();
     }
+
+    @Test
+    void shouldDeleteGroupChat() {
+        GroupChat chat = ChatFactory.newValidGroupChat();
+        chat = entityManager.persistAndFlush(chat);
+
+        assertThat(entityManager.find(GroupChat.class, chat.getId())).isNotNull();
+
+        groupChatRepository.delete(chat);
+
+        assertThat(entityManager.find(GroupChat.class, chat.getId())).isNull();
+    }
+
+    @Test
+    void shouldDeleteGroupChatById() {
+        GroupChat chat = ChatFactory.newValidGroupChat();
+        chat = entityManager.persistAndFlush(chat);
+
+        assertThat(entityManager.find(GroupChat.class, chat.getId())).isNotNull();
+
+        groupChatRepository.deleteById(chat.getId());
+
+        assertThat(entityManager.find(GroupChat.class, chat.getId())).isNull();
+    }
 }

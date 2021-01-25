@@ -2,6 +2,7 @@ package de.othr.bib48218.chat.service;
 
 import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.Person;
+import de.othr.bib48218.chat.entity.ServiceType;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.repository.BotRepository;
 import de.othr.bib48218.chat.repository.PersonRepository;
@@ -12,15 +13,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserService implements IFUserService, UserDetailsService {
+public class PartnerUserService implements IFUserService {
+
+    private final ServiceType serviceType = ServiceType.BANK;
 
     @Autowired
     private PersonRepository personRepository;
@@ -34,21 +34,26 @@ public class UserService implements IFUserService, UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public Collection<Person> getPersonByFirstName(String firstName) {
-        return personRepository.findByFirstNameOrderByFirstName(firstName);
+        return filterByPartner(personRepository.findByFirstNameOrderByFirstName(firstName));
     }
 
     @Override
     @Transactional(readOnly = true)
     public Collection<Person> getPersonByLastName(String lastName) {
-        return personRepository.findByLastNameOrderByLastName(lastName);
+        return filterByPartner(personRepository.findByLastNameOrderByLastName(lastName));
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<User> getUserByUsername(String username) {
         return personRepository.findByUsername(username)
+            .filter(this::isRightScope)
             .map(person -> (User) person)
-            .or(() -> botRepository.findByUsername(username).map(bot -> (User) bot));
+            .or(
+                () -> botRepository.findByUsername(username)
+                    .filter(this::isRightScope)
+                    .map(bot -> (User) bot)
+            );
     }
 
     @Override
@@ -71,19 +76,20 @@ public class UserService implements IFUserService, UserDetailsService {
             )
         ).distinct()
             .filter(User::isEnabled)
+            .filter(this::isRightScope)
             .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<Person> getPersonByUsername(String username) {
-        return personRepository.findByUsername(username);
+        return personRepository.findByUsername(username).filter(this::isRightScope);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<Bot> getBotByUsername(String username) {
-        return botRepository.findByUsername(username);
+        return botRepository.findByUsername(username).filter(this::isRightScope);
     }
 
     @Override
@@ -92,6 +98,7 @@ public class UserService implements IFUserService, UserDetailsService {
         if (personRepository.existsById(person.getUsername())) {
             throw new UserAlreadyExistsException();
         } else {
+            person.setScope(serviceType);
             return personRepository.save(withEncryptedPassword(person));
         }
     }
@@ -102,17 +109,9 @@ public class UserService implements IFUserService, UserDetailsService {
         if (botRepository.existsById(bot.getUsername())) {
             throw new UserAlreadyExistsException();
         } else {
+            bot.setScope(serviceType);
             return botRepository.save(withEncryptedPassword(bot));
         }
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return personRepository.findByUsername(username)
-            .orElseThrow(
-                () -> new UsernameNotFoundException("No User with username '" + username + "'")
-            );
     }
 
     @Override
@@ -121,13 +120,15 @@ public class UserService implements IFUserService, UserDetailsService {
         return Stream.concat(
             getAllPersons().stream(),
             getAllBots().stream()
-        ).collect(Collectors.toUnmodifiableList());
+        )
+            .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
     @Transactional(readOnly = true)
     public Collection<Person> getAllPersons() {
         return StreamSupport.stream(personRepository.findAll().spliterator(), false)
+            .filter(this::isRightScope)
             .collect(Collectors.toUnmodifiableList());
     }
 
@@ -135,18 +136,31 @@ public class UserService implements IFUserService, UserDetailsService {
     @Transactional(readOnly = true)
     public Collection<Bot> getAllBots() {
         return StreamSupport.stream(botRepository.findAll().spliterator(), false)
+            .filter(this::isRightScope)
             .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
     @Transactional
     public void deleteUserByUsername(String username) {
-        personRepository.findByUsername(username).ifPresent(p -> p.setEnabled(false));
-        botRepository.findByUsername(username).ifPresent(b -> b.setEnabled(false));
+        personRepository.findByUsername(username)
+            .filter(this::isRightScope)
+            .ifPresent(p -> p.setEnabled(false));
+        botRepository.findByUsername(username)
+            .filter(this::isRightScope)
+            .ifPresent(b -> b.setEnabled(false));
     }
 
     <T extends User> T withEncryptedPassword(T user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return user;
+    }
+
+    private <TUser extends User> boolean isRightScope(TUser u) {
+        return u.getScope() == serviceType;
+    }
+
+    private <TUser extends User> Collection<TUser> filterByPartner(Collection<TUser> users) {
+        return users.stream().filter(this::isRightScope).collect(Collectors.toUnmodifiableList());
     }
 }
