@@ -166,6 +166,7 @@ chat:
     title: Join Public Chat
     join: Join
     no_public_chats: No public chats available
+    page_description: Public group chats can be joined by any user.
   new_group:
     title: Neuen Gruppenchat anlegen
     submit: Anlegen
