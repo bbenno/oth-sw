@@ -17,6 +17,6 @@ public class PartnerServiceEventSource implements ApplicationEventPublisherAware
     }
 
     public void triggerEvent(PartnerServiceEvent event) {
-        publisher.publishEvent(event);
+        new Thread(() -> publisher.publishEvent(event)).start();
     }
 }
