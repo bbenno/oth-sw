@@ -14,8 +14,6 @@
       <groupId>com.othr</groupId>
       <artifactId>swvigopay</artifactId>
       <version>0.0.1SNAPSHOT</version>
-      <scope>system</scope>
-      <systemPath>${basedir}/lib/com.othr.swvigopay-0.0.1SNAPSHOT.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
