@@ -1,4 +1,4 @@
-package de.othr.bib48218.chat.controller;
+package de.othr.bib48218.chat;
 
 import java.util.Locale;
 import java.util.Properties;
@@ -16,17 +16,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+/**
+ * A Configuration providing MVC beans.
+ */
 @Configuration
-public class MvcConfig implements WebMvcConfigurer {
+class MvcConfig implements WebMvcConfigurer {
 
-    //@Bean
+    @Bean
     public Properties yamlProperties() {
         YamlPropertiesFactoryBean bean = new YamlPropertiesFactoryBean();
         bean.setResources(new ClassPathResource("lang.yml"), new ClassPathResource("lang_de.yml"));
         return bean.getObject();
     }
 
-    //@Bean
+    @Bean
     public MessageSource ymlMessageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setCommonMessages(yamlProperties());

@@ -6,70 +6,73 @@ import de.othr.bib48218.chat.entity.User;
 import java.util.Collection;
 import org.springframework.http.ResponseEntity;
 
+/**
+ * A REST controller (v1 of web API) for {@link de.othr.bib48218.chat.entity.Chat}s.
+ */
 public interface IFUserRestControllerV1 {
 
     /* CREATE  ************************************************************************************/
 
     /**
-     * Creates Person
+     * Saves a certain person
      *
-     * @param person person to create
-     * @return created person
+     * @param person the person to be saved
+     * @return the saved person
      */
     Person createPerson(Person person);
 
     /**
-     * Creates Bot
+     * Saves a certain bot
      *
-     * @param bot bot to create
-     * @return created bot
+     * @param bot the bot to be saved
+     * @return the saved bot
      */
     Bot createBot(Bot bot);
 
     /* READ  **************************************************************************************/
 
     /**
-     * Gets all users
+     * Gets all users, including all {@link Person}s and {@link Bot}s
      *
-     * @return all users
+     * @return the collection containing all users
      */
     ResponseEntity<Collection<User>> getUsers();
 
     /**
-     * Gets all persons
+     * Gets all persons.
      *
-     * @return all persons
+     * @return the collection containing all persons
      */
     ResponseEntity<Collection<Person>> getPersons();
 
     /**
-     * Gets all bots
+     * Gets all bots.
      *
-     * @return bots
+     * @return the collection containing all bots
      */
     ResponseEntity<Collection<Bot>> getBots();
 
     /**
-     * Gets user by username
+     * Gets the user with a certain username.
      *
-     * @param username username, identifying user
-     * @return identified user
+     * @param username the string identifying the user
+     * @return the user, or <code>null</code> if no user exists with the username
      */
     ResponseEntity<User> getUser(String username);
 
     /**
-     * Gets person by username
+     * Gets the person with a certain username.
      *
      * @param username username, identifying person
-     * @return identified person
+     * @return the person, or <code>null</code> if no person exists with the username
      */
     ResponseEntity<Person> getPerson(String username);
 
     /**
-     * Gets bot by username
+     * Gets the bot with a certain username.
      *
      * @param username username, identifying bot
-     * @return identified bot
+     * @return the bot, or <code>null</code> if no bot exists with the username
      */
     ResponseEntity<Bot> getBot(String username);
 
@@ -78,27 +81,24 @@ public interface IFUserRestControllerV1 {
     /* DELETE  ************************************************************************************/
 
     /**
-     * Deletes user by username
+     * Deletes the user with a certain username.
      *
-     * @param username username, identifying user
-     * @return identified user
+     * @param username the string identifying the user
      */
     void deleteUser(String username);
 
     /**
-     * Deletes person by username
+     * Deletes the person with a certain username.
      *
-     * @param username username, identifying person
-     * @return identified person
+     * @param username the string identifying the person
      */
     void deletePerson(String username);
 
     /**
-     * Deletes bot by username
+     * Deletes the bot with a certain username.
      *
-     * @param username username, identifying bot
-     * @return identified bot
+     * @param username the string identifying the bot
      */
     void deleteBot(String username);
-    
+
 }

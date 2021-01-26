@@ -16,6 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * The controller for {@link Message}.
+ */
+@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Controller
 @RequestMapping("/message")
 public class MessageController {

@@ -1,4 +1,4 @@
-package de.othr.bib48218.chat.controller;
+package de.othr.bib48218.chat.websocket;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -6,9 +6,12 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+/**
+ * The web socket configuration configuring broker and endpoints for search bar.
+ */
 @Configuration
 @EnableWebSocketMessageBroker
-public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
+class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {

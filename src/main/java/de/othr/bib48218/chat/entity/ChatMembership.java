@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.NonNull;
 
+/**
+ * A membership of a {@link User} in a {@link Chat}.
+ */
 @Entity
 @Getter
 @Setter
@@ -19,6 +22,9 @@ import org.springframework.lang.NonNull;
 @EqualsAndHashCode(callSuper = false)
 public class ChatMembership extends IdEntity {
 
+    /**
+     * The chat.
+     */
     @JsonIgnore
     @ManyToOne(
         cascade = CascadeType.REFRESH,
@@ -27,10 +33,16 @@ public class ChatMembership extends IdEntity {
     @lombok.NonNull
     private Chat chat;
 
+    /**
+     * The membership status of the user.
+     */
     @NonNull
     @lombok.NonNull
     private ChatMemberStatus status;
 
+    /**
+     * The user.
+     */
     @ManyToOne(
         cascade = CascadeType.REFRESH,
         optional = false)

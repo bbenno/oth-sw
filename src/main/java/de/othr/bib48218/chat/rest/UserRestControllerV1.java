@@ -1,8 +1,10 @@
 package de.othr.bib48218.chat.rest;
 
 import de.othr.bib48218.chat.entity.Bot;
+import de.othr.bib48218.chat.entity.PeerChat;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
+import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
 import de.othr.bib48218.chat.util.UserAlreadyExistsException;
 import java.util.Collection;
@@ -17,13 +19,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @RestController
 @RequestMapping("/webapi/v1/")
-public class UserRestControllerV1 implements IFUserRestControllerV1 {
+class UserRestControllerV1 implements IFUserRestControllerV1 {
 
     @Autowired
-    @Qualifier("partnerUserService")
+    @Qualifier("bankUserService")
     private IFUserService userService;
+
+    @Autowired
+    private IFChatService chatService;
 
     /* CREATE  ************************************************************************************/
 
@@ -71,6 +77,23 @@ public class UserRestControllerV1 implements IFUserRestControllerV1 {
     @GetMapping("persons/{username}")
     public ResponseEntity<Person> getPerson(@PathVariable("username") String username) {
         return ResponseEntity.of(userService.getPersonByUsername(username));
+    }
+
+    @GetMapping("persons/{username}/chat")
+    public PeerChat getPersonChat(@PathVariable("username") String username)
+        throws UserAlreadyExistsException {
+        Bot bankServiceBot = userService.getBotByUsername("bank_service").get();
+        Person person = userService.getPersonByUsername(username).orElseGet(
+            () -> {
+                var p = new Person(username, "not set");
+                try {
+                    return userService.createPerson(p);
+                } catch (UserAlreadyExistsException e) {
+                }
+                return p;
+            });
+
+        return chatService.getOrCreatePeerChatOf(bankServiceBot, person);
     }
 
     @Override

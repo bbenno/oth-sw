@@ -1,5 +1,6 @@
 package de.othr.bib48218.chat.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -21,18 +22,28 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode
-public abstract class Chat implements HeaderSearchElement {
+public abstract class Chat {
 
+    /**
+     * The identification number.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
+    /**
+     * The sent messages in the chat.
+     */
+    @JsonIgnore
     @OneToMany(
         mappedBy = "chat",
         cascade = {CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.DETACH},
         orphanRemoval = true)
     private List<Message> messages = Collections.emptyList();
 
+    /**
+     * The memberships of {@link User}.
+     */
     @OneToMany(
         mappedBy = "chat",
         fetch = FetchType.EAGER,
@@ -40,6 +51,11 @@ public abstract class Chat implements HeaderSearchElement {
         orphanRemoval = true)
     private Set<ChatMembership> memberships = Collections.emptySet();
 
+    /**
+     * Gets membership status of a certain user.
+     * @param user the user
+     * @return the membership status
+     */
     public Optional<ChatMemberStatus> getStatusOfMember(User user) {
         return memberships.stream()
             .filter(m -> m.getUser() == user)

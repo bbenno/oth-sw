@@ -19,8 +19,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Service
-public class UserService implements IFUserService, UserDetailsService {
+class UserService implements IFUserService, UserDetailsService {
 
     @Autowired
     private PersonRepository personRepository;
@@ -41,6 +42,11 @@ public class UserService implements IFUserService, UserDetailsService {
     @Transactional(readOnly = true)
     public Collection<Person> getPersonByLastName(String lastName) {
         return personRepository.findByLastNameOrderByLastName(lastName);
+    }
+
+    @Override
+    public Collection<Person> getPersonByEmail(String email) {
+        return personRepository.findByEmail(email);
     }
 
     @Override
@@ -145,7 +151,7 @@ public class UserService implements IFUserService, UserDetailsService {
         botRepository.findByUsername(username).ifPresent(b -> b.setEnabled(false));
     }
 
-    <T extends User> T withEncryptedPassword(T user) {
+    private <T extends User> T withEncryptedPassword(T user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return user;
     }

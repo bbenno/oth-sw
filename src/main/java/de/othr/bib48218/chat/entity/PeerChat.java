@@ -5,11 +5,21 @@ import javax.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * A private chat of two {@link User}s.
+ */
 @Entity
 @Getter
 @NoArgsConstructor
 public class PeerChat extends Chat {
 
+    /**
+     * Gets value indicating whether chat is enabled.
+     * <p>
+     * The chat is enabled if none of the both users is disabled.
+     *
+     * @return <code>true</code> if chat is enabled; otherwise <code>false</code>
+     */
     public boolean isEnabled() {
         return getMemberships().stream().allMatch(m -> m.getUser().isEnabled());
     }

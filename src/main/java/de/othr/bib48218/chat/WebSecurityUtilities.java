@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+/**
+ * A configuration providing security utility beans like password encoder.
+ */
 @Configuration
 class WebSecurityUtilities {
 

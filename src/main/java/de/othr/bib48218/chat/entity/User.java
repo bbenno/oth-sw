@@ -1,7 +1,6 @@
 package de.othr.bib48218.chat.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import de.othr.bib48218.chat.Authority;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -26,6 +25,9 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+/**
+ * The account class of the application.
+ */
 @Entity
 @Getter
 @Setter
@@ -33,8 +35,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode
-public abstract class User implements UserDetails, HeaderSearchElement {
+public abstract class User implements UserDetails {
 
+    /**
+     * The string identifying user.
+     */
     @Id
     @NonNull
     @lombok.NonNull
@@ -43,6 +48,9 @@ public abstract class User implements UserDetails, HeaderSearchElement {
     @Size(min = 2, max = 20)
     private String username;
 
+    /**
+     * The credential for login.
+     */
     @JsonIgnore
     @NonNull
     @lombok.NonNull
@@ -51,6 +59,9 @@ public abstract class User implements UserDetails, HeaderSearchElement {
     @Size(min = 8, max = 80)
     private String password;
 
+    /**
+     * The profile.
+     */
     @OneToOne(
         cascade = CascadeType.ALL,
         fetch = FetchType.EAGER,
@@ -64,6 +75,9 @@ public abstract class User implements UserDetails, HeaderSearchElement {
         orphanRemoval = true)
     private Set<UserPermission> userPermissions = Collections.emptySet();
 
+    /**
+     * The chat memberships.
+     */
     @JsonIgnore
     @OneToMany(
         mappedBy = "user",
@@ -71,28 +85,53 @@ public abstract class User implements UserDetails, HeaderSearchElement {
         orphanRemoval = true)
     private Set<ChatMembership> memberships = Collections.emptySet();
 
+    /**
+     * The sent messages in all chats.
+     */
     @JsonIgnore
     @OneToMany(
         mappedBy = "author",
         cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
     private Collection<Message> messages = Collections.emptySet();
 
+    /**
+     * Is account enabled to login.
+     */
     @NonNull
     private boolean enabled = true;
 
+    /**
+     * Is the password not expired.
+     */
     @NonNull
     private boolean credentialsNonExpired = true;
 
+    /**
+     * Is the account immutable.
+     */
     @NonNull
     private boolean accountNonLocked = true;
 
+    /**
+     * Is the account expired.
+     */
     @NonNull
     private boolean accountNonExpired = true;
 
+    /**
+     * The application scope.
+     * <p>
+     * The application separates user base into disjunctive sets, one for each {@link ServiceType}.
+     */
     @NonNull
     @lombok.NonNull
     private ServiceType scope = ServiceType.CHAT;
 
+    /**
+     * Gets the authority.
+     *
+     * @return the authority.
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
@@ -102,6 +141,11 @@ public abstract class User implements UserDetails, HeaderSearchElement {
         return authorities;
     }
 
+    /**
+     * Gets special name.
+     *
+     * @return the string containing the special name
+     */
     protected String asString() {
         return "";
     }

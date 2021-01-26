@@ -20,8 +20,9 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Service
-public class ChatService implements IFChatService {
+class ChatService implements IFChatService {
 
     @Autowired
     private GroupChatRepository groupRepository;
@@ -107,15 +108,6 @@ public class ChatService implements IFChatService {
             Set.of(new ChatMembership(chat, ChatMemberStatus.ADMINISTRATOR, creator))
         );
         return groupRepository.save(chat);
-    }
-
-    @Override
-    @Transactional
-    public PeerChat saveChat(User creator, PeerChat chat) {
-        chat.setMemberships(
-            Set.of(new ChatMembership(chat, ChatMemberStatus.ADMINISTRATOR, creator))
-        );
-        return peerRepository.save(chat);
     }
 
     @Override

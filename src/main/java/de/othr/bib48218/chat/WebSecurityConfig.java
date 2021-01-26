@@ -1,7 +1,6 @@
 package de.othr.bib48218.chat;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,9 +10,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+/**
+ * The security configuration of the application.
+ */
+@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] ALLOW_ACCESS_WITHOUT_AUTHENTICATION = {"/css/**", "/img/**",
         "/fonts/**", "/js/**", "/login", "/register", "/favicon*", "/apple-*.png", "/android-*.png",
@@ -31,8 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests()
+        http.authorizeRequests()
             .antMatchers(ALLOW_ACCESS_WITHOUT_AUTHENTICATION).permitAll()
             .anyRequest().authenticated();
         http.formLogin()
@@ -48,12 +50,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .clearAuthentication(true)
             .permitAll();
         http.rememberMe();
+        http.csrf().ignoringAntMatchers("/webapi/**");
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-            .userDetailsService(userSecurityService)
+        auth.userDetailsService(userSecurityService)
             .passwordEncoder(passwordEncoder());
     }
 }

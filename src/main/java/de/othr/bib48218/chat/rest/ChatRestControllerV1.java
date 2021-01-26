@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @RestController
 @RequestMapping("/webapi/v1/chats")
-public class ChatRestControllerV1 implements IFChatRestControllerV1 {
+class ChatRestControllerV1 implements IFChatRestControllerV1 {
 
     @Autowired
     private IFChatService chatService;

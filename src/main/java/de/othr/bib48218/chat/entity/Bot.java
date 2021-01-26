@@ -6,14 +6,33 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.NonNull;
 
+/**
+ * A account with certain messaging rules.
+ */
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 public class Bot extends User {
 
-    public Bot(@lombok.NonNull @NonNull String username, @lombok.NonNull @NonNull String password) {
-        super(username, password);
+    /**
+     * Class constructor specifying the username.
+     *
+     * @param username the account name.
+     */
+    public Bot(@lombok.NonNull @NonNull String username) {
+        super(username, "");
+    }
+
+    /**
+     * Class constructor specifying the username and service type.
+     *
+     * @param username    the account name.
+     * @param serviceType the service type
+     */
+    public Bot(@lombok.NonNull @NonNull String username, ServiceType serviceType) {
+        super(username, "");
+        this.setScope(serviceType);
     }
 
     @Override

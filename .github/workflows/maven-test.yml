@@ -18,6 +18,8 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 14
+    - name: Install local JAR
+      run: mvn install:install-file -Dfile=lib/com.othr.swvigopay-0.0.1SNAPSHOT.jar -DgroupId=com.othr -DartifactId=swvigopay -Dversion=0.0.1SNAPSHOT -Dpackaging=jar -DgeneratePom=true
     - name: Build Package
       run: mvn -B clean package -DskipTests
     - name: Verify

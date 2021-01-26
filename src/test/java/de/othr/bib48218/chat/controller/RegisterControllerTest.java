@@ -9,7 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.othr.bib48218.chat.WebSecurityTestConfig;
 import de.othr.bib48218.chat.factory.UserFactory;
-import de.othr.bib48218.chat.service.UserService;
+import de.othr.bib48218.chat.service.IFChatService;
+import de.othr.bib48218.chat.service.IFUserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,7 +20,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 
-@WebMvcTest(RegisterController.class)
+@WebMvcTest(HomeController.class)
 @Import(WebSecurityTestConfig.class)
 public class RegisterControllerTest {
 
@@ -28,7 +29,10 @@ public class RegisterControllerTest {
 
     @MockBean
     @Qualifier("userService")
-    private UserService userService;
+    private IFUserService userService;
+
+    @MockBean
+    private IFChatService chatService;
 
     @Test
     void shouldBePubliclyAccessible() throws Exception {

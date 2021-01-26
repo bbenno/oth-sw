@@ -16,16 +16,7 @@ public class BotTest {
         var bot = new Bot();
 
         assertThrows(NullPointerException.class, () -> bot.setUsername(null));
-        assertThrows(NullPointerException.class, () -> new Bot(null, "password"));
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    @Test
-    void shouldHavePassword() {
-        var bot = new Bot();
-
-        assertThrows(NullPointerException.class, () -> bot.setPassword(null));
-        assertThrows(NullPointerException.class, () -> new Bot("username", null));
+        assertThrows(NullPointerException.class, () -> new Bot(null));
     }
 
     @Test
