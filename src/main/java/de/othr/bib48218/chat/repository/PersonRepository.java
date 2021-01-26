@@ -4,6 +4,9 @@ import de.othr.bib48218.chat.entity.Person;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * CRUD repository of persons.
+ */
 public interface PersonRepository extends UserRepository<Person> {
 
     List<Person> findByFirstNameOrderByFirstName(String firstName);

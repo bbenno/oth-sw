@@ -7,6 +7,9 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+/**
+ * Paging and sorting repository of messages.
+ */
 public interface MessageRepository extends PagingAndSortingRepository<Message, Long> {
 
     Collection<Message> findByAuthor(User author);

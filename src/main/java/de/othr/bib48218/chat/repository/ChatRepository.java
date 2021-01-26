@@ -6,8 +6,13 @@ import java.util.Collection;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
+/**
+ * CRUD repository of chats.
+ *
+ * @param <TChat> the chat type
+ */
 @NoRepositoryBean
-public interface ChatRepository<TChat extends Chat> extends CrudRepository<TChat, Long> {
+interface ChatRepository<TChat extends Chat> extends CrudRepository<TChat, Long> {
 
     Collection<TChat> findByMembershipsUser(User user);
 }

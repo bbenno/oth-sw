@@ -3,15 +3,19 @@ package de.othr.bib48218.chat.repository;
 import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.entity.ChatMemberStatus;
 import de.othr.bib48218.chat.entity.Permission;
-import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.User;
 import java.util.Collection;
 import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
+/**
+ * CRUD repository of users.
+ *
+ * @param <TUser> the user type
+ */
 @NoRepositoryBean
-public interface UserRepository<TUser extends User> extends CrudRepository<TUser, String> {
+interface UserRepository<TUser extends User> extends CrudRepository<TUser, String> {
 
     Optional<TUser> findByUsername(String username);
 
