@@ -27,13 +27,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * The controller for {@link Chat}.
+ */
+@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Controller
 @RequestMapping("/chat")
 public class ChatController {
 
     private static final Pattern pattern = Pattern.compile("\\d+");
 
-    private static final String chatNotFound = "Chat not found";
+    /**
+     * Default notification message if chat is not found.
+     */
+    private static final String CHAT_NOT_FOUND = "Chat not found";
 
     @Autowired
     private IFChatService chatService;
@@ -66,7 +73,7 @@ public class ChatController {
                 ));
                 return "chat/show";
             } else {
-                model.addAttribute("notification", chatNotFound);
+                model.addAttribute("notification", CHAT_NOT_FOUND);
                 return "redirect:/";
             }
         } else {
@@ -78,7 +85,7 @@ public class ChatController {
                 model.addAttribute("chat", chat.get());
                 return "chat/show";
             } else {
-                model.addAttribute("notification", chatNotFound);
+                model.addAttribute("notification", CHAT_NOT_FOUND);
                 return "redirect:/";
             }
         }
@@ -142,7 +149,7 @@ public class ChatController {
             addUserToChat(userOfPrincipal(principal), chat.get());
             return "redirect:";
         } else {
-            model.addAttribute("notification", chatNotFound);
+            model.addAttribute("notification", CHAT_NOT_FOUND);
             return "redirect:/";
         }
     }
@@ -169,7 +176,7 @@ public class ChatController {
                 return "redirect:";
             }
         } else {
-            model.addAttribute("notification", chatNotFound);
+            model.addAttribute("notification", CHAT_NOT_FOUND);
             return "redirect:/";
         }
     }
@@ -209,7 +216,7 @@ public class ChatController {
                 if (c instanceof GroupChat && isAllowedToDeleteChat(principal, c)
                 ) {
                     chatService.deleteChat(c);
-                    return "Deleted chat successully";
+                    return "Deleted chat successfully";
                 } else {
                     return "No permission to delete chat";
                 }

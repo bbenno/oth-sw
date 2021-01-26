@@ -12,6 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * The controller for common view: login, logout, home.
+ */
+@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Controller
 public class HomeController {
 
