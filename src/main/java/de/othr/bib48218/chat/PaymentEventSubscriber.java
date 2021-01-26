@@ -3,6 +3,7 @@ package de.othr.bib48218.chat;
 import com.othr.swvigopay.entity.TransferDTO;
 import com.othr.swvigopay.exceptions.TransferServiceExternalException;
 import de.othr.bib48218.chat.entity.Bot;
+import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.entity.Message;
 import de.othr.bib48218.chat.entity.Person;
 import de.othr.bib48218.chat.entity.ServiceType;
@@ -57,10 +58,12 @@ public class PaymentEventSubscriber implements ApplicationListener<PartnerServic
                     "example: " + example
                 ));
 
-            serviceBot.ifPresent(bot ->
-                messageService.saveMessage(
-                    new Message(replyText, message.getChat(), bot, LocalDateTime.now(), message)
-                ));
+            serviceBot.ifPresent(bot -> {
+                preTransferRequestAction(message.getChat(), bot);
+                Message reply = new Message(replyText, message.getChat(), bot, LocalDateTime.now(),
+                    message);
+                messageService.saveMessage(reply);
+            });
         }
     }
 
@@ -82,9 +85,15 @@ public class PaymentEventSubscriber implements ApplicationListener<PartnerServic
     private String sendTransferRequest(TransferDTO transferDTO) {
         try {
             paymentService.requestTransfer(transferDTO);
-            return "request accepted";
+            return "request accepted; please wait until the request is approved by "
+                + transferDTO.getPayerEmail();
         } catch (TransferServiceExternalException e) {
             return e.getMessage();
         }
+    }
+
+    private void preTransferRequestAction(Chat chat, Bot bot) {
+        Message ackMsg = new Message("requesting transfer...", chat, bot, LocalDateTime.now());
+        messageService.saveMessage(ackMsg);
     }
 }
