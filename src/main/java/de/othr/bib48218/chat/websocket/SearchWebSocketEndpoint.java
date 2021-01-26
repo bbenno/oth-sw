@@ -12,8 +12,12 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
+/**
+ * Web socket endpoint controller for search bar.
+ */
+@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Controller
-public class SearchWebsocketEndpoint {
+class SearchWebSocketEndpoint {
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
@@ -26,8 +30,7 @@ public class SearchWebsocketEndpoint {
 
     @MessageMapping("/search")
     @SendTo("/websocket-broker/search")
-    public Collection<Pair<String, String>> receiveFromWebSocket(String searchTerm)
-        throws Exception {
+    public Collection<Pair<String, String>> receiveFromWebSocket(String searchTerm) {
         System.out.println(searchTerm);
         return Stream.concat(
             userService.getUsersByStringFragment(searchTerm).stream()
