@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/webapi/v1/messages/")
-public class MessageRestControllerV1 implements IFMessageRestControllerV1 {
+class MessageRestControllerV1 implements IFMessageRestControllerV1 {
 
     @Autowired
     private IFMessageService messageService;

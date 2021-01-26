@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/webapi/v1/chats")
-public class ChatRestControllerV1 implements IFChatRestControllerV1 {
+class ChatRestControllerV1 implements IFChatRestControllerV1 {
 
     @Autowired
     private IFChatService chatService;

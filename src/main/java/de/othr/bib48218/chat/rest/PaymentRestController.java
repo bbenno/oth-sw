@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/callback/vigopay/transfers/stateUpdate")
-public class PaymentRestController {
+class PaymentRestController {
 
     private static final ServiceType serviceType = ServiceType.PAYMENT;
 

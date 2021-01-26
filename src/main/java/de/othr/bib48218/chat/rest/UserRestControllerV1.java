@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/webapi/v1/")
-public class UserRestControllerV1 implements IFUserRestControllerV1 {
+class UserRestControllerV1 implements IFUserRestControllerV1 {
 
     @Autowired
     @Qualifier("bankUserService")
