@@ -13,6 +13,6 @@ public interface IFPaymentService extends TransferServiceExternalIF {
      * @throws TransferServiceExternalException If unable to send transfer request to partner
      *                                          service
      */
-    TransferDTO requestTransfer(TransferDTO transferDTO) throws TransferServiceExternalException;
+    void requestTransfer(TransferDTO transferDTO) throws TransferServiceExternalException;
 
 }

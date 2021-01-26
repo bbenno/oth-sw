@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Service
 public class PaymentService implements IFPaymentService, TransferServiceExternalIF {
 
@@ -36,17 +37,13 @@ public class PaymentService implements IFPaymentService, TransferServiceExternal
     }
 
     @Override
-    public TransferDTO requestTransfer(TransferDTO transferDTO)
+    public void requestTransfer(TransferDTO transferDTO)
         throws TransferServiceExternalException {
         ResponseEntity<TransferDTO> response;
         try {
             response = requestTransferExternal(transferDTO);
             if (response.getStatusCode().isError()) {
                 throw new TransferServiceExternalException("response error");
-            } else if (response.getStatusCode().is2xxSuccessful()) {
-                return response.getBody();
-            } else {
-                return null;
             }
         } catch (RestClientException e) {
             throw new TransferServiceExternalException("rest client exception");
