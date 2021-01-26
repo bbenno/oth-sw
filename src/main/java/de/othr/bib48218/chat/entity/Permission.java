@@ -17,6 +17,9 @@ import org.springframework.lang.NonNull;
 @NoArgsConstructor
 public class Permission extends IdEntity {
 
+    /**
+     * The description.
+     */
     @NonNull
     @NotBlank
     @lombok.NonNull

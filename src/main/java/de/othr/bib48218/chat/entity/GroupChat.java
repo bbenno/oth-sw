@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.NonNull;
 
+/**
+ * A group chat consisting of multiple {@link User}s.
+ */
 @Entity
 @Getter
 @Setter
@@ -16,10 +19,16 @@ import org.springframework.lang.NonNull;
 @RequiredArgsConstructor
 public class GroupChat extends Chat {
 
+    /**
+     * The visibility.
+     */
     @NonNull
     @lombok.NonNull
     private GroupVisibility visibility;
 
+    /**
+     * The public profile.
+     */
     @OneToOne(
         cascade = CascadeType.ALL
         //fetch = FetchType.EAGER,

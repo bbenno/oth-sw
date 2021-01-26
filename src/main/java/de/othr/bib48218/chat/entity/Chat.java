@@ -23,16 +23,25 @@ import lombok.Setter;
 @EqualsAndHashCode
 public abstract class Chat {
 
+    /**
+     * The identification number.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
+    /**
+     * The sent messages in the chat.
+     */
     @OneToMany(
         mappedBy = "chat",
         cascade = {CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.DETACH},
         orphanRemoval = true)
     private List<Message> messages = Collections.emptyList();
 
+    /**
+     * The memberships of {@link User}.
+     */
     @OneToMany(
         mappedBy = "chat",
         fetch = FetchType.EAGER,
@@ -40,6 +49,11 @@ public abstract class Chat {
         orphanRemoval = true)
     private Set<ChatMembership> memberships = Collections.emptySet();
 
+    /**
+     * Gets membership status of a certain user.
+     * @param user the user
+     * @return the membership status
+     */
     public Optional<ChatMemberStatus> getStatusOfMember(User user) {
         return memberships.stream()
             .filter(m -> m.getUser() == user)

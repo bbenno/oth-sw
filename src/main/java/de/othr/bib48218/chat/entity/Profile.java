@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.NonNull;
 
+/**
+ * A public profile.
+ */
 @Entity
 @Getter
 @Setter
@@ -19,17 +22,31 @@ import org.springframework.lang.NonNull;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Profile {
 
+    /**
+     * A unique identifier.
+     */
     @JsonIgnore
     @Id
     @NonNull
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    /**
+     * The profile name.
+     */
     @NonNull
     private String name;
 
+    /**
+     * The path to profile image.
+     */
     private String imagePath;
 
+    /**
+     * Class constructor specifying the profile name.
+     *
+     * @param name the string of profile name
+     */
     protected Profile(String name) {
         this.name = name;
     }
