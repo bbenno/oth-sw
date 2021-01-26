@@ -17,7 +17,9 @@ public class UserFactory {
     }
 
     public static Bot newValidBotWithUsername(String username) {
-        return new Bot(username, password());
+        Bot bot = new Bot(username);
+        bot.setPassword(password());
+        return bot;
     }
 
     public static Person newValidPersonWithUsername(String username) {
