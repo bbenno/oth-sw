@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +30,7 @@ public class MessageRestControllerV1 implements IFMessageRestControllerV1 {
 
     @Override
     @PostMapping()
-    public ResponseEntity<Message> postMessage(Message message) {
+    public ResponseEntity<Message> postMessage(@RequestBody Message message) {
         return ResponseEntity.of(Optional.ofNullable(messageService.saveMessage(message)));
     }
 
