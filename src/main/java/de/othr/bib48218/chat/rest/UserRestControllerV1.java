@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserRestControllerV1 implements IFUserRestControllerV1 {
 
     @Autowired
-    @Qualifier("partnerUserService")
+    @Qualifier("bankUserService")
     private IFUserService userService;
 
     /* CREATE  ************************************************************************************/
