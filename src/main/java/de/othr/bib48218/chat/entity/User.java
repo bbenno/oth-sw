@@ -33,7 +33,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode
-public abstract class User implements UserDetails, HeaderSearchElement {
+public abstract class User implements UserDetails {
 
     @Id
     @NonNull

@@ -21,7 +21,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode
-public abstract class Chat implements HeaderSearchElement {
+public abstract class Chat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)

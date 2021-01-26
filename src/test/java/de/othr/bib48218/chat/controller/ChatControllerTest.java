@@ -6,13 +6,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.github.javafaker.Faker;
-import de.othr.bib48218.chat.HeaderSearchElementFactory;
 import de.othr.bib48218.chat.WebSecurityTestConfig;
 import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.factory.ChatFactory;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -24,13 +22,12 @@ import org.springframework.test.web.servlet.MockMvc;
 @Import(WebSecurityTestConfig.class)
 public class ChatControllerTest {
 
-    @Spy
-    HeaderSearchElementFactory headerSearchElementFactory = HeaderSearchElementFactory
-        .getInstance();
     @Autowired
     private MockMvc mvc;
+
     @MockBean
     private IFUserService userService;
+
     @MockBean
     private IFChatService chatService;
 
