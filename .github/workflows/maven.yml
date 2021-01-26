@@ -24,7 +24,7 @@ jobs:
         VERSION="$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
         cd target/classes
         TARGET_PATH="de/othr/bib48218/chat"
-        jar cf "../chat-integration-${VERSION}.jar" "${TARGET_PATH}/entity/"
+        jar cf "../chat-integration-${VERSION}.jar" "${TARGET_PATH}/entity/" "${TARGET_PATH}/service/IFSendMessage.class
     - name: Copy deployable JAR
       run: |
         mkdir packages
