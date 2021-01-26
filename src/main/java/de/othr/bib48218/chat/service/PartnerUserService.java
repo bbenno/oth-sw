@@ -44,6 +44,13 @@ public class PartnerUserService implements IFUserService {
     }
 
     @Override
+    public Collection<Person> getPersonByEmail(String email) {
+        return personRepository.findByEmail(email).stream()
+            .filter(p -> p.getScope() == serviceType)
+            .collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<User> getUserByUsername(String username) {
         return personRepository.findByUsername(username)

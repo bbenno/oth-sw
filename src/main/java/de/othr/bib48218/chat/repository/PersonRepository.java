@@ -13,4 +13,7 @@ public interface PersonRepository extends UserRepository<Person> {
     List<Person> findByLastNameOrderByLastName(String lastName);
 
     Collection<Person> findByLastNameContains(String lastNameFragment);
+
+    Collection<Person> findByEmail(String email);
+
 }

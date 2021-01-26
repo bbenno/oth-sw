@@ -51,6 +51,14 @@ public interface IFUserService {
      */
     Collection<Person> getPersonByLastName(String lastName);
 
+    /**
+     * Returns Persons with given email.
+     *
+     * @param email email of persons
+     * @return persons with given email
+     */
+    Collection<Person> getPersonByEmail(String email);
+
     /* GET Users  *********************************************************************************/
 
     /**
@@ -74,7 +82,8 @@ public interface IFUserService {
      */
     Collection<Bot> getAllBots();
 
-    /** Returns Users with username like given pattern.
+    /**
+     * Returns Users with username like given pattern.
      *
      * @param usernamePattern the pattern of a username
      * @return users with matching username

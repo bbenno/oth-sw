@@ -44,6 +44,11 @@ public class UserService implements IFUserService, UserDetailsService {
     }
 
     @Override
+    public Collection<Person> getPersonByEmail(String email) {
+        return personRepository.findByEmail(email);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<User> getUserByUsername(String username) {
         return personRepository.findByUsername(username)
