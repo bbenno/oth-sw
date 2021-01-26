@@ -33,9 +33,6 @@ public class Person extends User {
     @Nullable
     private String email;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ServiceCredential> credentials = Collections.emptySet();
-
     public Person(@NonNull String username, @NonNull String password) {
         super(username, password);
     }
@@ -51,14 +48,6 @@ public class Person extends User {
     @Override
     public String asString() {
             return fullName().orElse("");
-    }
-
-    public void addCredential(ServiceCredential credential) {
-        this.credentials.add(credential);
-    }
-
-    public void removeCredential(ServiceCredential credential) {
-        this.credentials.remove(credential);
     }
 
     public Optional<String> fullName() {
