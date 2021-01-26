@@ -111,15 +111,6 @@ public class ChatService implements IFChatService {
 
     @Override
     @Transactional
-    public PeerChat saveChat(User creator, PeerChat chat) {
-        chat.setMemberships(
-            Set.of(new ChatMembership(chat, ChatMemberStatus.ADMINISTRATOR, creator))
-        );
-        return peerRepository.save(chat);
-    }
-
-    @Override
-    @Transactional
     public PeerChat getOrCreatePeerChatOf(User user, User otherUser) {
         Collection<PeerChat> chatsOfUser = peerRepository.findByMembershipsUser(user);
         Collection<PeerChat> chatsOfOtherUser = peerRepository.findByMembershipsUser(otherUser);

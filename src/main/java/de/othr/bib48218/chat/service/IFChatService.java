@@ -104,17 +104,6 @@ public interface IFChatService {
     GroupChat saveChat(User creator, GroupChat chat);
 
     /**
-     * Saves new {@link PeerChat} if not yet present.
-     * <p>
-     * This method should be avoided. Use {@link #getOrCreatePeerChatOf(User, User)} instead
-     *
-     * @param creator the creating user
-     * @param chat    the peer chat to save
-     * @return saved peer chat
-     */
-    PeerChat saveChat(User creator, PeerChat chat);
-
-    /**
      * Returns {@link PeerChat} between two given users.
      *
      * @param user      the first user of the peer chat
