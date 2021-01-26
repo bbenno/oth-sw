@@ -6,6 +6,13 @@ import com.othr.swvigopay.service.TransferServiceExternalIF;
 
 public interface IFPaymentService extends TransferServiceExternalIF {
 
+    /**
+     * Request a certain payment transfer.
+     *
+     * @param transferDTO the data transfer object describing a transfer request.
+     * @throws TransferServiceExternalException If unable to send transfer request to partner
+     *                                          service
+     */
     TransferDTO requestTransfer(TransferDTO transferDTO) throws TransferServiceExternalException;
 
 }

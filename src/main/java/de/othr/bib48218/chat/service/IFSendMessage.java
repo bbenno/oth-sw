@@ -5,28 +5,29 @@ import de.othr.bib48218.chat.entity.User;
 import java.util.Collection;
 import java.util.Optional;
 
+@SuppressWarnings("unused")
 public interface IFSendMessage {
 
     /**
-     * Returns User by given username
+     * Gets the user with a certain username
      *
-     * @param username     string identifying user
-     * @return user
+     * @param username the string identifying user
+     * @return the user
      */
     Optional<User> findUserByUsername(String username);
 
     /**
-     * Sends a given message. The message must reference valid chat.
+     * Saves a certain message.
      *
-     * @param message      message to send
-     * @return <code>true</code> if sending was successful; otherwiese <code>false</code>
+     * @param message the message
+     * @return <code>true</code> if sending was successful; otherwise <code>false</code>
      */
     Boolean sendMessage(Message message);
 
     /**
-     * Returns all messages for foreign partner.
+     * Gets all messages.
      *
-     * @return messages
+     * @return the collection containing all messages
      */
     Collection<Message> pullMessages();
 

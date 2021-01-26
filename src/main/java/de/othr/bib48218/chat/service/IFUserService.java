@@ -12,110 +12,110 @@ public interface IFUserService {
     /* GET User  **********************************************************************************/
 
     /**
-     * Returns User with given username.
+     * Gets the user with a certain username.
      *
-     * @param username string identifying user
-     * @return user with given username
+     * @param username the string identifying a user
+     * @return the user
      */
     Optional<User> getUserByUsername(String username);
 
     /**
-     * Returns Person with given username.
+     * Gets the person with a certain username.
      *
-     * @param username string identifying person
-     * @return person with given username
+     * @param username the string identifying a person
+     * @return the person
      */
     Optional<Person> getPersonByUsername(String username);
 
     /**
-     * Returns Bot with given username.
+     * Gets the bot with a certain username.
      *
-     * @param username string identifying bot
-     * @return bot with given username
+     * @param username the string identifying a bot
+     * @return the bot
      */
     Optional<Bot> getBotByUsername(String username);
 
     /**
-     * Returns Persons with given first name.
+     * Gets the persons with a certain first name.
      *
-     * @param firstName first name indentifying persons
-     * @return persons with given first name
+     * @param firstName the first name identifying the persons
+     * @return the collection containing the persons
      */
     Collection<Person> getPersonByFirstName(String firstName);
 
     /**
-     * Returns Persons with given last name.
+     * Gets the persons with a certain last name.
      *
-     * @param lastName first name indentifying persons
-     * @return persons with given first name
+     * @param lastName the last name identifying the persons
+     * @return the collection containing the persons
      */
     Collection<Person> getPersonByLastName(String lastName);
 
     /**
-     * Returns Persons with given email.
+     * Gets the persons with a certain email.
      *
-     * @param email email of persons
-     * @return persons with given email
+     * @param email the email of the persons
+     * @return the collection containing the persons
      */
     Collection<Person> getPersonByEmail(String email);
 
     /* GET Users  *********************************************************************************/
 
     /**
-     * Returns all person and bot users
+     * Gets all users, including all {@link Person}s and {@link Bot}s.
      *
-     * @return all stored users
+     * @return the collection of all users
      */
     Collection<User> getAllUsers();
 
     /**
-     * Returns all Persons.
+     * Gets all persons.
      *
-     * @return all person users
+     * @return the collection of all persons
      */
     Collection<Person> getAllPersons();
 
     /**
-     * Returns all Bots.
+     * Gets all bots.
      *
-     * @return all bot users.
+     * @return the collection of all bots
      */
     Collection<Bot> getAllBots();
 
     /**
-     * Returns Users with username like given pattern.
+     * Gets the users with their username, first name or lastname containing a certain string.
      *
-     * @param usernamePattern the pattern of a username
-     * @return users with matching username
+     * @param usernamePattern the string containing the search term
+     * @return the collection containing the users with matching name
      */
     Collection<User> getUsersByStringFragment(String usernamePattern);
 
     /* ADD User  **********************************************************************************/
 
     /**
-     * Saves given person
+     * Saves a certain person.
      *
-     * @param person person to save
-     * @return saved person
-     * @throws UserAlreadyExistsException if person already is present
+     * @param person the person
+     * @return the saved person
+     * @throws UserAlreadyExistsException If a user with identical username is present
      */
     Person createPerson(Person person) throws UserAlreadyExistsException;
 
     /**
-     * Saves given bot
+     * Saves a certain bot.
      *
-     * @param bot bot to save
-     * @return saved bot
-     * @throws UserAlreadyExistsException if bot already is present
+     * @param bot the bot
+     * @return the saved bot
+     * @throws UserAlreadyExistsException If a user with identical username is present
      */
     Bot createBot(Bot bot) throws UserAlreadyExistsException;
 
     /* DELETE User  *******************************************************************************/
 
     /**
-     * Deletes user with given username.
+     * Deletes the user with a certain username.
      *
-     * @param username sting identifying user
+     * @param username the sting identifying a user
      */
     void deleteUserByUsername(String username);
 }

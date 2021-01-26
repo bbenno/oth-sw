@@ -13,111 +13,110 @@ public interface IFChatService {
     /* GET Chat  **********************************************************************************/
 
     /**
-     * Returns the chat with the given id.
+     * Gets the chat with a certain id.
      *
-     * @param id the unique chat id
-     * @return the chat if present
+     * @param id the number identifying a chat
+     * @return the chat
      */
     Optional<Chat> getChatById(Long id);
 
     /**
-     * Returns group chat with the given id.
+     * Returns the group chat with a certain id.
      *
-     * @param id the unique chat id
-     * @return the chat if present
+     * @param id the number identifying a chat
+     * @return the chat
      */
     Optional<GroupChat> getGroupChatById(Long id);
 
     /**
-     * Returns group chat with the given id.
+     * Returns the group chat with a certain id.
      *
-     * @param id the unique chat id
-     * @return the chat if present
+     * @param id the number identifying a  chat
+     * @return the chat
      */
     Optional<PeerChat> getPeerChatById(Long id);
 
     /**
-     * Returns all chats the given user is member in.
+     * Gets all chats where a certain user is member of.
      *
-     * @param user the user to select the chats
-     * @return all chats the given user is member in
+     * @param user the user
+     * @return the collection containing the chats
      */
     Collection<Chat> getChatsByUser(User user);
 
     /* GET Chats  *********************************************************************************/
 
     /**
-     * Returns all {@link GroupChat} and {@link PeerChat} objects that are stored.
+     * Gets all chats, including all {@link GroupChat}s and all {@link PeerChat}s.
      *
-     * @return all chats
+     * @return the collection containing all chats
      */
     Collection<Chat> getAllChats();
 
     /**
-     * Returns all {@link GroupChat} object that are stored.
+     * Gets all group chats.
      *
-     * @return all group chats
+     * @return the collection containing all group chats
      */
     Collection<GroupChat> getAllGroupChats();
 
     /**
-     * Returns all {@link GroupChat} object with public visibility.
+     * Gets all public group chats.
      *
-     * @return all group chats
+     * @return the collection containing all group chats
      */
     Collection<GroupChat> getAllPublicGroupChats();
 
     /**
-     * Returns all {@link PeerChat} object that are stored.
+     * Gets all peer chats.
      *
-     * @return all peer chats
+     * @return the collection containing all peer chats
      */
     Collection<PeerChat> getAllPeerChats();
 
     /**
-     * Returns all chats found by given searchFragment.
+     * Gets the chats that should be found by a certain search string.
      *
-     * @param searchFragment the searching term
-     * @return matching group chats
+     * @param searchFragment the string containing a search term
+     * @return the collection containing group chats
      */
     Collection<GroupChat> getChatsByStringFragment(String searchFragment);
 
     /* NEW Chat  **********************************************************************************/
 
     /**
-     * Creates new {@link GroupChat} if not yet present. The creating user will be administrator by
-     * default.
+     * Creates and saves a group chat with certain creator and visibility.
      *
-     * @param creator    the creating user
-     * @param visibility the visibility of the created group chat
-     * @return created group chat
+     * @param creator    the user creating the group chat
+     * @param visibility the group visibility of the group chat
+     * @return the saved group chat
      */
     GroupChat createGroupChat(User creator, GroupVisibility visibility);
 
     /**
-     * Saves new {@link GroupChat} if not yet present.
+     * Saves a certain group chat.
      *
-     * @param creator the creating user
+     * @param creator the user creating the group chat
      * @param chat    the group chat to save
-     * @return saved group chat
+     * @return the saved group chat
      */
     GroupChat saveChat(User creator, GroupChat chat);
 
     /**
-     * Returns {@link PeerChat} between two given users.
+     * Gets or creates the peer chat with certain users being member of.
      *
-     * @param user      the first user of the peer chat
-     * @param otherUser the second user of the peer chat
-     * @return peer chat with both users as members
+     * @param user      the user being member of the peer chat
+     * @param otherUser the user being member of the peer chat
+     * @return the peer chat
      */
     PeerChat getOrCreatePeerChatOf(User user, User otherUser);
 
     /* DELETE Chat  *******************************************************************************/
 
     /**
-     * Delete given chat.
+     * Deletes a certain chat.
      *
-     * @param chat the chat to delete
+     * @param chat the chat
      */
     void deleteChat(Chat chat);
 }
