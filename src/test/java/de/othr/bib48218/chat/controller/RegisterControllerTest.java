@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.othr.bib48218.chat.WebSecurityTestConfig;
 import de.othr.bib48218.chat.factory.UserFactory;
-import de.othr.bib48218.chat.service.UserService;
+import de.othr.bib48218.chat.service.IFUserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,7 +28,7 @@ public class RegisterControllerTest {
 
     @MockBean
     @Qualifier("userService")
-    private UserService userService;
+    private IFUserService userService;
 
     @Test
     void shouldBePubliclyAccessible() throws Exception {

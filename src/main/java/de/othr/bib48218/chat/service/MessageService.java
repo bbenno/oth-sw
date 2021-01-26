@@ -1,12 +1,11 @@
 package de.othr.bib48218.chat.service;
 
-import de.othr.bib48218.chat.integration.PartnerServiceEvent;
-import de.othr.bib48218.chat.integration.PartnerServiceEventSource;
 import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.entity.Message;
 import de.othr.bib48218.chat.entity.ServiceType;
+import de.othr.bib48218.chat.integration.PartnerServiceEvent;
+import de.othr.bib48218.chat.integration.PartnerServiceEventSource;
 import de.othr.bib48218.chat.repository.MessageRepository;
-import de.othr.bib48218.chat.repository.PersonRepository;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Service
-public class MessageService implements IFMessageService {
+class MessageService implements IFMessageService {
 
     @Value("${partner.service.payment.bot_name}")
     private String paymentBotName;
@@ -25,9 +25,6 @@ public class MessageService implements IFMessageService {
 
     @Autowired
     private MessageRepository repository;
-
-    @Autowired
-    private PersonRepository userRepository;
 
     private boolean isServiceBotReceiving(Message message) {
         boolean isServiceBotAuthor = message.getAuthor().getUsername().equals(paymentBotName);

@@ -20,8 +20,9 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Service
-public class ChatService implements IFChatService {
+class ChatService implements IFChatService {
 
     @Autowired
     private GroupChatRepository groupRepository;

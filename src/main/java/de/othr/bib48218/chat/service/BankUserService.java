@@ -7,8 +7,13 @@ import org.springframework.stereotype.Service;
  * Decorator class of {@link UserService} filtering by {@link ServiceType#BANK}.
  */
 @Service
-public class BankUserService extends PartnerUserService {
+class BankUserService extends PartnerUserService {
 
+    /**
+     * Class constructor.
+     *
+     * @param userService the injected user service
+     */
     protected BankUserService(UserService userService) {
         super(ServiceType.BANK, userService);
     }

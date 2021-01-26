@@ -1,9 +1,10 @@
 package de.othr.bib48218.chat.controller;
 
 import de.othr.bib48218.chat.entity.Person;
-import de.othr.bib48218.chat.service.UserService;
+import de.othr.bib48218.chat.service.IFUserService;
 import de.othr.bib48218.chat.util.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RegisterController {
 
     @Autowired
-    private UserService userService;
+    @Qualifier("userService")
+    private IFUserService userService;
 
     @RequestMapping
     public String showPersonForm(Model model) {

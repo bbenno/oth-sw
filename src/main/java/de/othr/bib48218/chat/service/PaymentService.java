@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Service
-public class PaymentService implements IFPaymentService, TransferServiceExternalIF {
+class PaymentService implements IFPaymentService, TransferServiceExternalIF {
 
     @Value("${partner.service.payment.api-uri}")
     private String apiUri;
