@@ -20,18 +20,34 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Component
 public class PaymentEventSubscriber implements ApplicationListener<PartnerServiceEvent> {
 
+    /**
+     * The message text pattern expected to request a transfer.
+     */
     private static final Pattern transferMessage = Pattern.compile(
         "^/request_transfer (?<amount>[0-9]+(\\.[0-9]*)?) (?<email>[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6})\\s*(?<description>.*)$",
         Pattern.CASE_INSENSITIVE);
 
-    private static final String usage = "/request_transfer <amount> <email of payer> <optional description>";
-    private static final String example = "/request_transfer 52.43 rich@person.com";
+    /**
+     * The usage string.
+     */
+    private static final String USAGE_TEXT = "/request_transfer <amount> <email of payer> <optional description>";
+    /**
+     * An usage example.
+     */
+    private static final String EXAMPLE_TEXT = "/request_transfer 52.43 rich@person.com";
 
-    private static final ServiceType serviceType = ServiceType.PAYMENT;
+    /**
+     * The service type of events to handle.
+     */
+    private static final ServiceType SERVICE_TYPE = ServiceType.PAYMENT;
 
+    /**
+     * The username of the service bot.
+     */
     @Value("${partner.service.payment.bot_name}")
     private String botName;
 
@@ -44,9 +60,14 @@ public class PaymentEventSubscriber implements ApplicationListener<PartnerServic
     @Autowired
     private IFUserService userService;
 
+    /**
+     * Handles {@link PartnerServiceEvent}s.
+     *
+     * @param event the partner service event
+     */
     @Override
     public void onApplicationEvent(PartnerServiceEvent event) {
-        if (event.getServiceType() == serviceType) {
+        if (event.getServiceType() == SERVICE_TYPE) {
             Message message = event.getSource();
             Optional<TransferDTO> dto = convertMessageToTransferDto(message);
             Optional<Bot> serviceBot = userService.getBotByUsername(botName);
@@ -54,8 +75,8 @@ public class PaymentEventSubscriber implements ApplicationListener<PartnerServic
             String replyText = dto.map(this::sendTransferRequest)
                 .orElse(String.join("\n",
                     "insufficient information about transfer request",
-                    "usage: " + usage,
-                    "example: " + example
+                    "usage: " + USAGE_TEXT,
+                    "example: " + EXAMPLE_TEXT
                 ));
 
             serviceBot.ifPresent(bot -> {
