@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 
-@WebMvcTest(RegisterController.class)
+@WebMvcTest(HomeController.class)
 @Import(WebSecurityTestConfig.class)
 public class RegisterControllerTest {
 
