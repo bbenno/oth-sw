@@ -3,7 +3,6 @@ package de.othr.bib48218.chat.service;
 import com.othr.swvigopay.entity.TransferDTO;
 import com.othr.swvigopay.exceptions.TransferServiceExternalException;
 import com.othr.swvigopay.service.TransferServiceExternalIF;
-import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -17,21 +16,14 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class PaymentService implements IFPaymentService, TransferServiceExternalIF {
 
-    @Value("${partner.service.payment.port}")
-    private int port;
-
-    @Value("${partner.service.payment.api-path}")
-    private String apiPath;
+    @Value("${partner.service.payment.api-uri}")
+    private String apiUri;
 
     @Autowired
     private RestTemplate restServiceClient;
 
     @Autowired
     private HttpHeaders httpHeaders;
-
-    protected URI getAPIUri(String path) {
-        return URI.create("http://localhost/" + port + "/" + apiPath + path);
-    }
 
     @Override
     public ResponseEntity<TransferDTO> requestTransferExternal(TransferDTO transferDTO)
@@ -40,7 +32,7 @@ public class PaymentService implements IFPaymentService, TransferServiceExternal
         HttpEntity<TransferDTO> request = new HttpEntity<>(transferDTO, httpHeaders);
 
         return restServiceClient
-            .exchange(getAPIUri(path), HttpMethod.POST, request, TransferDTO.class);
+            .exchange(apiUri + path, HttpMethod.POST, request, TransferDTO.class);
     }
 
     @Override

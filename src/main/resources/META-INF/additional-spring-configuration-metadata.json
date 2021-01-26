@@ -6,16 +6,6 @@
       "description": "Salt value for user password encoding."
     },
     {
-      "name": "partner.service.payment.port",
-      "type": "java.lang.Integer",
-      "description": "Port number of partner service 'payment'."
-    },
-    {
-      "name": "partner.service.payment.api-path",
-      "type": "java.lang.String",
-      "description": "API path of partner service 'payment'."
-    },
-    {
       "name": "partner.service.payment.serviceType",
       "type": "de.othr.bib48218.chat.entity.ServiceType",
       "description": "ServiceType of partner service 'payment'."
@@ -34,6 +24,11 @@
       "name": "partner.service.payment.access-token",
       "type": "java.lang.String",
       "description": "Access token for partner service 'payment'."
+    },
+    {
+      "name": "partner.service.payment.api-uri",
+      "type": "java.lang.String",
+      "description": "API URI of partner service 'payment' consisting of scheme, host, port and api path with tailing slash."
     }
   ]
 }
