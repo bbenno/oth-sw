@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class PaymentEventSubscriber implements ApplicationListener<PartnerServiceEvent> {
 
     private static final Pattern transferMessage = Pattern.compile(
-        "^/transfer (?<amount>[0-9]+(\\.[0-9]*)?) (?<email>[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6})\\s*(?<description>.*)$",
+        "^/request_transfer (?<amount>[0-9]+(\\.[0-9]*)?) (?<email>[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6})\\s*(?<description>.*)$",
         Pattern.CASE_INSENSITIVE);
 
     @Autowired
@@ -29,15 +29,15 @@ public class PaymentEventSubscriber implements ApplicationListener<PartnerServic
             Message message = event.getSource();
             Matcher matcher = transferMessage.matcher(message.getText());
             if (matcher.matches()) {
-                String payerEmail = ((Person) message.getAuthor()).getEmail();
-                String receiverEmail = matcher.group("email");
-                BigDecimal amount = BigDecimal.valueOf(Long.parseLong(matcher.group("amount")));
+                String payerEmail = matcher.group("email");
+                String receiverEmail = ((Person) message.getAuthor()).getEmail();
+                BigDecimal amount = new BigDecimal(matcher.group("amount"));
                 String description = matcher.group("description");
 
                 TransferDTO dto = new TransferDTO(payerEmail, receiverEmail, amount, description);
 
                 try {
-                    paymentService.transfer(dto);
+                    paymentService.requestTransfer(dto);
                 } catch (TransferServiceExternalException e) {
                 }
             }

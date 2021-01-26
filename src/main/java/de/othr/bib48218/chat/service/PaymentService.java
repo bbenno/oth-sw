@@ -44,7 +44,7 @@ public class PaymentService implements IFPaymentService, TransferServiceExternal
     }
 
     @Override
-    public TransferDTO transfer(TransferDTO transferDTO)
+    public TransferDTO requestTransfer(TransferDTO transferDTO)
         throws TransferServiceExternalException {
         ResponseEntity<TransferDTO> response;
         try {
