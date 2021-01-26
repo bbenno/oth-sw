@@ -33,8 +33,10 @@ public interface IFSendMessage {
     void sendMessage(Message message);
 
     /**
-     * Gets all messages.
+     * Gets the messages of a certain chat since a certain point in time.
      *
+     * @param chat the chat
+     * @param dateTime the point in time
      * @return the collection containing all messages
      */
     Collection<Message> pullMessages(Chat chat, LocalDateTime dateTime);
