@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Decorator class of {@link UserService} to filter by certain {@link ServiceType}.
+ * Decorator class of {@link UserService} filtering by certain {@link ServiceType}.
  */
 abstract class PartnerUserService implements IFUserService {
 
