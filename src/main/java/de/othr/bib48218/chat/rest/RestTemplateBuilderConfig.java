@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
  * Configuration providing {@link RestTemplate} beans.
  */
 @Configuration
-public class RestTemplateBuilderConfiguration {
+class RestTemplateBuilderConfig {
 
     @Bean
     public RestTemplate createRestTemplateBuilder(RestTemplateBuilder builder) {
