@@ -5,7 +5,7 @@ import de.othr.bib48218.chat.entity.Message;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
-public interface IFMessageService extends IFSendMessage {
+public interface IFMessageService {
 
     /* GET Messages  ******************************************************************************/
 

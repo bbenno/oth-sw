@@ -91,32 +91,4 @@ public class MessageService implements IFMessageService {
         repository.delete(message);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Optional<User> findUserByUsername(String username, String serviceToken) {
-        // TODO: Check serviceToken
-        return userRepository.findById(username).map((person) -> person);
-    }
-
-    @Override
-    @Transactional
-    public Boolean sendMessage(Message message, String serviceToken) {
-        // TODO: Check serviceToken
-        try {
-            repository.save(message);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Collection<Message> pullMessages(String serviceToken) {
-        // TODO: Check serviceToken
-        User serviceUser = null;
-        // TODO: Find all messages of all chats
-        // return repository.findByUser(serviceUser);
-        return null;
-    }
 }
