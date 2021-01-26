@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class RestAccessAdvice {
+class RestAccessAdvice {
 
     @ResponseBody
     @ExceptionHandler(RestAccessException.class)

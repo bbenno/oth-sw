@@ -20,7 +20,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
  * A Configuration providing MVC beans.
  */
 @Configuration
-public class MvcConfig implements WebMvcConfigurer {
+class MvcConfig implements WebMvcConfigurer {
 
     @Bean
     public Properties yamlProperties() {

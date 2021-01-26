@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 
 @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Component
-public class PaymentEventSubscriber implements ApplicationListener<PartnerServiceEvent> {
+class PaymentEventSubscriber implements ApplicationListener<PartnerServiceEvent> {
 
     /**
      * The message text pattern expected to request a transfer.

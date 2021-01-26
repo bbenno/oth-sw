@@ -16,7 +16,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] ALLOW_ACCESS_WITHOUT_AUTHENTICATION = {"/css/**", "/img/**",
         "/fonts/**", "/js/**", "/login", "/register", "/favicon*", "/apple-*.png", "/android-*.png",
@@ -50,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .clearAuthentication(true)
             .permitAll();
         http.rememberMe();
+        http.csrf().ignoringAntMatchers("/webapi/**");
     }
 
     @Autowired
