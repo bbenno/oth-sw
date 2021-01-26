@@ -1,4 +1,4 @@
-package de.othr.bib48218.chat;
+package de.othr.bib48218.chat.integration;
 
 import com.othr.swvigopay.entity.TransferDTO;
 import com.othr.swvigopay.exceptions.TransferServiceExternalException;

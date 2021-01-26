@@ -1,4 +1,4 @@
-package de.othr.bib48218.chat;
+package de.othr.bib48218.chat.integration;
 
 import de.othr.bib48218.chat.entity.Message;
 import de.othr.bib48218.chat.entity.ServiceType;

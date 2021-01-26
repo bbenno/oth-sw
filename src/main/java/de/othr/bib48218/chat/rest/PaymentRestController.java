@@ -1,7 +1,7 @@
 package de.othr.bib48218.chat.rest;
 
 import com.othr.swvigopay.entity.TransferDTO;
-import de.othr.bib48218.chat.RestAccessException;
+import de.othr.bib48218.chat.util.RestAccessException;
 import de.othr.bib48218.chat.entity.Message;
 import de.othr.bib48218.chat.entity.PeerChat;
 import de.othr.bib48218.chat.entity.ServiceType;

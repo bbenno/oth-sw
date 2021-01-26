@@ -1,16 +1,14 @@
 package de.othr.bib48218.chat.service;
 
-import de.othr.bib48218.chat.PartnerServiceEvent;
-import de.othr.bib48218.chat.PartnerServiceEventSource;
+import de.othr.bib48218.chat.integration.PartnerServiceEvent;
+import de.othr.bib48218.chat.integration.PartnerServiceEventSource;
 import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.entity.Message;
 import de.othr.bib48218.chat.entity.ServiceType;
-import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.repository.MessageRepository;
 import de.othr.bib48218.chat.repository.PersonRepository;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

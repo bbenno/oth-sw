@@ -1,4 +1,4 @@
-package de.othr.bib48218.chat;
+package de.othr.bib48218.chat.integration;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;

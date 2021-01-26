@@ -1,4 +1,4 @@
-package de.othr.bib48218.chat.controller;
+package de.othr.bib48218.chat.websocket;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

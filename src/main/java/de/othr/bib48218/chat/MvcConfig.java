@@ -1,4 +1,4 @@
-package de.othr.bib48218.chat.controller;
+package de.othr.bib48218.chat;
 
 import java.util.Locale;
 import java.util.Properties;

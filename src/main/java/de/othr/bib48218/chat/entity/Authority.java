@@ -1,4 +1,4 @@
-package de.othr.bib48218.chat;
+package de.othr.bib48218.chat.entity;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,7 +1,6 @@
 package de.othr.bib48218.chat.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import de.othr.bib48218.chat.Authority;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
