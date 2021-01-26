@@ -1,5 +1,6 @@
 package de.othr.bib48218.chat.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +34,7 @@ public abstract class Chat {
     /**
      * The sent messages in the chat.
      */
+    @JsonIgnore
     @OneToMany(
         mappedBy = "chat",
         cascade = {CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.DETACH},
