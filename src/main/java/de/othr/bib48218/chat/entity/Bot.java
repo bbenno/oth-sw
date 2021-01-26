@@ -14,15 +14,13 @@ import org.springframework.lang.NonNull;
 @NoArgsConstructor
 public class Bot extends User {
 
-    private ServiceType serviceType;
-
     public Bot(@lombok.NonNull @NonNull String username) {
         super(username, "");
     }
 
     public Bot(@lombok.NonNull @NonNull String username, ServiceType serviceType) {
         super(username, "");
-        this.serviceType = serviceType;
+        this.setScope(serviceType);
     }
 
     @Override
