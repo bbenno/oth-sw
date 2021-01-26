@@ -151,7 +151,7 @@ class UserService implements IFUserService, UserDetailsService {
         botRepository.findByUsername(username).ifPresent(b -> b.setEnabled(false));
     }
 
-    <T extends User> T withEncryptedPassword(T user) {
+    private <T extends User> T withEncryptedPassword(T user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return user;
     }
