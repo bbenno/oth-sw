@@ -61,6 +61,7 @@ public class HomeController {
                 "Username exists already"
             ));
 
+            person.setUsername("");
             model.addAttribute("user", person);
             return "register";
         }
