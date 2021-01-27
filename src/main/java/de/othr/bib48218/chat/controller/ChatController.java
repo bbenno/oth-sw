@@ -65,18 +65,14 @@ public class ChatController {
 
     @RequestMapping("/{id}/add")
     public String addChatMember(@PathVariable long id, Principal principal, Model model) {
-        Optional<Chat> chat = chatService.getChatById(id);
-
-        if (chat.isPresent()) {
-            if (isAllowedToAddMemberToChat(principal, chat.get())) {
-                model.addAttribute("chat", chat.get());
+        return chatService.getChatById(id).map(chat -> {
+            if (isAllowedToAddMemberToChat(principal, chat)) {
+                model.addAttribute("chat", chat);
                 return "chat/add_member";
             } else {
                 return "redirect:/";
             }
-        } else {
-            return "redirect:/";
-        }
+        }).orElse("redirect:/");
     }
 
     @PostMapping("/{id}/add")
@@ -114,15 +110,15 @@ public class ChatController {
     @RequestMapping("/{id}/join")
     @Transactional
     public String joinChat(@PathVariable Long id, Principal principal, Model model) {
-        Optional<Chat> chat = chatService.getChatById(id);
-
-        if (chat.isPresent()) {
-            addUserToChat(userOfPrincipal(principal), chat.get());
+        return chatService.getChatById(id).map(chat -> {
+            addUserToChat(userOfPrincipal(principal), chat);
             return "redirect:";
-        } else {
-            model.addAttribute("notification", CHAT_NOT_FOUND);
-            return "redirect:/";
-        }
+        }).orElseGet(
+            () -> {
+                model.addAttribute("notification", CHAT_NOT_FOUND);
+                return "redirect:/";
+            }
+        );
     }
 
     @RequestMapping("/{id}/leave")
