@@ -2,6 +2,7 @@ package de.othr.bib48218.chat.websocket;
 
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -30,10 +31,13 @@ class SearchWebSocketEndpoint {
 
     @MessageMapping("/search")
     @SendTo("/websocket-broker/search")
-    public Collection<Pair<String, String>> receiveFromWebSocket(String searchTerm) {
+    public Collection<Pair<String, String>> receiveFromWebSocket(String searchTerm,
+        Principal principal
+    ) {
         System.out.println(searchTerm);
         return Stream.concat(
             userService.getUsersByStringFragment(searchTerm).stream()
+                .filter(u -> !u.getUsername().equals(principal.getName()))
                 .map(u -> Pair.of(u.getUsername(), u.toString() + " (" + u.getUsername() + ")")),
             chatService.getChatsByStringFragment(searchTerm).stream()
                 .map(c -> Pair.of(c.getId().toString() + "/join", c.getProfile().getName()))
