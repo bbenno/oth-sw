@@ -145,6 +145,7 @@ chat:
     caption: Benutzer zu Chat hinzufügen
     add_user: Benutzer hinzufügen
     delete_chat: Chat löschen
+    user_not_found: Benutzer wurde nicht gefunden
   edit:
     title: Gruppen Chat bearbeiten
     submit: Speichern

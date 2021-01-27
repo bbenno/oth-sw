@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * The controller for {@link Chat}.
@@ -109,7 +108,7 @@ public class ChatController {
 
     @PostMapping("/{id}/add")
     @Transactional
-    public ModelAndView addChatMember(
+    public String addChatMember(
         @PathVariable Long id,
         @RequestParam String username,
         Principal principal,
@@ -130,14 +129,13 @@ public class ChatController {
             addUserToChat(newMember.get(), chat.get());
         }
 
-        String view =
-            (newMember.isEmpty())
-                ? "chat/add_member"
-                : (isUserAdded)
-                    ? "redirect:"
-                    : "redirect:/";
+        model.addAttribute("isUsernameTaken", !isUserAdded);
 
-        return new ModelAndView(view, model.asMap());
+        return (newMember.isEmpty())
+            ? "chat/add_member"
+            : (isUserAdded)
+                ? "redirect:"
+                : "redirect:/";
     }
 
     @RequestMapping("/{id}/join")

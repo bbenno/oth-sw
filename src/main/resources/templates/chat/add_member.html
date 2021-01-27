@@ -22,6 +22,7 @@
 
   <h1 th:text="#{chat.add_user.caption}">Chat Title</h1>
 
+  <p th:if="${isUsernameTaken}" class="text-danger" th:text="#{chat.add_user.user_not_found}">User not found</p>
   <form action="#" class="d-flex my-3" th:action="@{/chat/{id}/add(id=${chat.id})}" method="post">
     <label for="username" th:text="#{attribute.user.username}">Username</label>
     <input id="username" type="text" name="username" placeholder="Username"
