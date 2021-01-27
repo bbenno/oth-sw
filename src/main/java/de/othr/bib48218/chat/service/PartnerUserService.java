@@ -85,8 +85,8 @@ abstract class PartnerUserService implements IFUserService {
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<Person> getAllPersons() {
-        return filterByPartner(userService.getAllPersons());
+    public Collection<Person> getAllPeople() {
+        return filterByPartner(userService.getAllPeople());
     }
 
     @Override
