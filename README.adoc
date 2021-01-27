@@ -1,14 +1,45 @@
 = Chat Service
 Benno Bielmeier <benno.bielmeier@st.oth-regensburg.de>
+:icons: font
 
 image:https://github.com/bbenno/oth-sw/workflows/Java%20CI%20with%20Maven/badge.svg[Java CI with Maven]
 
 == Setup
 
+.Requirements
+[IMPORTANT]
+====
+. Java 14 or later (https://jdk.java.net/[JDK] for <<Development>>, JRE for <<Deployment>>)
+. https://maven.apache.org/[Maven] 3.2+
+. https://dev.mysql.com/doc/refman/8.0[MySQL 8.0] +
+  Note: version in link:src/main/resources/application-production.properties[application-production.properties] is v5.1 due to environment of intended deployment. +
+  https://nvd.nist.gov/vuln/detail/CVE-2019-2692[This version has known security vulnerabilities] -> edit properties file and use later version of MySQL!
+====
+
+=== Development
+
+. Clone repository +
+[source]
+git clone git@github.com:bbenno/oth-sw
+. {blank}
+[source]
+cd oth-sw
+. Install local JAR +
+[source]
+mvn install:install-file -Dfile=lib/com.othr.swvigopay-0.0.1SNAPSHOT.jar -DgroupId=com.othr -DartifactId=swvigopay -Dversion=0.0.1SNAPSHOT -Dpackaging=jar -DgeneratePom=true
+. Set environment variablesfootnote:pam[See sample link:src/.pam_environment.sample[.pam_environment]]
+. (_Optionally_) Edit link:src/main/resources/application.properties[application.properties] or link:src/main/resources/application-development.properties[application-development.properties]
+. Build JAR +
+[source]
+./mvnw package
+. Run application +
+[source]
+./mvnw spring-boot:run
+
 === Deployment
 
 . Download https://github.com/bbenno/oth-sw/releases/latest[latest `chat-<VERSION>.jar`]
-. Set environment variablesfootnote:[See sample link:src/.pam_environment.sample[.pam_environment]]
+. Set environment variablesfootnote:pam[]
 . Start webserverfootnote:[See sample link:src/production-run.sh[run script]] +
 [source, bash]
 java -jar chat-<VERSION>.jar >> console.log 2>> error.log &
