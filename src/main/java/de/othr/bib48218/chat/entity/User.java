@@ -1,6 +1,9 @@
 package de.othr.bib48218.chat.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -28,6 +31,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 /**
  * The account class of the application.
  */
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type")
+@JsonSubTypes({
+    @Type(value = Person.class, name = "person"),
+    @Type(value = Bot.class, name = "bot")
+})
 @Entity
 @Getter
 @Setter

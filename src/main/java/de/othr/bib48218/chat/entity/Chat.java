@@ -1,6 +1,9 @@
 package de.othr.bib48218.chat.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +20,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "type")
+@JsonSubTypes({
+    @Type(value = PeerChat.class, name = "peer_chat"),
+    @Type(value = GroupChat.class, name = "group_chat")
+})
 @Entity
 @Getter
 @Setter
