@@ -160,6 +160,7 @@ chat:
     caption: Benutzer zu Chat hinzufügen
     add_user: Add User
     delete_chat: Delete Chat
+    user_not_found: User not found
   edit:
     title: Edit Group Chat
     submit: Save
