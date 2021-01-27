@@ -4,7 +4,6 @@ import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.entity.ChatMemberStatus;
 import de.othr.bib48218.chat.entity.ChatMembership;
 import de.othr.bib48218.chat.entity.GroupChat;
-import de.othr.bib48218.chat.entity.PeerChat;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
@@ -34,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/chat")
 public class ChatController {
 
-    private static final Pattern pattern = Pattern.compile("\\d+");
+    private static final Pattern NUMBER_PATTERN = Pattern.compile("\\d+");
 
     /**
      * Default notification message if chat is not found.
@@ -55,38 +54,12 @@ public class ChatController {
     ) {
         User user = userOfPrincipal(principal);
 
-        boolean isId = pattern.matcher(identifier).matches();
-
-        if (isId) {
+        if (NUMBER_PATTERN.matcher(identifier).matches()) {
             // Interpret identifier as chat id
-            Optional<Chat> chat = chatService.getChatById(Long.parseLong(identifier));
-            if (chat.isPresent() && chat.get().getStatusOfMember(user).isPresent()) {
-                model.addAllAttributes(Map.of(
-                    "chat",
-                    chat.get(),
-
-                    "isAdmin",
-                    chat.get().getStatusOfMember(user)
-                        .map(s -> s == ChatMemberStatus.ADMINISTRATOR)
-                        .orElse(false)
-                ));
-                return "chat/show";
-            } else {
-                model.addAttribute("notification", CHAT_NOT_FOUND);
-                return "redirect:/";
-            }
+            return showGroupChat(Long.parseLong(identifier), user, model);
         } else {
             // Interpret identifier as username
-            Optional<PeerChat> chat = userService.getUserByUsername(identifier)
-                .map(u -> chatService.getOrCreatePeerChatOf(user, u));
-
-            if (chat.isPresent()) {
-                model.addAttribute("chat", chat.get());
-                return "chat/show";
-            } else {
-                model.addAttribute("notification", CHAT_NOT_FOUND);
-                return "redirect:/";
-            }
+            return showPeerChat(identifier, user, model);
         }
     }
 
@@ -274,6 +247,39 @@ public class ChatController {
                 m -> m.setStatus(status),
                 () -> chat.getMemberships().add(new ChatMembership(chat, status, user))
             );
+    }
+
+    private String showPeerChat(String identifier, User user, Model model) {
+        return userService.getUserByUsername(identifier)
+            .map(u -> chatService.getOrCreatePeerChatOf(user, u))
+            .map(chat -> {
+                model.addAttribute("chat", chat);
+                return "chat/show";
+            }).orElseGet(
+                () -> {
+                    model.addAttribute("notification", CHAT_NOT_FOUND);
+                    return "redirect:/";
+                }
+            );
+    }
+
+    private String showGroupChat(Long chatId, User user, Model model) {
+        Optional<Chat> chat = chatService.getChatById(chatId);
+        if (chat.isPresent() && chat.get().getStatusOfMember(user).isPresent()) {
+            model.addAllAttributes(Map.of(
+                "chat",
+                chat.get(),
+
+                "isAdmin",
+                chat.get().getStatusOfMember(user)
+                    .map(s -> s == ChatMemberStatus.ADMINISTRATOR)
+                    .orElse(false)
+            ));
+            return "chat/show";
+        } else {
+            model.addAttribute("notification", CHAT_NOT_FOUND);
+            return "redirect:/";
+        }
     }
 
     private User userOfPrincipal(Principal principal) {
