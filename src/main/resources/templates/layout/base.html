@@ -70,8 +70,10 @@
 <script>connect();
 document.querySelector("#searchbar").addEventListener("input", function () {
   let v = document.querySelector("#searchbar").value
-  console.log(v);
-  sendSearchTerm(v);
+  if (v) {
+    console.log(v);
+    sendSearchTerm(v);
+  }
 });
 
 function onInput() {
