@@ -80,8 +80,7 @@ class UserRestControllerV1 implements IFUserRestControllerV1 {
     }
 
     @GetMapping("people/{username}/chat")
-    public PeerChat getPersonChat(@PathVariable("username") String username)
-        throws UserAlreadyExistsException {
+    public PeerChat getPersonChat(@PathVariable("username") String username) {
         Bot bankServiceBot = userService.getBotByUsername("bank_service").get();
         Person person = userService.getPersonByUsername(username).orElseGet(
             () -> {
