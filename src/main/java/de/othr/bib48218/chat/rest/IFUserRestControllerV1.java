@@ -39,11 +39,11 @@ public interface IFUserRestControllerV1 {
     ResponseEntity<Collection<User>> getUsers();
 
     /**
-     * Gets all persons.
+     * Gets all people.
      *
-     * @return the collection containing all persons
+     * @return the collection containing all people
      */
-    ResponseEntity<Collection<Person>> getPersons();
+    ResponseEntity<Collection<Person>> getPeople();
 
     /**
      * Gets all bots.

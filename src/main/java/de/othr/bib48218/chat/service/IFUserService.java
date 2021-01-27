@@ -36,26 +36,26 @@ public interface IFUserService {
     Optional<Bot> getBotByUsername(String username);
 
     /**
-     * Gets the persons with a certain first name.
+     * Gets the people with a certain first name.
      *
-     * @param firstName the first name identifying the persons
-     * @return the collection containing the persons
+     * @param firstName the first name identifying the people
+     * @return the collection containing the people
      */
     Collection<Person> getPersonByFirstName(String firstName);
 
     /**
-     * Gets the persons with a certain last name.
+     * Gets the people with a certain last name.
      *
-     * @param lastName the last name identifying the persons
-     * @return the collection containing the persons
+     * @param lastName the last name identifying the people
+     * @return the collection containing the people
      */
     Collection<Person> getPersonByLastName(String lastName);
 
     /**
-     * Gets the persons with a certain email.
+     * Gets the people with a certain email.
      *
-     * @param email the email of the persons
-     * @return the collection containing the persons
+     * @param email the email of the people
+     * @return the collection containing the people
      */
     Collection<Person> getPersonByEmail(String email);
 
@@ -69,11 +69,11 @@ public interface IFUserService {
     Collection<User> getAllUsers();
 
     /**
-     * Gets all persons.
+     * Gets all people.
      *
-     * @return the collection of all persons
+     * @return the collection of all people
      */
-    Collection<Person> getAllPersons();
+    Collection<Person> getAllPeople();
 
     /**
      * Gets all bots.

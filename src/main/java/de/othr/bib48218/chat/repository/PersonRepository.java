@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * CRUD repository of persons.
+ * CRUD repository of people.
  */
 public interface PersonRepository extends UserRepository<Person> {
 

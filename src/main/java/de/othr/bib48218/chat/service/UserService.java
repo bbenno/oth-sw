@@ -125,14 +125,14 @@ class UserService implements IFUserService, UserDetailsService {
     @Transactional(readOnly = true)
     public Collection<User> getAllUsers() {
         return Stream.concat(
-            getAllPersons().stream(),
+            getAllPeople().stream(),
             getAllBots().stream()
         ).collect(Collectors.toUnmodifiableList());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<Person> getAllPersons() {
+    public Collection<Person> getAllPeople() {
         return StreamSupport.stream(personRepository.findAll().spliterator(), false)
             .collect(Collectors.toUnmodifiableList());
     }

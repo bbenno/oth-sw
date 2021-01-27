@@ -26,10 +26,10 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
-        <input class="form-control form-control-dark w-100" type="search" placeholder="Search"
+        <input class="form-control form-control-dark w-100 search" type="search" placeholder="Search"
                th:placeholder="#{header.search}" aria-label="Search" id="searchbar"
                list="search-list" oninput="onInput()">
-        <datalist id="search-list"></datalist>
+        <datalist id="search-list" class="search-list"></datalist>
         <ul class="navbar-nav px-3">
           <li class="nav-item text-nowrap navbar-text">
             <a href="#" th:text="${#authentication.name}" th:href="@{/me}">Username</a>

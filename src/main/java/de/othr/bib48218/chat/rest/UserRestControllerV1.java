@@ -34,7 +34,7 @@ class UserRestControllerV1 implements IFUserRestControllerV1 {
     /* CREATE  ************************************************************************************/
 
     @Override
-    @PostMapping("persons")
+    @PostMapping("people")
     public Person createPerson(@RequestBody Person person) {
         try {
             return userService.createPerson(person);
@@ -68,20 +68,19 @@ class UserRestControllerV1 implements IFUserRestControllerV1 {
     }
 
     @Override
-    @GetMapping("persons")
-    public ResponseEntity<Collection<Person>> getPersons() {
-        return ResponseEntity.ok(userService.getAllPersons());
+    @GetMapping("people")
+    public ResponseEntity<Collection<Person>> getPeople() {
+        return ResponseEntity.ok(userService.getAllPeople());
     }
 
     @Override
-    @GetMapping("persons/{username}")
+    @GetMapping("people/{username}")
     public ResponseEntity<Person> getPerson(@PathVariable("username") String username) {
         return ResponseEntity.of(userService.getPersonByUsername(username));
     }
 
-    @GetMapping("persons/{username}/chat")
-    public PeerChat getPersonChat(@PathVariable("username") String username)
-        throws UserAlreadyExistsException {
+    @GetMapping("people/{username}/chat")
+    public PeerChat getPersonChat(@PathVariable("username") String username) {
         Bot bankServiceBot = userService.getBotByUsername("bank_service").get();
         Person person = userService.getPersonByUsername(username).orElseGet(
             () -> {
@@ -124,7 +123,7 @@ class UserRestControllerV1 implements IFUserRestControllerV1 {
     }
 
     @Override
-    @DeleteMapping("persons/{username}")
+    @DeleteMapping("people/{username}")
     public void deletePerson(@PathVariable("username") String username) {
         userService.deleteUserByUsername(username);
     }

@@ -4,7 +4,6 @@ import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.entity.ChatMemberStatus;
 import de.othr.bib48218.chat.entity.ChatMembership;
 import de.othr.bib48218.chat.entity.GroupChat;
-import de.othr.bib48218.chat.entity.PeerChat;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * The controller for {@link Chat}.
@@ -35,7 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/chat")
 public class ChatController {
 
-    private static final Pattern pattern = Pattern.compile("\\d+");
+    private static final Pattern NUMBER_PATTERN = Pattern.compile("\\d+");
 
     /**
      * Default notification message if chat is not found.
@@ -56,60 +54,30 @@ public class ChatController {
     ) {
         User user = userOfPrincipal(principal);
 
-        boolean isId = pattern.matcher(identifier).matches();
-
-        if (isId) {
+        if (NUMBER_PATTERN.matcher(identifier).matches()) {
             // Interpret identifier as chat id
-            Optional<Chat> chat = chatService.getChatById(Long.parseLong(identifier));
-            if (chat.isPresent() && chat.get().getStatusOfMember(user).isPresent()) {
-                model.addAllAttributes(Map.of(
-                    "chat",
-                    chat.get(),
-
-                    "isAdmin",
-                    chat.get().getStatusOfMember(user)
-                        .map(s -> s == ChatMemberStatus.ADMINISTRATOR)
-                        .orElse(false)
-                ));
-                return "chat/show";
-            } else {
-                model.addAttribute("notification", CHAT_NOT_FOUND);
-                return "redirect:/";
-            }
+            return showGroupChat(Long.parseLong(identifier), user, model);
         } else {
             // Interpret identifier as username
-            Optional<PeerChat> chat = userService.getUserByUsername(identifier)
-                .map(u -> chatService.getOrCreatePeerChatOf(user, u));
-
-            if (chat.isPresent()) {
-                model.addAttribute("chat", chat.get());
-                return "chat/show";
-            } else {
-                model.addAttribute("notification", CHAT_NOT_FOUND);
-                return "redirect:/";
-            }
+            return showPeerChat(identifier, user, model);
         }
     }
 
     @RequestMapping("/{id}/add")
     public String addChatMember(@PathVariable long id, Principal principal, Model model) {
-        Optional<Chat> chat = chatService.getChatById(id);
-
-        if (chat.isPresent()) {
-            if (isAllowedToAddMemberToChat(principal, chat.get())) {
-                model.addAttribute("chat", chat.get());
+        return chatService.getChatById(id).map(chat -> {
+            if (isAllowedToAddMemberToChat(principal, chat)) {
+                model.addAttribute("chat", chat);
                 return "chat/add_member";
             } else {
                 return "redirect:/";
             }
-        } else {
-            return "redirect:/";
-        }
+        }).orElse("redirect:/");
     }
 
     @PostMapping("/{id}/add")
     @Transactional
-    public ModelAndView addChatMember(
+    public String addChatMember(
         @PathVariable Long id,
         @RequestParam String username,
         Principal principal,
@@ -130,28 +98,27 @@ public class ChatController {
             addUserToChat(newMember.get(), chat.get());
         }
 
-        String view =
-            (newMember.isEmpty())
-                ? "chat/add_member"
-                : (isUserAdded)
-                    ? "redirect:"
-                    : "redirect:/";
+        model.addAttribute("isUsernameTaken", !isUserAdded);
 
-        return new ModelAndView(view, model.asMap());
+        return (newMember.isEmpty())
+            ? "chat/add_member"
+            : (isUserAdded)
+                ? "redirect:"
+                : "redirect:/";
     }
 
     @RequestMapping("/{id}/join")
     @Transactional
     public String joinChat(@PathVariable Long id, Principal principal, Model model) {
-        Optional<Chat> chat = chatService.getChatById(id);
-
-        if (chat.isPresent()) {
-            addUserToChat(userOfPrincipal(principal), chat.get());
+        return chatService.getChatById(id).map(chat -> {
+            addUserToChat(userOfPrincipal(principal), chat);
             return "redirect:";
-        } else {
-            model.addAttribute("notification", CHAT_NOT_FOUND);
-            return "redirect:/";
-        }
+        }).orElseGet(
+            () -> {
+                model.addAttribute("notification", CHAT_NOT_FOUND);
+                return "redirect:/";
+            }
+        );
     }
 
     @RequestMapping("/{id}/leave")
@@ -276,6 +243,39 @@ public class ChatController {
                 m -> m.setStatus(status),
                 () -> chat.getMemberships().add(new ChatMembership(chat, status, user))
             );
+    }
+
+    private String showPeerChat(String identifier, User user, Model model) {
+        return userService.getUserByUsername(identifier)
+            .map(u -> chatService.getOrCreatePeerChatOf(user, u))
+            .map(chat -> {
+                model.addAttribute("chat", chat);
+                return "chat/show";
+            }).orElseGet(
+                () -> {
+                    model.addAttribute("notification", CHAT_NOT_FOUND);
+                    return "redirect:/";
+                }
+            );
+    }
+
+    private String showGroupChat(Long chatId, User user, Model model) {
+        Optional<Chat> chat = chatService.getChatById(chatId);
+        if (chat.isPresent() && chat.get().getStatusOfMember(user).isPresent()) {
+            model.addAllAttributes(Map.of(
+                "chat",
+                chat.get(),
+
+                "isAdmin",
+                chat.get().getStatusOfMember(user)
+                    .map(s -> s == ChatMemberStatus.ADMINISTRATOR)
+                    .orElse(false)
+            ));
+            return "chat/show";
+        } else {
+            model.addAttribute("notification", CHAT_NOT_FOUND);
+            return "redirect:/";
+        }
     }
 
     private User userOfPrincipal(Principal principal) {

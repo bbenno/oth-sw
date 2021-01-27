@@ -9,20 +9,23 @@ function connect() {
       //console.log(response);
       let content = JSON.parse(response.body);
 
-      // Delete previous datalist entries
-      let datalist = document.getElementById("search-list");
-      datalist.innerHTML = '';
+      let datalists = document.getElementsByClassName("search-list");
 
-      // Collect datalist entries
-      let options = '';
-      for (let i = 0; i < content.length; i++) {
-        //console.log(content[i]);
-        options += '<option value="' + content[i].first + '" >'
-            + content[i].second + '</option>';
+      for (let datalist of datalists) {
+        // Delete previous datalist entries
+        datalist.innerHTML = '';
+
+        // Collect datalist entries
+        let options = '';
+        for (let i = 0; i < content.length; i++) {
+          //console.log(content[i]);
+          options += '<option value="' + content[i].first + '" >'
+              + content[i].second + '</option>';
+        }
+
+        // Set collected datalist entries
+        datalist.innerHTML = options;
       }
-
-      // Set collected datalist entries
-      datalist.innerHTML = options;
     })
   })
 }
