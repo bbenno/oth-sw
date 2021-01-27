@@ -68,13 +68,18 @@
 <!--*/-->
 <script src="../../static/js/custom.js" th:src="@{/js/custom.js}"></script>
 <script>connect();
-document.querySelector("#searchbar").addEventListener("input", function () {
-  let v = document.querySelector("#searchbar").value
-  if (v) {
-    console.log(v);
-    sendSearchTerm(v);
-  }
-});
+let search_inputs = document.getElementsByClassName("search");
+
+for (let search_input of search_inputs) {
+  search_input.addEventListener("input", function () {
+      let v = search_input.value
+      if (v) {
+        console.log(v);
+        sendSearchTerm(v);
+      }
+    }
+  )
+}
 
 function onInput() {
   const val = document.getElementById("searchbar").value;
