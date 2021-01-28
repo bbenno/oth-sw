@@ -1,13 +1,13 @@
 package de.othr.bib48218.chat.rest;
 
 import com.othr.swvigopay.entity.TransferDTO;
-import de.othr.bib48218.chat.util.RestAccessException;
 import de.othr.bib48218.chat.entity.Message;
 import de.othr.bib48218.chat.entity.PeerChat;
 import de.othr.bib48218.chat.entity.ServiceType;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFMessageService;
 import de.othr.bib48218.chat.service.IFUserService;
+import de.othr.bib48218.chat.util.RestAccessException;
 import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,7 +40,7 @@ class PaymentRestController {
     private IFChatService chatService;
 
     @PostMapping
-    public void nameDerMethode(
+    public void transferStateUpdateNotification(
         @RequestBody TransferDTO transferDTO,
         @RequestHeader("access-token") String token
     ) {
@@ -51,7 +51,7 @@ class PaymentRestController {
                     PeerChat chat = chatService.getOrCreatePeerChatOf(p, b);
                     messageService.saveMessage(
                         new Message(
-                            transferDtoToMessageText(transferDTO), chat, p, LocalDateTime.now())
+                            transferDtoToMessageText(transferDTO), chat, b, LocalDateTime.now())
                     );
                 }));
         } else {
@@ -60,9 +60,11 @@ class PaymentRestController {
     }
 
     private String transferDtoToMessageText(TransferDTO transferDTO) {
+        String description = transferDTO.getDescription().replaceFirst("&&&.*?&&&", "");
         return "Status update regarding transfer request to " + transferDTO.getPayerEmail()
-            + " with description '" + transferDTO.getDescription() + "'"
+            + " with description '" + description + "'"
             + " about " + transferDTO.getAmount() + ":\n"
             + transferDTO.getState();
     }
+
 }
