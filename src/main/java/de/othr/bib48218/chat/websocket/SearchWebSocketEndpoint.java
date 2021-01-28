@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.util.Pair;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Controller;
  */
 @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Controller
+@Scope(scopeName = "websocket", proxyMode = ScopedProxyMode.TARGET_CLASS)
 class SearchWebSocketEndpoint {
 
     @Autowired

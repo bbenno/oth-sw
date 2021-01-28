@@ -43,7 +43,7 @@ _MAY_ be separated by different deployment components
 * [x] Application _MUST_ contain at least one custom producer method for bean creation.
 This method _MUST_ be used. +
 __-> e.g. injected `HttpHeaders` provided by producer methods in link:../main/java/de/othr/bib48218/chat/integration/PartnerServiceConfig.java[`PartnerServiceConfiguration`] that are used in link:../main/java/de/othr/bib48218/chat/rest/[REST controllers]__
-* [ ] Each CDI bean _MUST_ have an appropriate scope.
+* [x] Each CDI bean _MUST_ have an appropriate scope.
 
 .Persistence
 * [x] Database access _MUST_ only be done via spring persistence (entities and repositories). +
