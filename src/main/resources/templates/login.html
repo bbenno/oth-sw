@@ -69,6 +69,7 @@
 
 <main class="form-signin" layout:fragment="content">
   <form th:action="@{/perform_login}" th:method="post">
+    <img class="mb-4" src="../static/logo.svg" alt="Logo" th:src="@{/logo.svg}" width="72" height="57">
     <h1 class="h3 mb-3 fw-normal" th:text="#{login.title}">Please sign in</h1>
     <p th:if="${param.error}" class="text-danger" th:text="#{login.error}">Wrong user or password</p>
     <label for="inputUsername" class="visually-hidden" th:text="#{attribute.user.username}">Username</label>
