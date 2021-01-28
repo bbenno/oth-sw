@@ -49,7 +49,7 @@ __-> e.g. injected `HttpHeaders` provided by producer methods in link:../main/ja
 * [x] Database access _MUST_ only be done via spring persistence (entities and repositories). +
 __-> only exception: insertion of required service bot users after database creation in link:../main/resources/import.sql[`import.sql`]__
 * [x] It _MUST NOT_ access a database directly via JDBC and native SQL.
-* [ ] Embeddables _SHOULD_ be used.
+* [x] Embeddables _SHOULD_ be used.
 * [x] Cascading _SHOULD_ be used at least once.
 Purpose _MUST_ be understood. +
 __-> e.g. in link:../main/java/de/othr/bib48218/chat/entity/User.java[`User`] class__

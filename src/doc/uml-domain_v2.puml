@@ -7,7 +7,7 @@ skinparam class {
 }
 
 ' classes in alphabetical order
-class Attachment {
+class Attachment <<Embeddable>> {
     size : int
     name : String
     mimeType : String
