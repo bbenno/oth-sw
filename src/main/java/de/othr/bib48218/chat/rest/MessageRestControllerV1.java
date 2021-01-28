@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @RestController
-@RequestMapping("/webapi/v1/messages/")
+@RequestMapping("/webapi/v1/messages")
 class MessageRestControllerV1 implements IFMessageRestControllerV1 {
 
     @Autowired
@@ -83,7 +83,7 @@ class MessageRestControllerV1 implements IFMessageRestControllerV1 {
     /* READ  **************************************************************************************/
 
     @Override
-    @GetMapping("{chatId}")
+    @GetMapping("/{chatId}")
     public ResponseEntity<Collection<Message>> getMessages(
         @PathVariable("chatId") Long chatId,
         @PathParam("since") String dateTime,

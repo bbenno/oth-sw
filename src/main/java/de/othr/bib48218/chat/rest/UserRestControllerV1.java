@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @RestController
-@RequestMapping("/webapi/v1/")
+@RequestMapping("/webapi/v1")
 class UserRestControllerV1 implements IFUserRestControllerV1 {
 
     @Autowired
@@ -34,7 +34,7 @@ class UserRestControllerV1 implements IFUserRestControllerV1 {
     /* CREATE  ************************************************************************************/
 
     @Override
-    @PostMapping("people")
+    @PostMapping("/people")
     public Person createPerson(@RequestBody Person person) {
         try {
             return userService.createPerson(person);
@@ -44,7 +44,7 @@ class UserRestControllerV1 implements IFUserRestControllerV1 {
     }
 
     @Override
-    @PostMapping("bots")
+    @PostMapping("/bots")
     public Bot createBot(@RequestBody Bot bot) {
         try {
             return userService.createBot(bot);
@@ -56,30 +56,30 @@ class UserRestControllerV1 implements IFUserRestControllerV1 {
     /* READ  **************************************************************************************/
 
     @Override
-    @GetMapping("users")
+    @GetMapping("/users")
     public ResponseEntity<Collection<User>> getUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @Override
-    @GetMapping("users/{username}")
+    @GetMapping("/users/{username}")
     public ResponseEntity<User> getUser(@PathVariable("username") String username) {
         return ResponseEntity.of(userService.getUserByUsername(username));
     }
 
     @Override
-    @GetMapping("people")
+    @GetMapping("/people")
     public ResponseEntity<Collection<Person>> getPeople() {
         return ResponseEntity.ok(userService.getAllPeople());
     }
 
     @Override
-    @GetMapping("people/{username}")
+    @GetMapping("/people/{username}")
     public ResponseEntity<Person> getPerson(@PathVariable("username") String username) {
         return ResponseEntity.of(userService.getPersonByUsername(username));
     }
 
-    @GetMapping("people/{username}/chat")
+    @GetMapping("/people/{username}/chat")
     public PeerChat getPersonChat(@PathVariable("username") String username) {
         Bot bankServiceBot = userService.getBotByUsername("bank_service").get();
         Person person = userService.getPersonByUsername(username).orElseGet(
@@ -96,7 +96,7 @@ class UserRestControllerV1 implements IFUserRestControllerV1 {
     }
 
     @Override
-    @GetMapping("bots")
+    @GetMapping("/bots")
     public ResponseEntity<Collection<Bot>> getBots() {
         Collection<Bot> bots = userService.getAllBots();
         if (bots.isEmpty()) {
@@ -107,7 +107,7 @@ class UserRestControllerV1 implements IFUserRestControllerV1 {
     }
 
     @Override
-    @GetMapping("bots/{username}")
+    @GetMapping("/bots/{username}")
     public ResponseEntity<Bot> getBot(@PathVariable("username") String username) {
         return ResponseEntity.of(userService.getBotByUsername(username));
     }
@@ -117,19 +117,19 @@ class UserRestControllerV1 implements IFUserRestControllerV1 {
     /* DELETE  ************************************************************************************/
 
     @Override
-    @DeleteMapping("users/{username}")
+    @DeleteMapping("/users/{username}")
     public void deleteUser(@PathVariable("username") String username) {
         userService.deleteUserByUsername(username);
     }
 
     @Override
-    @DeleteMapping("people/{username}")
+    @DeleteMapping("/people/{username}")
     public void deletePerson(@PathVariable("username") String username) {
         userService.deleteUserByUsername(username);
     }
 
     @Override
-    @DeleteMapping("bots/{username}")
+    @DeleteMapping("/bots/{username}")
     public void deleteBot(@PathVariable("username") String username) {
         userService.deleteUserByUsername(username);
     }
