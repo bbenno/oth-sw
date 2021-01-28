@@ -1,4 +1,3 @@
-HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -6,6 +5,7 @@ target/
 
 ### Doc ###
 src/doc/*.png
+src/doc/*.pdf
 
 ### STS ###
 .apt_generated
@@ -31,3 +31,5 @@ build/
 *.iml
 
 /out/
+
+*.cache
