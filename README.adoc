@@ -4,6 +4,13 @@ Benno Bielmeier <benno.bielmeier@st.oth-regensburg.de>
 
 image:https://github.com/bbenno/oth-sw/workflows/Java%20CI%20with%20Maven/badge.svg[Java CI with Maven]
 
+image:https://img.shields.io/github/repo-size/bbenno/oth-sw[GitHub repo size]
+image:https://img.shields.io/tokei/lines/github/bbenno/oth-sw[Lines of code]
+image:https://img.shields.io/github/languages/top/bbenno/oth-sw[GitHub top language]
+image:https://img.shields.io/maintenance/no/2021[Maintenance]
+
+WARNING: Development of this application is supended.
+
 == Setup
 
 .Requirements
