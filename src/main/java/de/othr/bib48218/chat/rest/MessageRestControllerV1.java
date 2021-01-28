@@ -1,14 +1,18 @@
 package de.othr.bib48218.chat.rest;
 
-import de.othr.bib48218.chat.entity.ChatMembership;
+import de.othr.bib48218.chat.entity.Bot;
+import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.entity.Message;
+import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFMessageService;
+import de.othr.bib48218.chat.service.IFUserService;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +33,10 @@ class MessageRestControllerV1 implements IFMessageRestControllerV1 {
     @Autowired
     private IFChatService chatService;
 
+    @Autowired
+    @Qualifier("bankUserService")
+    private IFUserService userService;
+
     /* CREATE  ************************************************************************************/
 
     @Override
@@ -38,21 +46,38 @@ class MessageRestControllerV1 implements IFMessageRestControllerV1 {
         if (message.getChat() == null || message.getAuthor() == null) {
             return ResponseEntity.badRequest().build();
         }
-        var chat = chatService.getChatById(message.getChat().getId());
-        if (chat.isPresent()) {
-            message.setChat(chat.get());
-            var author = chat.get().getMemberships().stream()
-                .map(ChatMembership::getUser)
-                .filter(m -> m.getUsername().equals(message.getAuthor().getUsername()))
-                .findAny();
 
+        Optional<? extends Chat> chat;
+        Optional<? extends User> author;
+
+        Bot bot = userService.getBotByUsername("bank_service").orElse(null);
+        if (bot == null) {
+            return ResponseEntity.ok(false);
+        }
+
+        if (message.getAuthor().getUsername().equals("bank_service")) {
+            var chatId = message.getChat().getId();
+            if (chatId == null) {
+                return ResponseEntity.ok(false);
+            }
+
+            chat = chatService.getChatById(chatId);
+        } else {
+            author = userService.getPersonByUsername(message.getAuthor().getUsername());
             if (author.isPresent()) {
-                message.setAuthor(author.get());
-                messageService.saveMessage(message);
-                return ResponseEntity.ok(true);
+                chat = Optional.of(chatService.getOrCreatePeerChatOf(bot, author.get()));
+            } else {
+                chat = Optional.empty();
             }
         }
-        return ResponseEntity.ok(false);
+
+        if (chat.isPresent()) {
+            message.setChat(chat.get());
+            messageService.saveMessage(message);
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.ok(false);
+        }
     }
 
     /* READ  **************************************************************************************/
