@@ -25,16 +25,16 @@
 
   <aside id="sidebar-wrapper" class="border-end">
     <nav aria-label="Chat navigation">
-      <div class="sidebar-heading" th:text="#{entity.chat.other}">Chats</div>
-      <div class="btn-group">
-        <a class="btn btn-primary" href="#" th:href="@{/chat/new}" th:text="#{sidebar.create_group_chat}">Create Group
+      <div class="list-group border-bottom">
+        <a class="list-group-item list-group-item-action" href="#" th:href="@{/chat/new}" th:text="#{sidebar.create_group_chat}">Create Group
           Chat</a>
-        <a class="btn btn-primary" href="#" th:href="@{/chat/public}" th:text="#{sidebar.join_public_group_chat}">Join
+        <a class="list-group-item list-group-item-action" href="#" th:href="@{/chat/public}" th:text="#{sidebar.join_public_group_chat}">Join
           public Group Chat</a>
-        <a class="btn btn-primary" href="#" th:href="@{/chat/payment_service}" th:text="#{sidebar.payment_service}">Payment Service</a>
+        <a class="list-group-item list-group-item-action" href="#" th:href="@{/chat/payment_service}" th:text="#{sidebar.payment_service}">Payment Service</a>
       </div>
-      <ul class="list-group" th:each="chat : ${chats}">
-        <li class="list-group-item"><a class="text-break" href="#" th:href="@{/chat/{chat_id}(chat_id=${chat.id})}" th:text="${chat}">Example
+      <div class="sidebar-heading mt-4" th:text="#{entity.chat.other}">Chats</div>
+      <ul class="list-group border border-2">
+        <li class="list-group-item" th:each="chat : ${chats}"><a class="text-break" href="#" th:href="@{/chat/{chat_id}(chat_id=${chat.id})}" th:text="${chat}">Example
           Chat</a></li>
       </ul>
     </nav>
