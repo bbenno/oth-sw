@@ -1,7 +1,11 @@
-= Milestone 2: Requirements
+= Milestone 2
 Benno Bielmeier <benno.bielmeier@st.oth-regensburg.de>
+2021-01-28
 :lang: en
 :icons: font
+:toc:
+
+== Requirements
 
 [NOTE]
 ====
@@ -79,3 +83,43 @@ The inclusion of foreign code _MUST NOT_ fulfill essential requirements of the a
 * [x] Additional dependencies _MAY_ be used.
 If so, they _MUST_ be imported via Maven. +
 __-> see link:../../pom.xml[`pom.xml`]__
+
+== Changes since last milestone
+
+Following the change since milestone 1 are highlighted.
+[green]#Green# means it was _initially not planed but realized_.
+[red]#Red# means it was _initially planed but not realized_ due to certain reasons.
+
+=== Use Case
+
+.Changes
+. [[as, service credentials are obsolete]]
+Usecase "`Store foreign service account credentials`" is obsolete.
+Initially it was meant that the user allows the service/application to do some actions in his name by putting some credentials in his private profile.
+As the partner services authenticates the service/application as a whole the "`allowance`" at user level does not make sense anymore.
+. Change usecase "`Change group membership of user`" to usecase "`Add a new member to group chat`".
+. Add a member of class `ServiceType` to User
+
+plantuml::uml-usecase_v2.puml[png]
+
+=== Domain
+
+.Changes
+. Remove obsolete class `ServiceCredentials`. (see <<as>>)
+. Add member of class `ServiceType` to class `User`.
+The partner service using this service/application is injecting some of his users.
+In order to be able to separate the different user bases each user has a service type to which he belongs.
+
+plantuml::uml-domain_v2.puml[png]
+
+=== Component
+
+.Changes
+* -> See notes in the diagram.
+
+plantuml::uml-component_v2.puml[png]
+
+:leveloffset: +1
+
+[%hardbreaks]
+include::uml-usecase-description_v2_delta.adoc[]
