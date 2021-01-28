@@ -99,16 +99,16 @@ Message "0..*" --> "0..1\nreplyOf" Message
 
 '' with Enumerations
 ServiceCredentials "0..*" .up.> "1\nserviceType" ServiceType #red
-Bot "0..*" ..> "1\nserviceType" ServiceType #green
+User "0..*" .> "1\nserviceType" ServiceType #green
 ChatMembership "0..*" .up.> "1\nstatus" ChatMemberStatus
 GroupChat "0..*" ..> "1\nvisibility" GroupVisibility
 
 '' Misc
-Person "1" --> "0..*\ncredentials" ServiceCredentials #red
+Person "1" -up-> "0..*\ncredentials" ServiceCredentials #red
 User "1" --> "1\nprofile" UserProfile
 GroupChat "1" --> "1\nprofile" ChatProfile
 
-note right of Profile: public accessible information
-note right of ServiceCredentials: login credentials to authenticate to partner service
+note bottom of Profile: public accessible information
+note bottom of ServiceCredentials: login credentials to authenticate to partner service
 note top of PeerChat: peer-to-peer chat between two users
 @enduml
