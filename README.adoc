@@ -43,3 +43,5 @@ mvn install:install-file -Dfile=lib/com.othr.swvigopay-0.0.1SNAPSHOT.jar -Dgroup
 . Start webserverfootnote:[See sample link:src/production-run.sh[run script]] +
 [source, bash]
 java -jar chat-<VERSION>.jar >> console.log 2>> error.log &
+. Ensure that there are at least two bots with the usernames `payment_service` and `bank_service` present in the database. +
+If not run link:src/main/resources/import.sql[import.sql] within the context of the database.
