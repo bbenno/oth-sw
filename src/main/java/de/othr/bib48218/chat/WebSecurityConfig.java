@@ -50,7 +50,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .clearAuthentication(true)
             .permitAll();
         http.rememberMe();
-        http.csrf().ignoringAntMatchers("/webapi/**");
+        http.csrf().ignoringAntMatchers("/webapi/**", "/api/callback/**");
     }
 
     @Autowired
