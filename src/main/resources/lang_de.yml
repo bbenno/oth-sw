@@ -191,6 +191,7 @@ register:
 sidebar:
   create_group_chat: Chat anlegen
   join_public_group_chat: Öffentlichem Chat beitreten
+  payment_service: Bezahldienst
 user:
   edit:
     submit: Speichern

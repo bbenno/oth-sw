@@ -191,6 +191,7 @@ register:
 sidebar:
   create_group_chat: Create Chat
   join_public_group_chat: Join public Chat
+  payment_service: Payment Service
 user:
   edit:
     submit: Save

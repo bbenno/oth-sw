@@ -31,6 +31,7 @@
           Chat</a>
         <a class="btn btn-primary" href="#" th:href="@{/chat/public}" th:text="#{sidebar.join_public_group_chat}">Join
           public Group Chat</a>
+        <a class="btn btn-primary" href="#" th:href="@{/chat/payment_service}" th:text="#{sidebar.payment_service}">Payment Service</a>
       </div>
       <ul class="list-group" th:each="chat : ${chats}">
         <li class="list-group-item"><a class="text-break" href="#" th:href="@{/chat/{chat_id}(chat_id=${chat.id})}" th:text="${chat}">Example
