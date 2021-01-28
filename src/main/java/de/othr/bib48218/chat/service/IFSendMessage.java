@@ -29,8 +29,9 @@ public interface IFSendMessage {
      * Saves a certain message.
      *
      * @param message the message
+     * @return <code>true</code> if sending message successfully; otherwise <code>false</code>
      */
-    void sendMessage(Message message);
+    Boolean sendMessage(Message message);
 
     /**
      * Gets the messages of a certain chat since a certain point in time.
