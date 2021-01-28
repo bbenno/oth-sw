@@ -1,19 +1,20 @@
 package de.othr.bib48218.chat.entity;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.NonNull;
 
-@Entity
 @Getter
-@Setter(AccessLevel.PACKAGE)
-@NoArgsConstructor(force = true)
-public class Attachment extends IdEntity {
+@Setter
+@NoArgsConstructor
+@Embeddable
+public class Attachment {
 
     /**
      * The file name.
@@ -38,13 +39,6 @@ public class Attachment extends IdEntity {
     @lombok.NonNull
     @NotBlank
     private String path;
-
-    /**
-     * The message of attachment.
-     */
-    @NonNull
-    @OneToOne(mappedBy = "attachment")
-    private Message message;
 
     /**
      * Class constructor specifying name, path and MIME type of the attachment file.

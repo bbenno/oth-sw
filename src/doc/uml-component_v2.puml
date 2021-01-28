@@ -1,0 +1,92 @@
+@startuml chat-component
+allow_mixing
+hide circle
+
+skinparam component {
+    BorderColor black
+    BackgroundColor white
+    ArrowColor black
+}
+
+skinparam interface {
+    BorderColor black
+    BackgroundColor lightgray
+}
+
+' Presentation Layer
+package "Presentation" {
+    component ChatApp
+}
+
+' Business (Logic) Layer
+package "Business" {
+    component UserService
+    component ChatService
+    component MessageService
+    () IFUserService
+    () IFChatService
+    () IFMessageService
+    UserService    -up- IFUserService
+    ChatService    -up- IFChatService
+    MessageService -up- IFMessageService
+
+    ' Provided interface
+    () "IFSendMessage" as IFSendMessageLolli
+    MessageService -up- IFSendMessageLolli
+}
+
+' Partner service Webshop (initially planed to use)
+component WebshopOrderService <<partner service>> #red
+() IFOrderServiceExtern #red
+WebshopOrderService -up- IFOrderServiceExtern #red
+MessageService      -up-( IFOrderServiceExtern #red
+
+' Partner service payment
+component PaymentTransferService <<partner service>> #green
+() TransferServiceExternalIF #green
+PaymentTransferService -up- TransferServiceExternalIF #green
+MessageService         -up-( TransferServiceExternalIF #green
+
+' Partner service bank
+component BankSupportService <<partner service>>
+BankSupportService --( IFSendMessageLolli
+
+' Persistence Layer
+package "Persistence" {
+    component UserRepository
+    component ChatRepository
+    component MessageRepository
+    () IFPersonRepository
+    () IFBotRepository
+    () IFPeerChatRepository
+    () IFGroupChatRepository
+    () IFMessageRepository
+    UserRepository    -up- IFPersonRepository
+    UserRepository    -up- IFBotRepository
+    ChatRepository    -up- IFPeerChatRepository
+    ChatRepository    -up- IFGroupChatRepository
+    MessageRepository -up- IFMessageRepository
+}
+
+interface IFSendMessage <<interface>> {
+    getUser(username : String) : User
+    getChatWithUserByUsername(username : String) : Chat
+    sendMessage(message : Message) : Boolean
+    pullMessages(chat : Chat, dateTime : LocalDateTime) : List<Message>
+}
+
+IFSendMessageLolli .up. IFSendMessage
+
+' Connect presentation layer to business layer
+ChatApp .down.( IFUserService
+ChatApp .down.( IFChatService
+ChatApp .down.( IFMessageService
+
+' Connect business layer to persistence layer
+UserService .down.( IFPersonRepository
+UserService .down.( IFBotRepository
+ChatService .down.( IFPeerChatRepository
+ChatService .down.( IFGroupChatRepository
+MessageService .down.( IFMessageRepository
+
+@enduml

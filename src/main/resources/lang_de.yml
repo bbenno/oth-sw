@@ -160,6 +160,7 @@ chat:
     description_help: Kurze Beschreibung des Chats.
   show:
     edit_chat: Chat ändern
+    show_profile: Zum Profil
     sidebar:
       leave: Chat verlassen
 header:
@@ -190,6 +191,7 @@ register:
 sidebar:
   create_group_chat: Chat anlegen
   join_public_group_chat: Öffentlichem Chat beitreten
+  payment_service: Bezahldienst
 user:
   edit:
     submit: Speichern

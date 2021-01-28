@@ -1,0 +1,56 @@
+@startuml chat-usecase
+
+skinparam actor {
+    BorderColor black
+}
+
+skinparam node {
+    BorderColor black
+    BackgroundColor white
+}
+
+skinparam usecase {
+    BorderColor black
+    BackgroundColor white
+    ArrowColor black
+}
+
+left to right direction
+
+' actors
+actor User
+actor Person
+' note "Bot has no special usecases" as b
+node "Partner Service" as Service
+
+' actor hierarchy
+User <|-left- Person
+
+' use cases
+package "de.othr.st.bib48218.chat" {
+  Person --> (Login    user)
+  Person --> (Logout   user)
+  Person --> (Register user)
+
+  Person --> (View   user profile)
+  Person --> (Change user profile)
+  Person --> (Change profile of group chat)
+
+  User    --> (Send message)
+  Service --> (Send message)
+
+  User   --> (Leave  group chat)
+  Person --> (Create group chat)
+
+  usecase "Change group chat membership of user" #red
+  User --> (Change group chat membership of user) #red
+
+  usecase "Add a new member to group chat" #green
+  User --> (Add a new member to group chat) #green
+
+  ' Connecting to partners use cases
+  usecase "Store foreign service account credential" #red
+  Person --> (Store foreign service account credential) #red
+}
+
+@enduml

@@ -1,8 +1,10 @@
 package de.othr.bib48218.chat.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -15,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 /**
  * The text sent by an {@link User} in a certain {@link Chat}.
@@ -71,7 +74,9 @@ public class Message extends IdEntity {
     /**
      * The attachment.
      */
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    @Embedded
+    @Nullable
     private Attachment attachment;
 
     /**

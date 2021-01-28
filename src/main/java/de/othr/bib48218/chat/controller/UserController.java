@@ -93,6 +93,9 @@ public class UserController {
 
         userService.getBotByUsername(bot.getUsername())
             .ifPresent(b -> {
+                b.getProfile().setName(bot.getProfile().getName());
+                b.getProfile().setBio(bot.getProfile().getBio());
+                b.getProfile().setCountry(bot.getProfile().getBio());
                 if (!passwordEncoder.matches(bot.getPassword(), b.getPassword())
                     && !(bot.getPassword().equals(b.getPassword()))) {
                     b.setPassword(passwordEncoder.encode(bot.getPassword()));
@@ -114,6 +117,9 @@ public class UserController {
             p.setEmail(person.getEmail());
             p.setFirstName(person.getFirstName());
             p.setLastName(person.getLastName());
+            p.getProfile().setName(person.getProfile().getName());
+            p.getProfile().setBio(person.getProfile().getBio());
+            p.getProfile().setCountry(person.getProfile().getCountry());
             if (!passwordEncoder.matches(person.getPassword(), p.getPassword())
                 && !(person.getPassword().equals(p.getPassword()))) {
                 p.setPassword(passwordEncoder.encode(person.getPassword()));

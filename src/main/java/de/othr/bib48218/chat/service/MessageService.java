@@ -42,7 +42,7 @@ class MessageService implements IFMessageService {
     @Override
     @Transactional(readOnly = true)
     public Collection<Message> getMessagesByChatSince(Chat chat, LocalDateTime time) {
-        return repository.findByChatAndTimestampBefore(chat, time);
+        return repository.findByChatAndTimestampAfter(chat, time);
     }
 
     @Override

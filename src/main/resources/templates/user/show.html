@@ -37,6 +37,12 @@
     <dt th:text="#{attribute.person.email}">Email</dt>
     <dd th:text="*{email}">milky@mail.com</dd>
     </th:block>
+
+    <dt th:text="#{attribute.user_profile.country}">Country</dt>
+    <dd th:text="*{profile.country}">Germany</dd>
+
+    <dt th:text="#{attribute.user_profile.bio}">Biography</dt>
+    <dd th:text="*{profile.bio}">Ex-human, not yet ex-existing</dd>
   </dl>
   <div class="btn-group">
     <th:block th:if="${user.username != #authentication.name && user.enabled}">
@@ -46,9 +52,9 @@
       </a>
     </th:block>
     <th:block th:if="${user.username == #authentication.name}">
-      <a class="btn btn-primary" href="#" th:href="@{/user/{username}/delete(username=*{username})}"
+      <a class="btn btn-primary m-2" href="#" th:href="@{/user/{username}/delete(username=*{username})}"
          th:text="#{user.show.delete}">Delete</a>
-      <a class="btn btn-primary" href="#" th:href="@{/user/{username}/edit(username=*{username})}"
+      <a class="btn btn-primary m-2" href="#" th:href="@{/user/{username}/edit(username=*{username})}"
          th:text="#{user.show.edit}">Edit</a>
     </th:block>
   </div>

@@ -4,12 +4,12 @@ import de.othr.bib48218.chat.entity.Chat;
 import de.othr.bib48218.chat.entity.ChatMemberStatus;
 import de.othr.bib48218.chat.entity.ChatMembership;
 import de.othr.bib48218.chat.entity.GroupChat;
+import de.othr.bib48218.chat.entity.PeerChat;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
 import java.security.Principal;
 import java.util.Collection;
-import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -250,6 +250,7 @@ public class ChatController {
             .map(u -> chatService.getOrCreatePeerChatOf(user, u))
             .map(chat -> {
                 model.addAttribute("chat", chat);
+                model.addAttribute("peer_username", identifier);
                 return "chat/show";
             }).orElseGet(
                 () -> {
@@ -261,16 +262,22 @@ public class ChatController {
 
     private String showGroupChat(Long chatId, User user, Model model) {
         Optional<Chat> chat = chatService.getChatById(chatId);
+        if (chat.isPresent() && chat.get() instanceof PeerChat) {
+            PeerChat c = (PeerChat) chat.get();
+            Optional<User> otherUser = c.getMemberships().stream()
+                .map(ChatMembership::getUser)
+                .filter(mUser -> mUser != user)
+                .findAny();
+            model.addAttribute("peer_username", otherUser.map(User::getUsername).orElse(""));
+        }
         if (chat.isPresent() && chat.get().getStatusOfMember(user).isPresent()) {
-            model.addAllAttributes(Map.of(
-                "chat",
-                chat.get(),
-
+            model.addAttribute("chat", chat.get());
+            model.addAttribute(
                 "isAdmin",
                 chat.get().getStatusOfMember(user)
                     .map(s -> s == ChatMemberStatus.ADMINISTRATOR)
                     .orElse(false)
-            ));
+            );
             return "chat/show";
         } else {
             model.addAttribute("notification", CHAT_NOT_FOUND);

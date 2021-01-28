@@ -1,7 +1,30 @@
-= Milestone 2: Requirements
+= Milestone 2
 Benno Bielmeier <benno.bielmeier@st.oth-regensburg.de>
+2021-01-28
 :lang: en
 :icons: font
+:toc:
+
+== About
+
+.About the project
+. The project is available on https://github.com/bbenno/oth-sw[GitHub] under EUPL v1.2 License. +
+image:https://img.shields.io/github/commit-activity/w/bbenno/oth-sw[GitHub commit activity]
+image:https://img.shields.io/github/commits-since/bbenno/oth-sw/milestone-1[GitHub commits since tagged version (branch)]
+image:https://img.shields.io/github/languages/code-size/bbenno/oth-sw[GitHub code size in bytes]
+image:https://img.shields.io/github/repo-size/bbenno/oth-sw[GitHub repo size]
+image:https://img.shields.io/github/languages/top/bbenno/oth-sw[GitHub top language]
+image:https://img.shields.io/github/downloads/bbenno/oth-sw/total[GitHub all releases]
+image:https://img.shields.io/github/stars/bbenno/oth-sw?style=social[GitHub Repo stars]
+. The Project was developed using the "`GitFlow" process.
+
+.About the application
+. A continuous integration workflow was designed and realized. +
+-> link:../../.github/workflows/[see GitHub workflows]
+. The application is localized for German and English.
+The user can change the displaying language by appending `?lang=de` for German or `?lang=en` for English to URL.
+
+== Requirements
 
 [NOTE]
 ====
@@ -20,13 +43,13 @@ _MAY_ be separated by different deployment components
 * [x] Application _MUST_ contain at least one custom producer method for bean creation.
 This method _MUST_ be used. +
 __-> e.g. injected `HttpHeaders` provided by producer methods in link:../main/java/de/othr/bib48218/chat/integration/PartnerServiceConfig.java[`PartnerServiceConfiguration`] that are used in link:../main/java/de/othr/bib48218/chat/rest/[REST controllers]__
-* [ ] Each CDI bean _MUST_ have an appropriate scope.
+* [x] Each CDI bean _MUST_ have an appropriate scope.
 
 .Persistence
 * [x] Database access _MUST_ only be done via spring persistence (entities and repositories). +
 __-> only exception: insertion of required service bot users after database creation in link:../main/resources/import.sql[`import.sql`]__
 * [x] It _MUST NOT_ access a database directly via JDBC and native SQL.
-* [ ] Embeddables _SHOULD_ be used.
+* [x] Embeddables _SHOULD_ be used.
 * [x] Cascading _SHOULD_ be used at least once.
 Purpose _MUST_ be understood. +
 __-> e.g. in link:../main/java/de/othr/bib48218/chat/entity/User.java[`User`] class__
@@ -79,3 +102,43 @@ The inclusion of foreign code _MUST NOT_ fulfill essential requirements of the a
 * [x] Additional dependencies _MAY_ be used.
 If so, they _MUST_ be imported via Maven. +
 __-> see link:../../pom.xml[`pom.xml`]__
+
+== Changes since last milestone
+
+Following the change since milestone 1 are highlighted.
+[green]#Green# means it was _initially not planed but realized_.
+[red]#Red# means it was _initially planed but not realized_ due to certain reasons.
+
+=== Use Case
+
+.Changes
+. [[as, service credentials are obsolete]]
+Usecase "`Store foreign service account credentials`" is obsolete.
+Initially it was meant that the user allows the service/application to do some actions in his name by putting some credentials in his private profile.
+As the partner services authenticates the service/application as a whole the "`allowance`" at user level does not make sense anymore.
+. Change usecase "`Change group membership of user`" to usecase "`Add a new member to group chat`".
+. Add a member of class `ServiceType` to User
+
+plantuml::uml-usecase_v2.puml[png]
+
+=== Domain
+
+.Changes
+. Remove obsolete class `ServiceCredentials`. (see <<as>>)
+. Add member of class `ServiceType` to class `User`.
+The partner service using this service/application is injecting some of his users.
+In order to be able to separate the different user bases each user has a service type to which he belongs.
+
+plantuml::uml-domain_v2.puml[png]
+
+=== Component
+
+.Changes
+* -> See notes in the diagram.
+
+plantuml::uml-component_v2.puml[png]
+
+:leveloffset: +1
+
+[%hardbreaks]
+include::uml-usecase-description_v2_delta.adoc[]

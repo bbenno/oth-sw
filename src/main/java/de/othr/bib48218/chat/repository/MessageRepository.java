@@ -18,7 +18,7 @@ public interface MessageRepository extends PagingAndSortingRepository<Message, L
 
     Collection<Message> findByChat(Chat chat);
 
-    Collection<Message> findByChatAndTimestampBefore(Chat chat, LocalDateTime timestamp);
+    Collection<Message> findByChatAndTimestampAfter(Chat chat, LocalDateTime timestamp);
 
     Collection<Message> findByChatAndTimestampBeforeAndAuthor_Username(Chat chat,
         LocalDateTime timestamp, String username);

@@ -4,6 +4,10 @@ import com.othr.swvigopay.entity.TransferDTO;
 import com.othr.swvigopay.exceptions.TransferServiceExternalException;
 import com.othr.swvigopay.service.TransferServiceExternalIF;
 
+/**
+ * Wrapper interface of partner service, hiding redundant return values of {@link
+ * TransferServiceExternalIF}
+ */
 public interface IFPaymentService extends TransferServiceExternalIF {
 
     /**

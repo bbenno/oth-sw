@@ -55,7 +55,7 @@ public abstract class User implements UserDetails {
     @lombok.NonNull
     @NotBlank
     @NotNull(message = "has to be present")
-    @Size(min = 2, max = 20)
+    @Size(min = 1, max = 20)
     private String username;
 
     /**

@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * A Service that uses foreign partner service via REST.
+ */
 @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Service
 class PaymentService implements IFPaymentService, TransferServiceExternalIF {
