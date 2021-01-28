@@ -20,6 +20,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+/**
+ * Handler for {@link PartnerServiceEvent}s with {@link ServiceType#PAYMENT}.
+ */
 @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Component
 class PaymentEventSubscriber implements ApplicationListener<PartnerServiceEvent> {
