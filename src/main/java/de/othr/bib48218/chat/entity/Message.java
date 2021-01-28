@@ -1,6 +1,6 @@
 package de.othr.bib48218.chat.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -38,7 +38,6 @@ public class Message extends IdEntity {
     /**
      * The containing chat.
      */
-    @JsonIgnore
     @ManyToOne(
         cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE},
         optional = false)
@@ -62,6 +61,7 @@ public class Message extends IdEntity {
     /**
      * The point in time when message is sent.
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NonNull
     @lombok.NonNull
     @NotNull

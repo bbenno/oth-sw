@@ -39,7 +39,7 @@ class PaymentRestController {
     @Autowired
     private IFChatService chatService;
 
-    @PostMapping()
+    @PostMapping
     public void nameDerMethode(
         @RequestBody TransferDTO transferDTO,
         @RequestHeader("access-token") String token

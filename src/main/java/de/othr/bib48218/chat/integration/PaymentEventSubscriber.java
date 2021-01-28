@@ -69,15 +69,24 @@ class PaymentEventSubscriber implements ApplicationListener<PartnerServiceEvent>
     public void onApplicationEvent(PartnerServiceEvent event) {
         if (event.getServiceType() == SERVICE_TYPE) {
             Message message = event.getSource();
-            Optional<TransferDTO> dto = convertMessageToTransferDto(message);
             Optional<Bot> serviceBot = userService.getBotByUsername(botName);
+            String replyText;
 
-            String replyText = dto.map(this::sendTransferRequest)
-                .orElse(String.join("\n",
-                    "insufficient information about transfer request",
-                    "usage: " + USAGE_TEXT,
-                    "example: " + EXAMPLE_TEXT
-                ));
+            if (!(message.getAuthor() instanceof Person)) {
+                replyText = "Chating with service bot is only allowed for natural persons.";
+            } else if (((Person) message.getAuthor()).getEmail() == null
+                || ((Person) message.getAuthor()).getEmail().isBlank()) {
+                replyText = "Please first set your email address to the your matching email of the payment service.";
+            } else {
+                Optional<TransferDTO> dto = convertMessageToTransferDto(message);
+
+                replyText = dto.map(this::sendTransferRequest)
+                    .orElse(String.join("\n",
+                        "insufficient information about transfer request",
+                        "usage: " + USAGE_TEXT,
+                        "example: " + EXAMPLE_TEXT
+                    ));
+            }
 
             serviceBot.ifPresent(bot -> {
                 preTransferRequestAction(message.getChat(), bot);
