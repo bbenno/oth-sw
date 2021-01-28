@@ -31,7 +31,7 @@ class ChatRestControllerV1 implements IFChatRestControllerV1 {
     /* READ  **************************************************************************************/
 
     @Override
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<Collection<PeerChat>> getAllChats(
         @PathParam("with") String username
     ) {
@@ -48,13 +48,13 @@ class ChatRestControllerV1 implements IFChatRestControllerV1 {
     }
 
     @Override
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<PeerChat> getChat(@PathVariable("id") Long id) {
         return ResponseEntity.of(chatService.getPeerChatById(id));
     }
 
     @Override
-    @GetMapping("{of}/{with}")
+    @GetMapping("/{of}/{with}")
     public ResponseEntity<PeerChat> getChat(
         @PathVariable("of") String username1,
         @PathVariable("with") String username2

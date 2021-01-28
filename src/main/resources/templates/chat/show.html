@@ -66,7 +66,7 @@
       <div class="mx-1 row" th:object="${message}">
         <p class="col-2" th:text="${#temporals.format(message.timestamp)}">2020-10-10T23:54:39</p>
         <p class="col-1" th:include="~{fragment/user :: name (*{author})}">Author</p>
-        <p class="col-6" th:utext="*{text}" style="white-space: pre">Message</p>
+        <p class="col-6" th:text="*{text}" style="white-space: pre">Message</p>
       </div>
     </div>
 
