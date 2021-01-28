@@ -1,5 +1,6 @@
 package de.othr.bib48218.chat.rest;
 
+import de.othr.bib48218.chat.entity.ChatMembership;
 import de.othr.bib48218.chat.entity.Message;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFMessageService;
@@ -9,6 +10,7 @@ import java.util.Optional;
 import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,9 +32,26 @@ class MessageRestControllerV1 implements IFMessageRestControllerV1 {
     /* CREATE  ************************************************************************************/
 
     @Override
+    @Transactional
     @PostMapping()
     public ResponseEntity<Message> postMessage(@RequestBody Message message) {
-        return ResponseEntity.of(Optional.ofNullable(messageService.saveMessage(message)));
+        if (message.getChat() == null || message.getAuthor() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        var chat = chatService.getChatById(message.getChat().getId());
+        if (chat.isPresent()) {
+            message.setChat(chat.get());
+            var author = chat.get().getMemberships().stream()
+                .map(ChatMembership::getUser)
+                .filter(m -> m.getUsername().equals(message.getAuthor().getUsername()))
+                .findAny();
+
+            if (author.isPresent()) {
+                message.setAuthor(author.get());
+                return ResponseEntity.of(Optional.ofNullable(messageService.saveMessage(message)));
+            }
+        }
+        return ResponseEntity.unprocessableEntity().build();
     }
 
     /* READ  **************************************************************************************/
