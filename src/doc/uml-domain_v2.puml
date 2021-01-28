@@ -59,6 +59,7 @@ class ServiceCredentials #red {
 }
 
 enum ServiceType <<enumeration>> {
+    Chat
     Webshop
     Bank
     Payment
