@@ -22,6 +22,7 @@ image:https://img.shields.io/github/stars/bbenno/oth-sw?style=social[GitHub Repo
 . A continuous integration workflow was designed and realized. +
 -> link:../../.github/workflows/[see GitHub workflows]
 . The application is localized for German and English.
+The user can change the displaying language by appending `?lang=de` for German or `?lang=en` for English to URL.
 
 == Requirements
 
