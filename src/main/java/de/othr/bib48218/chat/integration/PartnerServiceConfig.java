@@ -12,17 +12,39 @@ import org.springframework.http.HttpHeaders;
 @Configuration
 class PartnerServiceConfig {
 
-    @Value("${partner.service.payment.access-token}")
+    @Value("${partner.service.payment.access-token:}")
     private String paymentAccessToken;
+
+    @Value("${partner.service.bank.access-token:}")
+    private String bankAccessToken;
+
+    @Value("${partner.service.bank.access-token:}")
+    private String webshopAccessToken;
 
     /**
      * @return the http headers containing required data (authentication,...) for payment service.
      */
     @Bean
     @Qualifier("paymentHeaders")
-    public HttpHeaders getPaymentHttpHeaders(){
+    public HttpHeaders getPaymentHttpHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("access-token", paymentAccessToken);
+        return headers;
+    }
+
+    @Bean
+    @Qualifier("bankHeaders")
+    public HttpHeaders getBankHttpHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("access-token", bankAccessToken);
+        return headers;
+    }
+
+    @Bean
+    @Qualifier("webshopHeaders")
+    public HttpHeaders getWebshopHttpHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("access-token", webshopAccessToken);
         return headers;
     }
 
