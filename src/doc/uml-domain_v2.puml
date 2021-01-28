@@ -1,0 +1,114 @@
+@startuml chat-domain
+
+skinparam class {
+    BorderColor black
+    BackgroundColor white
+    ArrowColor black
+}
+
+' classes in alphabetical order
+class Attachment {
+    size : int
+    name : String
+    mimeType : String
+}
+
+abstract class Chat
+
+class ChatMembership
+
+enum ChatMemberStatus <<enumeration>> {
+    Administrator
+    Member
+    Restricted
+    Left
+    Kicked
+}
+
+class ChatProfile {
+    description : String
+}
+
+class GroupChat
+
+enum GroupVisibility <<enumeration>> {
+    Private
+    Public
+}
+
+class Message {
+    text : String
+    timestamp : Datetime
+}
+
+class Person {
+    firstName : String
+    lastName : String
+    email : String
+}
+
+class PeerChat
+
+abstract class Profile {
+    name : String
+    photo : Image
+}
+
+class ServiceCredentials #red {
+    loginToken : String
+}
+
+enum ServiceType <<enumeration>> {
+    Webshop
+    Bank
+    Payment
+}
+
+abstract class User {
+    username : String
+    password : String
+}
+
+class UserProfile {
+    bio : String
+    country : String
+}
+
+' Inheritance
+'' Profile
+Profile <|-up- ChatProfile
+Profile <|-left- UserProfile
+'' Chat inheritance
+Chat <|-- PeerChat
+Chat <|-- GroupChat
+
+'' Person inheritance
+User <|-- Person
+User <|-- Bot
+
+' Relations
+'' to Chat
+ChatMembership "0..*" --> "1\nuser" User
+ChatMembership "0..*" -up-> "1\nchat" Chat
+
+'' to Message
+Message "0..*" --> "1\nauthor" User
+Chat "1" --> "0..*\nmessages" Message
+Message "1" --> "0..1\nattachment" Attachment
+Message "0..*" --> "0..1\nreplyOf" Message
+
+'' with Enumerations
+ServiceCredentials "0..*" .up.> "1\nserviceType" ServiceType #red
+Bot "0..*" ..> "1\nserviceType" ServiceType #green
+ChatMembership "0..*" .up.> "1\nstatus" ChatMemberStatus
+GroupChat "0..*" ..> "1\nvisibility" GroupVisibility
+
+'' Misc
+Person "1" --> "0..*\ncredentials" ServiceCredentials #red
+User "1" --> "1\nprofile" UserProfile
+GroupChat "1" --> "1\nprofile" ChatProfile
+
+note right of Profile: public accessible information
+note right of ServiceCredentials: login credentials to authenticate to partner service
+note top of PeerChat: peer-to-peer chat between two users
+@enduml
