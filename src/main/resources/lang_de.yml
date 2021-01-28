@@ -175,6 +175,7 @@ chat:
     description_help: Short description of the chats purpose.
   show:
     edit_chat: Edit Chat
+    show_profile: Show Profile
     sidebar:
       leave: Leave Chat
 header:
@@ -205,6 +206,7 @@ register:
 sidebar:
   create_group_chat: Create Chat
   join_public_group_chat: Join public Chat
+  payment_service: Payment Service
 user:
   edit:
     submit: Save
