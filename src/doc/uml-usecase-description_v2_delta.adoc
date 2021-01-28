@@ -1,0 +1,129 @@
+== Use Cases: Description
+
+
+=== Use Case 5: Change User Profile
+
+[horizontal]
+Name:: Change profile
+Short description:: User changes his/her profile.
+Actor:: User
+Preconditions::
+* User is logged in.
+* User is on starting page.
+Postconditions::
+* Updated information are stored.
+* Other users have access to updated information.
+* Other users have no access to previous information.
+Main success scenario::
+* User navigates to his profile.
+. User switches to "`edit`" view mode.
+. User enters name.
+. User enters bio text.
+. User enters a country name.
+. [.line-through red]#User uploads image.#
+. User confirms changes.
+. System stores updated information.
+. System shows updated profile.
+Extensions::
+* None
+
+
+=== Use Case 6: Create Group Chat
+
+[horizontal]
+Name:: Create group chat
+Short description:: User creates new group chat.
+Actor:: Person
+Preconditions::
+* User is logged in.
+* User is on starting page.
+Postconditions::
+* New group chat is created.
+* Group chat is visible to all users that are member of it.
+Main success scenario::
+. User navigates to "new group chat" formular page.
+. User enters name of group chat.
+. User submits input.
+. System creates new group chat.
+. System confirms creation to user.
+Extensions::
+* 2a) User enters description of group chat.
+* 2b) [.line-through red]#User uploads image.#
+
+
+=== [.line-through red]#Use Case 7: Store Foreign Service Account Credential#
+
+
+=== Use Case 8: Send Message
+
+[horizontal]
+Name:: Send Message
+Short description:: User sends message to another user directly in a peer chat or in a group chat.
+Actor:: User
+Preconditions::
+* User is logged in.
+* User is on starting page.
+Postconditions::
+* Message is stored.
+* Receiver(s) can read the message.
+Main success scenario::
+. User enters name of user or group chat into the searchbar of navigation header.
+. System displays list of user and group chats with similar or equal names.
+. User selects intended user or group chat from list.
+. System displays peer chat with this selected user or group chat.
+. User selects receiving user or group chat from visible list.
+. User types message into text field.
+. User confirms message.
+. System stores message.
+. System shows sent message in the chat.
+Extensions::
+* 6a) [.line-through red]#User attaches an attachment to message.#
+
+=== Use Case 9: Change Profile of Group Chat
+
+[horizontal]
+Name:: Change profile of group chat
+Short description:: User changes profile of group chat.
+Actor:: User
+Preconditions::
+* User is logged in.
+* User is member in group chat.
+* User has permission to change profile of group chat.
+* User is on page of group chat.
+Postconditions::
+* Group chat's profile is changed.
+Main success scenario::
+. User navigates to group chat's information page.
+. User enters name of chat.
+. [.line-through red]#User uploads image.#
+. User confirms changes.
+. System stores updated information.
+. System shows updated profile.
+Extensions::
+* None
+
+
+=== [.line-through red]#Use Case 10: Change Group Chat Membership of User#
+
+
+=== [green]#Use Case 10: Add a new member to group chat#
+
+[horizontal]
+Name:: [green]#Add a new member to group chat#
+Short description:: [green]#User adds another user as new member to a group chat.#
+Actor:: User
+Preconditions::
+* User is logged in.
+* User is member in group chat.
+* [green]#User has permission to add new members to the group chat.#
+* User is on page of group chat.
+Postconditions::
+* [green]#The other user is member of the group chat.#
+Main success scenario::
+. [green]#User navigates to form for adding new members.#
+. [green]#User selects a user.#
+. [green]#User confirms selected user.#
+. [green]#System add user to chat.#
+. [green]#System displays group chat.#
+Extensions::
+* None
