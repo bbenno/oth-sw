@@ -48,12 +48,21 @@
           <span class="invalid-feedback" th:errors="*{lastName}"
                 th:if="${#fields.hasErrors('lastName')}">Last Name Error</span>
         </div>
-        <div class="">
+        <div>
           <label class="form-label" th:for="email" th:text="#{attribute.person.email}">Email</label>
           <input class="form-control" th:errorclass="is-invalid" th:field="*{email}" type="email"/>
           <span class="invalid-feedback" th:errors="*{email}" th:if="${#fields.hasErrors('email')}">Email Error</span>
         </div>
       </th:block>
+
+      <div>
+        <label class="form-label" th:for="profile.country" th:text="#{attribute.user_profile.country}">Country</label>
+        <input class="form-control" th:field="*{profile.country}" type="text"/>
+      </div>
+      <div>
+        <label class="form-label" th:for="profile.bio" th:text="#{attribute.user_profile.bio}">Biography</label>
+        <input class="form-control" th:field="*{profile.bio}" type="text"/>
+      </div>
     </div>
   </div>
 
