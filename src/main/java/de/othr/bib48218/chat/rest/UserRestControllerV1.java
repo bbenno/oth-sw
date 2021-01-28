@@ -3,6 +3,7 @@ package de.othr.bib48218.chat.rest;
 import de.othr.bib48218.chat.entity.Bot;
 import de.othr.bib48218.chat.entity.PeerChat;
 import de.othr.bib48218.chat.entity.Person;
+import de.othr.bib48218.chat.entity.ServiceType;
 import de.othr.bib48218.chat.entity.User;
 import de.othr.bib48218.chat.service.IFChatService;
 import de.othr.bib48218.chat.service.IFUserService;
@@ -85,6 +86,7 @@ class UserRestControllerV1 implements IFUserRestControllerV1 {
         Person person = userService.getPersonByUsername(username).orElseGet(
             () -> {
                 var p = new Person(username, "not set");
+                p.setScope(ServiceType.BANK);
                 try {
                     return userService.createPerson(p);
                 } catch (UserAlreadyExistsException e) {
