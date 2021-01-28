@@ -51,18 +51,25 @@ class MessageRestControllerV1 implements IFMessageRestControllerV1 {
         Optional<? extends User> author;
 
         Bot bot = userService.getBotByUsername("bank_service").orElse(null);
+
+        // If service bot not found
         if (bot == null) {
             return ResponseEntity.ok(false);
         }
 
         if (message.getAuthor().getUsername().equals("bank_service")) {
+            // If service bot sends message to user
+
             var chatId = message.getChat().getId();
             if (chatId == null) {
                 return ResponseEntity.ok(false);
             }
 
             chat = chatService.getChatById(chatId);
+            author = Optional.of(bot);
         } else {
+            // If user sends message to service bot
+
             author = userService.getPersonByUsername(message.getAuthor().getUsername());
             if (author.isPresent()) {
                 chat = Optional.of(chatService.getOrCreatePeerChatOf(bot, author.get()));
@@ -71,8 +78,9 @@ class MessageRestControllerV1 implements IFMessageRestControllerV1 {
             }
         }
 
-        if (chat.isPresent()) {
+        if (chat.isPresent() && author.isPresent()) {
             message.setChat(chat.get());
+            message.setAuthor(author.get());
             messageService.saveMessage(message);
             return ResponseEntity.ok(true);
         } else {
