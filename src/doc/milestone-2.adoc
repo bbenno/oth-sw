@@ -5,6 +5,24 @@ Benno Bielmeier <benno.bielmeier@st.oth-regensburg.de>
 :icons: font
 :toc:
 
+== About
+
+.About the project
+. The project is available on https://github.com/bbenno/oth-sw[GitHub] under EUPL v1.2 License. +
+image:https://img.shields.io/github/commit-activity/w/bbenno/oth-sw[GitHub commit activity]
+image:https://img.shields.io/github/commits-since/bbenno/oth-sw/milestone-1[GitHub commits since tagged version (branch)]
+image:https://img.shields.io/github/languages/code-size/bbenno/oth-sw[GitHub code size in bytes]
+image:https://img.shields.io/github/repo-size/bbenno/oth-sw[GitHub repo size]
+image:https://img.shields.io/github/languages/top/bbenno/oth-sw[GitHub top language]
+image:https://img.shields.io/github/downloads/bbenno/oth-sw/total[GitHub all releases]
+image:https://img.shields.io/github/stars/bbenno/oth-sw?style=social[GitHub Repo stars]
+. The Project was developed using the "`GitFlow" process.
+
+.About the application
+. A continuous integration workflow was designed and realized. +
+-> link:../../.github/workflows/[see GitHub workflows]
+. The application is localized for German and English.
+
 == Requirements
 
 [NOTE]
