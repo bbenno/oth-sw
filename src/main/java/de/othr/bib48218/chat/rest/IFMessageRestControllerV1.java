@@ -15,9 +15,9 @@ public interface IFMessageRestControllerV1 {
    * Saves a certain message.
    *
    * @param message the message to save
-   * @return the saved message
+   * @return whether the message was saved successfully
    */
-  ResponseEntity<Message> postMessage(Message message);
+  ResponseEntity<Boolean> postMessage(Message message);
 
   /* READ  **************************************************************************************/
 
