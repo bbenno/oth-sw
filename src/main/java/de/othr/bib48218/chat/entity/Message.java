@@ -61,7 +61,7 @@ public class Message extends IdEntity {
     /**
      * The point in time when message is sent.
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @NonNull
     @lombok.NonNull
     @NotNull
