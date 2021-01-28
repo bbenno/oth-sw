@@ -25,14 +25,14 @@
   <aside id="sidebar-wrapper" class="border-end mr-4"
          th:if="${chat instanceof T(de.othr.bib48218.chat.entity.GroupChat)}">
     <nav class="mt-5" aria-label="Chat navigation">
-      <div class="sidebar-heading" th:text="#{attribute.chat.memberships}">Members</div>
-      <div class="btn-group">
-        <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/leave(id=${chat.id})}"
-           th:text="#{chat.show.sidebar.leave}">Leave Chat</a>
-        <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/add(id=${chat.id})}"
-           th:text="#{chat.add_user.add_user}" th:if="${isAdmin}">Add Member</a>
+      <div class="list-group border-bottom">
+        <a class="list-group-item list-group-item-action" href="#" th:href="@{/chat/{id}/leave(id=${chat.id})}"
+        th:text="#{chat.show.sidebar.leave}">Leave Chat</a>
+        <a class="list-group-item list-group-item-action" href="#" th:href="@{/chat/{id}/add(id=${chat.id})}"
+        th:text="#{chat.add_user.add_user}" th:if="${isAdmin}">Add Member</a>
       </div>
-      <ul class="list-group">
+      <div class="sidebar-heading mt-4" th:text="#{attribute.chat.memberships}">Members</div>
+      <ul class="list-group border border-2">
         <li class="list-group-item" th:each="membership : ${chat.memberships}">
           <th:block th:object="${membership}">
             <a href="#" th:href="@{/user/{username}(username=*{user.username})}" th:text="*{user}">
@@ -56,9 +56,9 @@
 
     <div class="btn-group my-4"
          th:if="${chat instanceof T(de.othr.bib48218.chat.entity.GroupChat) && isAdmin}">
-      <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/delete(id=${chat.id})}"
+      <a class="btn btn-primary mx-1" href="#" th:href="@{/chat/{id}/delete(id=${chat.id})}"
          th:text="#{chat.add_user.delete_chat}">Delete Chat</a>
-      <a class="btn btn-primary" href="#" th:href="@{/chat/{id}/edit(id=${chat.id})}"
+      <a class="btn btn-primary mx-1" href="#" th:href="@{/chat/{id}/edit(id=${chat.id})}"
          th:text="#{chat.show.edit_chat}">Edit Chat</a>
     </div>
 
