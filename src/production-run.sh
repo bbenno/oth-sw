@@ -20,6 +20,15 @@ echo "Start Application"
 (
 	current_app=$(find . -type f | grep -E "chat-.*\.jar" | sort -nr | head -n1)
 	echo "Using ${current_app}"
-	java -jar "$current_app" >>logs/console.log 2>>logs/error.log &
+
+	temp=${current_app##.*/}
+	log_dir="logs/${temp%.*}"
+	mkdir "$log_dir" -p
+	echo "Writing to ${log_dir}"
+
+	log_prefix=$(date -Iseconds)
+	echo "Write to log files with prefix '$log_prefix'"
+
+	java -jar "$current_app" >>"$log_dir/${log_prefix}_console.log" 2>>"$log_dir/${log_prefix}_error.log" &
 	echo $! >$PID_FILE &
 )

@@ -4,6 +4,7 @@ import com.othr.swvigopay.entity.TransferDTO;
 import com.othr.swvigopay.exceptions.TransferServiceExternalException;
 import com.othr.swvigopay.service.TransferServiceExternalIF;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -24,6 +25,7 @@ class PaymentService implements IFPaymentService, TransferServiceExternalIF {
     private RestTemplate restServiceClient;
 
     @Autowired
+    @Qualifier("paymentHeaders")
     private HttpHeaders httpHeaders;
 
     @Override

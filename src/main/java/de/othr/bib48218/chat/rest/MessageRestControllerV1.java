@@ -33,8 +33,8 @@ class MessageRestControllerV1 implements IFMessageRestControllerV1 {
 
     @Override
     @Transactional
-    @PostMapping()
-    public ResponseEntity<Message> postMessage(@RequestBody Message message) {
+    @PostMapping
+    public ResponseEntity<Boolean> postMessage(@RequestBody Message message) {
         if (message.getChat() == null || message.getAuthor() == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -48,10 +48,11 @@ class MessageRestControllerV1 implements IFMessageRestControllerV1 {
 
             if (author.isPresent()) {
                 message.setAuthor(author.get());
-                return ResponseEntity.of(Optional.ofNullable(messageService.saveMessage(message)));
+                messageService.saveMessage(message);
+                return ResponseEntity.ok(true);
             }
         }
-        return ResponseEntity.unprocessableEntity().build();
+        return ResponseEntity.ok(false);
     }
 
     /* READ  **************************************************************************************/

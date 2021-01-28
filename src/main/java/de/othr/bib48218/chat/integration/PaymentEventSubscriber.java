@@ -45,6 +45,8 @@ class PaymentEventSubscriber implements ApplicationListener<PartnerServiceEvent>
      */
     private static final ServiceType SERVICE_TYPE = ServiceType.PAYMENT;
 
+    private static final String DESCRIPTION_PREFIX = "&&&chat&&&";
+
     /**
      * The username of the service bot.
      */
@@ -104,7 +106,7 @@ class PaymentEventSubscriber implements ApplicationListener<PartnerServiceEvent>
             String payerEmail = matcher.group("email");
             String receiverEmail = ((Person) message.getAuthor()).getEmail();
             BigDecimal amount = new BigDecimal(matcher.group("amount"));
-            String description = matcher.group("description");
+            String description = DESCRIPTION_PREFIX + matcher.group("description");
 
             return Optional.of(new TransferDTO(payerEmail, receiverEmail, amount, description));
         } else {
