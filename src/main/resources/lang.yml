@@ -160,6 +160,7 @@ chat:
     description_help: Short description of the chats purpose.
   show:
     edit_chat: Edit Chat
+    show_profile: Show Profile
     sidebar:
       leave: Leave Chat
 header:
